@@ -43,7 +43,11 @@
                                         <div class="d-flex justify-content-center gap-2">
 
                                             <!-- Update Button -->
-                                            <a href="" class="btn btn-sm btn-warning">
+                                            <a 
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#modalEditKategori"
+                                                data-id-kategori="{{ $category->idkategori }}" 
+                                                class="btn btn-sm btn-warning update_cat_btn">
                                                 <i class="fa-solid fa-pen-to-square"></i>
                                                 Update
                                             </a>
@@ -82,7 +86,7 @@
 @endsection
 
 @section('modal')
-    <!-- Modal -->
+    <!-- Modal Add Kategori -->
     <div class="modal fade" id="modalKategori" tabindex="-1" aria-labelledby="modalKategoriLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -105,9 +109,12 @@
                                 Nama Kategori
                             </label>
 
+                            <div class="d-flex align-items-center" style="gap: 10px">
                             <input type="text" name="nama_kategori" id="nama_kategori"
                                 class="form-control @error('nama_kategori') is-invalid @enderror"
                                 value="{{ old('nama_kategori') }}" placeholder="Masukkan nama kategori">
+                            <i class="fa-solid fa-pen-to-square fa-lg"></i>
+                            </div>
 
                             @error('nama_kategori')
                                 <div class="invalid-feedback">
@@ -134,4 +141,128 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal Edit Kategori -->
+    <div class="modal fade" id="modalEditKategori" tabindex="-1" aria-labelledby="modalEditKategoriLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <form action="{{ '#' }}" method="POST">
+                    @csrf
+
+                    <div class="modal-header bg-primary text-white">
+                        <h5 class="modal-title" id="modalEditKategoriLabel">
+                            <i class="fa-solid fa-tags me-2"></i>
+                            Edit Kategori Buku
+                        </h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    </div>
+
+                    <div class="modal-body">
+
+                        <div class="mb-3">
+                            <label for="nama_kategori" class="form-label">
+                                Nama Kategori
+                            </label>
+
+                            <div class="d-flex align-items-center" style="gap: 10px">
+                            <input type="text" name="nama_kategori" id="nama_kategori"
+                                class="form-control @error('nama_kategori') is-invalid @enderror"
+                                value="{{ old('nama_kategori') }}" placeholder="Masukkan nama kategori">
+                            <i class="fa-solid fa-pen-to-square fa-lg"></i>
+                            </div>
+
+                            @error('nama_kategori')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary cancel-edit" data-bs-dismiss="modal">
+                            Batal
+                        </button>
+
+                        <button type="submit" class="btn btn-success">
+                            <i class="fa-solid fa-save"></i>
+                            Simpan
+                        </button>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+@endsection
+
+@section('script')
+<script>
+
+    const editCategoryModal = document.getElementById('modalEditKategori')
+    const setupEditCategory = async (e) => {
+        // To Remove The Stars :)
+        const cancelEditBtns = editCategoryModal.querySelectorAll('button.cancel-edit')
+    
+        cancelEditBtns.forEach((btn) => {
+            btn.addEventListener('click', () => {
+                const stars = document.querySelectorAll('span.star')
+                stars.forEach((star) => {
+                    star.remove()
+                })
+            })
+        })
+
+        //set the Form Action!
+
+        const inputs = editCategoryModal.querySelectorAll('input')
+        inputs.forEach((input) => {
+            input.value = 'Loading . . .'
+        })
+
+        const namaKategori = editCategoryModal.querySelector('input#nama_kategori')
+        const idkategori = e.currentTarget.dataset.idKategori
+        // return console.log(idkategori)
+        
+        if(!idkategori) { return namaKategori.value = `No Data . . .` }
+
+        try {
+            const fetchCategory = await fetch(`/book-categories/${idkategori}`) // GET /book-categories/{id}
+            let category = await fetchCategory.json()
+            category = category[0]
+
+            if (!category) {
+                namaKategori.value = 'Fetch error!'
+            }
+
+            // console.log(category)
+            namaKategori.value = category.nama_kategori
+
+        } catch (error) {
+            console.log(error)
+        }
+        
+    }
+
+    const updateCategoriesBtn = document.querySelectorAll('.update_cat_btn')
+    updateCategoriesBtn.forEach((btn) => {
+        btn.addEventListener('click', (e) => setupEditCategory(e))
+    })
+    
+    const editModalLabels = editCategoryModal.querySelectorAll('label')
+    editModalLabels.forEach((label) => {
+        const input = editCategoryModal.querySelector('input#'+label.getAttribute('for'))
+        
+        input.addEventListener('input', () => {
+            if (!label.querySelector('span')) {
+                label.innerHTML += ' <span class="text-danger star">*</span>'
+            }
+        })
+    })
+    
+</script>
 @endsection

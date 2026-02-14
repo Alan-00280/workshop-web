@@ -43,6 +43,18 @@ class HomeController extends Controller
         ]);
     }
 
+    public function editBook($id) {
+        $catagories = Kategori::all();
+        $book = Buku::where('idbuku', $id)->with('KategoriBuku')->first();
+
+        return view(
+            'dashboard.edit-book', 
+            [
+            'catagories' => $catagories,
+            'book' => $book
+        ]);
+    }
+
     public function bookCategories() {
         $catagories = Kategori::all();
         return view(
@@ -51,4 +63,6 @@ class HomeController extends Controller
             'catagories' => $catagories
         ]);
     }
+
+    
 }

@@ -99,6 +99,7 @@
     <!-- endinject -->
 
     <!-- Plugin js for this page -->
+    @yield('script')
     {{-- <script src="/assets/vendors/chart.js/chart.umd.js"></script>
     <script src="/assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script> --}}
     <!-- End plugin js for this page -->

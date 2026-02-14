@@ -52,7 +52,7 @@
                                 <div class="d-flex justify-content-center gap-2">
 
                                     <!-- Update Button -->
-                                    <a href="" class="btn btn-sm btn-warning">
+                                    <a href="{{ route('edit-book', ['id' => $book->idbuku]) }}" class="btn btn-sm btn-warning">
                                         <i class="fa-solid fa-pen-to-square"></i>
                                         Update
                                     </a>
