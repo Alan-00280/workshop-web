@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Buku;
+use App\Models\Kategori;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -33,6 +35,22 @@ class DatabaseSeeder extends Seeder
             'id_role' => 1
         ]);
 
+        $kategories = [
+            ['nama_kategori' => 'Novel'],
+            ['nama_kategori' => 'Biografi'],
+            ['nama_kategori' => 'Komik'],
+        ];
+        foreach ($kategories as $kategori) {
+            Kategori::create($kategori);
+        }
 
+        $bukus = [
+            ['idkategori' => 1, 'judul' => 'Home Sweet Loan', 'pengarang' => 'Almira Bastari'],
+            ['idkategori' => 2, 'judul' => 'Mohammad Hatta, Untuk Negeriku', 'pengarang' => 'Taufik Abdullah'],
+            ['idkategori' => 1, 'judul' => 'Keajaiban Toko Kelontong Namiya', 'pengarang' => 'Keigo Higashino'],
+        ];
+        foreach ($bukus as $buku) {
+            Buku::create($buku);
+        }
     }
 }

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Buku;
+use App\Models\Kategori;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -28,12 +30,25 @@ class HomeController extends Controller
     }
 
     public function book() {
-        
-        return view('dashboard.book');
+        $books = Buku::with('KategoriBuku')->get();
+        return view('dashboard.book', 
+            [
+            'books' => $books
+        ]);
+    }
+
+    public function addBook() {
+        return view('dashboard.add-book', [
+            'catagories' => Kategori::all()
+        ]);
     }
 
     public function bookCategories() {
-        
-        return view('dashboard.bookCategories');
+        $catagories = Kategori::all();
+        return view(
+            'dashboard.bookCategories', 
+            [
+            'catagories' => $catagories
+        ]);
     }
 }
