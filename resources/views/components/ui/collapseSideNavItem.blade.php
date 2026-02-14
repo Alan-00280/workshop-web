@@ -12,7 +12,7 @@
         aria-controls="{{ $key_collapse }}">
         <span class="menu-title">{{ $nav_name ?? '[null]' }}</span>
         <i class="menu-arrow"></i>
-        <i class="{{ $icon }} menu-icon"></i>
+        <i class="{{ $icon }}"></i>
     </a>
     <div class="collapse" id="{{ $key_collapse }}">
         <ul class="nav flex-column sub-menu">

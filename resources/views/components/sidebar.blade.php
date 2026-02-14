@@ -17,7 +17,18 @@
         </li>
         {{-- End Profile --}}
 
+        {{-- Navigations --}}
         <x-ui.nav-item-side href="{{ route('dashboard') }}">Dashboard</x-ui.nav-item-side>
+
+        <x-ui.collapseSideNavItem
+            icon="fa-classic fa-solid fa-book"
+            nav_name="Buku"
+        >
+            <x-ui.sideNavItemCollapse route="{{ route('book') }}" >Koleksi Buku</x-ui.sideNavItemCollapse>
+            <x-ui.sideNavItemCollapse route="{{ route('book-categories') }}" >Kategori Buku</x-ui.sideNavItemCollapse>
+        </x-ui.collapseSideNavItem>
+
+        {{-- End Navigations --}}
 
         {{-- <x-ui.collapseSideNavItem icon="" nav_name="Coba" >
             <x-ui.sideNavItemCollapse route="{{ '/' }}" >Dashboard</x-ui.sideNavItemCollapse>

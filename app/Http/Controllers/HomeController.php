@@ -26,4 +26,14 @@ class HomeController extends Controller
     public function dashboard() {
         return view('dashboard.index');
     }
+
+    public function book() {
+        
+        return view('dashboard.book');
+    }
+
+    public function bookCategories() {
+        
+        return view('dashboard.bookCategories');
+    }
 }
