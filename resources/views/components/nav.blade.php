@@ -1,7 +1,7 @@
 <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
     <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start">
-        <a class="navbar-brand brand-logo" href="index.html"><img src="/assets/images/logo.svg" alt="logo" /></a>
-        <a class="navbar-brand brand-logo-mini" href="index.html"><img src="/assets/images/logo-mini.svg"
+        <a class="navbar-brand brand-logo" href="/"><img src="/assets/images/logo.svg" alt="logo" /></a>
+        <a class="navbar-brand brand-logo-mini" href="/"><img src="/assets/images/logo-mini.svg"
                 alt="logo" /></a>
     </div>
     <div class="navbar-menu-wrapper d-flex align-items-stretch">
@@ -137,15 +137,16 @@
             </li>
 
             <li class="nav-item nav-logout d-none d-lg-block">
-                <a class="nav-link" href="#">
+                <a 
+                id="power-btn"
+                class="nav-link" 
+                href="#"
+                data-bs-toggle="modal"
+                data-bs-target="#specialFace">
                     <i class="mdi mdi-power"></i>
                 </a>
             </li>
-        </ul>
 
-        <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
-            data-toggle="offcanvas">
-            <span class="mdi mdi-menu"></span>
-        </button>
+        </ul>
     </div>
 </nav>

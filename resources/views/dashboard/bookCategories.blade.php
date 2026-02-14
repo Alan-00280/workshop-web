@@ -204,18 +204,16 @@
 <script>
 
     const editCategoryModal = document.getElementById('modalEditKategori')
-    const setupEditCategory = async (e) => {
-        // To Remove The Stars :)
-        const cancelEditBtns = editCategoryModal.querySelectorAll('button.cancel-edit')
     
-        cancelEditBtns.forEach((btn) => {
-            btn.addEventListener('click', () => {
-                const stars = document.querySelectorAll('span.star')
-                stars.forEach((star) => {
-                    star.remove()
-                })
-            })
-        })
+    // To Remove The Stars :)
+    editCategoryModal.addEventListener('hidden.bs.modal', () => {
+        const stars = document.querySelectorAll('span.star');
+        stars.forEach((star) => {
+            star.remove();
+        });
+    });
+    
+    const setupEditCategory = async (e) => {
 
         //set the Form Action!
 

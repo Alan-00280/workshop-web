@@ -195,7 +195,7 @@
 
                     <li class="nav-item nav-logout d-none d-lg-block">
                         <a class="nav-link" href="/register">
-                            Sign Up <i class="fa-solid fa-person-arrow-down-to-line" style="margin: 5px"></i>
+                            Register <i class="fa-solid fa-person-arrow-down-to-line" style="margin: 5px"></i>
                         </a>
                     </li>
 
