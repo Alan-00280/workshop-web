@@ -30,6 +30,7 @@
                         <tr>
                             <th># ID Kategori</th>
                             <th>Nama Kategori</th>
+                            <th>Prefix Code</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -39,6 +40,7 @@
                                 <tr>
                                     <td><span class="badge bg-dark">{{ $category->idkategori }}</span></td>
                                     <td>{{ $category->nama_kategori }}</td>
+                                    <td>{{ $category->kode_kategori }}</td>
                                     <td class="text-center">
                                         <div class="d-flex justify-content-center gap-2">
 
@@ -105,19 +107,39 @@
                     <div class="modal-body">
 
                         <div class="mb-3">
+                            <label for="kode_kategori" class="form-label">
+                                Kode Kategori<span class="text-warning star">*</span>
+                            </label>
+
+                            <div class="d-flex align-items-center" style="gap: 10px">
+                            <input type="text" name="kode_kategori_baru" id="kode_kategori_baru"
+                                class="form-control"
+                                value="{{ old('kode_kategori_baru') }}" 
+                                placeholder="Masukkan kode kategori"
+                                minlength="2" maxlength="5">
+                            <i class="fa-solid fa-pen-to-square fa-lg"></i>
+                            </div>
+                            @error('kode_kategori_baru')
+                                <div class="invalid-feedback" style="display: block">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
                             <label for="nama_kategori" class="form-label">
-                                Nama Kategori
+                                Nama Kategori<span class="text-warning star">*</span>
                             </label>
 
                             <div class="d-flex align-items-center" style="gap: 10px">
                             <input type="text" name="nama_kategori" id="nama_kategori"
-                                class="form-control @error('nama_kategori') is-invalid @enderror"
+                                class="form-control"
                                 value="{{ old('nama_kategori') }}" placeholder="Masukkan nama kategori">
                             <i class="fa-solid fa-pen-to-square fa-lg"></i>
                             </div>
 
                             @error('nama_kategori')
-                                <div class="invalid-feedback">
+                                <div class="invalid-feedback" style="display: block">
                                     {{ $message }}
                                 </div>
                             @enderror
@@ -162,19 +184,33 @@
                     <div class="modal-body">
 
                         <div class="mb-3">
+                            <label for="kode_kategori" class="form-label">
+                                Kode Kategori
+                            </label>
+
+                            <div class="d-flex align-items-center" style="gap: 10px">
+                            <input type="text" name="kode_kategori" id="kode_kategori"
+                                class="form-control"
+                                value="{{ old('kode_kategori') }}" 
+                                placeholder="Masukkan kode kategori"
+                                min="2" max="5">
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
                             <label for="nama_kategori" class="form-label">
                                 Nama Kategori
                             </label>
 
                             <div class="d-flex align-items-center" style="gap: 10px">
-                            <input type="text" name="nama_kategori" id="nama_kategori"
-                                class="form-control @error('nama_kategori') is-invalid @enderror"
-                                value="{{ old('nama_kategori') }}" placeholder="Masukkan nama kategori">
+                            <input type="text" name="nama_kategori_update" id="nama_kategori"
+                                class="form-control"
+                                value="" placeholder="Masukkan nama kategori">
                             <i class="fa-solid fa-pen-to-square fa-lg"></i>
                             </div>
 
-                            @error('nama_kategori')
-                                <div class="invalid-feedback">
+                            @error('nama_kategori_update')
+                                <div class="invalid-feedback" style="display: block">
                                     {{ $message }}
                                 </div>
                             @enderror
@@ -184,6 +220,7 @@
 
                     {{-- Hidden --}}
                     <input type="hidden" name="idkategori" id="id_kategori_field">
+                    <input type="hidden" name="kode_kategori" id="kode_kategori_field">
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary cancel-edit" data-bs-dismiss="modal">
@@ -206,8 +243,21 @@
 
 @section('script')
 <script>
-
+    const addCategoryModal = document.getElementById('modalKategori')
     const editCategoryModal = document.getElementById('modalEditKategori')
+
+    const inputKode = addCategoryModal.querySelector('input#kode_kategori_baru');
+    inputKode.addEventListener('input', (e) => {
+        e.target.value = e.target.value.toUpperCase();
+    })
+
+    //reset value when closed
+    addCategoryModal.addEventListener('hidden.bs.modal', () => {
+        const inputs = addCategoryModal.querySelectorAll('input[name]:not([name^="_"])')
+        inputs.forEach((input) => {
+            input.value = '' 
+        })
+    });
 
     // To Remove The Stars :)
     editCategoryModal.addEventListener('hidden.bs.modal', () => {
@@ -219,7 +269,7 @@
     
     const setupEditCategory = async (e) => {
         // const inputs = editCategoryModal.querySelectorAll('input') //kocakkk 😭 => ini bakal ngubah nilai CSRF nya
-        
+
         const inputs = editCategoryModal.querySelectorAll('input[name]:not([name^="_"])')
         inputs.forEach((input) => {
             input.value = 'Loading . . .' 
@@ -227,6 +277,7 @@
         })
 
         const namaKategori = editCategoryModal.querySelector('input#nama_kategori')
+        const kodeKategori = editCategoryModal.querySelector('input#kode_kategori')
         const idkategori = e.currentTarget.dataset.idKategori
         // return console.log(idkategori)
         
@@ -234,6 +285,8 @@
 
         const idKategoriField = editCategoryModal.querySelector('input#id_kategori_field')
         idKategoriField.value = idkategori
+
+        const kodeKategoryField = editCategoryModal.querySelector('input#kode_kategori_field')
 
         try {
             const fetchCategory = await fetch(`/book-categories/get/${idkategori}`) // GET /book-categories/get/{id}
@@ -249,10 +302,14 @@
                 input.disabled = false
             })
             namaKategori.value = category.nama_kategori
+
+            kodeKategori.disabled = true
+            kodeKategori.value = category.kode_kategori
+            kodeKategoryField.value = category.kode_kategori
             
             //set the Form Action!
             editCategoryModal.querySelector('form').action = `/book-categories/edit`
-            console.log(editCategoryModal.querySelector('form'))
+            // console.log(editCategoryModal.querySelector('form'))
 
 
         } catch (error) {

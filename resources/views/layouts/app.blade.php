@@ -58,6 +58,8 @@
               <x-error-alert :errors="session('error')" type="global" />
           @endif
 
+          <x-error-alert :errors="$errors" />
+
           <div class="page-header">
             <h3 class="page-title">
               <span class="page-title-icon bg-gradient-primary text-white me-2">
