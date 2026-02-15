@@ -53,7 +53,7 @@
                                             </a>
 
                                             <!-- Delete Button -->
-                                            <form action="" method="POST" onsubmit="return confirm('Yakin ingin menghapus?')">
+                                            <form action="{{ route('delete-book-categories', ['id' => $category->idkategori]) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus?')">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-sm btn-danger">
@@ -91,7 +91,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
 
-                <form action="{{ '#' }}" method="POST">
+                <form action="{{ route('create-book-categories') }}" method="POST">
                     @csrf
 
                     <div class="modal-header bg-primary text-white">
@@ -147,8 +147,9 @@
         <div class="modal-dialog">
             <div class="modal-content">
 
-                <form action="{{ '#' }}" method="POST">
+                <form action="" method="POST">
                     @csrf
+                    @method('PATCH')
 
                     <div class="modal-header bg-primary text-white">
                         <h5 class="modal-title" id="modalEditKategoriLabel">
@@ -181,6 +182,9 @@
 
                     </div>
 
+                    {{-- Hidden --}}
+                    <input type="hidden" name="idkategori" id="id_kategori_field">
+
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary cancel-edit" data-bs-dismiss="modal">
                             Batal
@@ -204,7 +208,7 @@
 <script>
 
     const editCategoryModal = document.getElementById('modalEditKategori')
-    
+
     // To Remove The Stars :)
     editCategoryModal.addEventListener('hidden.bs.modal', () => {
         const stars = document.querySelectorAll('span.star');
@@ -214,12 +218,12 @@
     });
     
     const setupEditCategory = async (e) => {
-
-        //set the Form Action!
-
-        const inputs = editCategoryModal.querySelectorAll('input')
+        // const inputs = editCategoryModal.querySelectorAll('input') //kocakkk 😭 => ini bakal ngubah nilai CSRF nya
+        
+        const inputs = editCategoryModal.querySelectorAll('input[name]:not([name^="_"])')
         inputs.forEach((input) => {
-            input.value = 'Loading . . .'
+            input.value = 'Loading . . .' 
+            input.disabled = true
         })
 
         const namaKategori = editCategoryModal.querySelector('input#nama_kategori')
@@ -228,8 +232,11 @@
         
         if(!idkategori) { return namaKategori.value = `No Data . . .` }
 
+        const idKategoriField = editCategoryModal.querySelector('input#id_kategori_field')
+        idKategoriField.value = idkategori
+
         try {
-            const fetchCategory = await fetch(`/book-categories/${idkategori}`) // GET /book-categories/{id}
+            const fetchCategory = await fetch(`/book-categories/get/${idkategori}`) // GET /book-categories/get/{id}
             let category = await fetchCategory.json()
             category = category[0]
 
@@ -238,7 +245,15 @@
             }
 
             // console.log(category)
+            inputs.forEach((input) => {
+                input.disabled = false
+            })
             namaKategori.value = category.nama_kategori
+            
+            //set the Form Action!
+            editCategoryModal.querySelector('form').action = `/book-categories/edit`
+            console.log(editCategoryModal.querySelector('form'))
+
 
         } catch (error) {
             console.log(error)

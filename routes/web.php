@@ -13,8 +13,11 @@ Route::middleware('isAdministrator')->group(function () {
     Route::delete('/books/delete/{id}', [App\Http\Controllers\BukuController::class, 'deleteBuku'])->name('delete-book');
 
     Route::get('/book-categories', [App\Http\Controllers\HomeController::class, 'bookCategories'])->name('book-categories');
-    Route::get('/book-categories/{id}', [App\Http\Controllers\CategoryController::class, 'getCategoryByID'])->name('get-book-categories');
-});
+    Route::post('/book-categories/add', [App\Http\Controllers\CategoryController::class, 'createCateory'])->name('create-book-categories');
+    Route::patch('/book-categories/edit', [App\Http\Controllers\CategoryController::class, 'editCategory'])->name('edit-book-categories');
+    Route::delete('/book-categories/delete/{id}', [App\Http\Controllers\CategoryController::class, 'deleteCategory'])->name('delete-book-categories');
+    Route::get('/book-categories/get/{id}', [App\Http\Controllers\CategoryController::class, 'getCategoryByID'])->name('get-book-categories');
+    });
 
 // Auth Routes
 Auth::routes(['reset' => false]);

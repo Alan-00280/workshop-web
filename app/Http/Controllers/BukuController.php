@@ -9,8 +9,8 @@ class BukuController extends Controller
 {
     protected function validateBookData(Request $Request)  {
         return $Request->validate([
-            'judul' => 'required|min:3|max:365|string',
-            'pengarang' => 'required|min:3|max:365|string',
+            'judul' => 'required|min:3|max:500|string',
+            'pengarang' => 'required|min:3|max:200|string',
             'idkategori' => 'required|exists:kategori,idkategori'
         ]);
     }
