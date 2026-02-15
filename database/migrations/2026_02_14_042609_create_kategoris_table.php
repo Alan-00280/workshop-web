@@ -15,6 +15,7 @@ return new class extends Migration
             $table->integer('idkategori')->index()->autoIncrement();
             $table->timestamps();
             $table->string('nama_kategori', 100)->unique();
+            $table->string('kode_kategori', 5)->unique();
         });
     }
 

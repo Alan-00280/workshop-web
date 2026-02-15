@@ -36,9 +36,9 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $kategories = [
-            ['nama_kategori' => 'Novel'],
-            ['nama_kategori' => 'Biografi'],
-            ['nama_kategori' => 'Komik'],
+            ['nama_kategori' => 'Novel', 'kode_kategori' => 'NV'],
+            ['nama_kategori' => 'Biografi', 'kode_kategori' => 'BO'],
+            ['nama_kategori' => 'Komik', 'kode_kategori' => 'KM'],
         ];
         foreach ($kategories as $kategori) {
             Kategori::create($kategori);

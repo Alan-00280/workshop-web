@@ -72,12 +72,20 @@
                             class="form-select @error('idkategori') is-invalid @enderror">
                         <option value="">-- Pilih Kategori --</option>
 
-                        @foreach($catagories as $item)
-                            <option value="{{ $item->idkategori }}"
-                                {{ $book->KategoriBuku->idkategori == $item->idkategori ? 'selected' : '' }}>
-                                {{ $item->nama_kategori }}
-                            </option>
-                        @endforeach
+                        @if ($book->KategoriBuku)
+                            @foreach($catagories as $item)
+                                <option value="{{ $item->idkategori }}"
+                                    {{ $book->KategoriBuku->idkategori == $item->idkategori ? 'selected' : '' }}>
+                                    {{ $item->nama_kategori }}
+                                </option>
+                            @endforeach
+                        @else
+                            @foreach($catagories as $item)
+                                <option value="{{ $item->idkategori }}">
+                                    {{ $item->nama_kategori }}
+                                </option>
+                            @endforeach
+                        @endif
                     </select>
 
                     @error('idkategori')

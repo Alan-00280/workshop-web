@@ -19,11 +19,12 @@ return new class extends Migration
             $table->string('judul', 500);
             $table->string('pengarang', 200);
             $table->foreignIdFor(Kategori::class, 'idkategori')
+                ->nullable()
                 ->constrained()
                 ->nullOnDelete();
         });
     }
-
+    
     /**
      * Reverse the migrations.
      */

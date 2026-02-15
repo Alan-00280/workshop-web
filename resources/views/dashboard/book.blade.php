@@ -45,8 +45,8 @@
                             <td>{{ $book->judul }}</td>
                             <td>{{ $book->pengarang }}</td>
                             <td>
-                                <span class="badge bg-success">
-                                    {{ $book->KategoriBuku->nama_kategori }}
+                                <span class="badge {{ $book->KategoriBuku!==null?'badge-success' : 'bg-dark' }}">
+                                    {{ $book->KategoriBuku->nama_kategori??'no-category' }}
                                 </span>
                             </td> 
                             <td class="text-center">
