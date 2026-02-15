@@ -10,6 +10,7 @@
 @endsection
 
 @section('content')
+{{-- @dd($books) --}}
     {{-- <x-logger :object="$books" /> --}}
         <!-- Header + Tombol -->
     <div class="d-flex justify-content-between align-items-center mb-3">
@@ -58,7 +59,7 @@
                                     </a>
 
                                     <!-- Delete Button -->
-                                    <form action="" method="POST" onsubmit="return confirm('Yakin ingin menghapus?')">
+                                    <form action="{{ route('delete-book', ['id' => $book->idbuku]) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus?')">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-sm btn-danger">

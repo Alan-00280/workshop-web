@@ -26,7 +26,7 @@
         </div>
 
         <div class="card-body">
-            <form action="{{'#'}}" method="POST">
+            <form action="{{route('create-book')}}" method="POST">
                 @csrf
 
                 <!-- Judul -->

@@ -17,14 +17,23 @@ class isAdministrator
      */
     public function handle(Request $request, Closure $next): Response
     {   
+        if (Session::get('user_id_role') == null) {
+            Session::flush();
+            Auth::logout();
+            return redirect('/login');
+        }    
+
         if (!Auth::check()) {
             Session::flush();
+            Auth::logout();
             return redirect('/login');
         }
+        
         // dd(Session::get('user_id_role'));
         if (Session::get('user_id_role') !== 1) {
             return back()->with('error', 'Akses Ditolak!');
         }
+
 
         return $next($request);
     }

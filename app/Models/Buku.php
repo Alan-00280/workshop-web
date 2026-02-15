@@ -11,6 +11,6 @@ class Buku extends Model
     protected $guarded = ['id'];
     
     public function KategoriBuku() {
-        return $this->hasOne(Kategori::class, 'idkategori');
+        return $this->belongsTo(Kategori::class, 'idkategori');
     }
 }

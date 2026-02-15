@@ -47,8 +47,16 @@
 
       <!-- partial -->
       <div class="main-panel">
+        
         {{-- Content Wrapper Start --}}
         <div class="content-wrapper">
+
+          {{-- Alert Message --}}
+          <x-successAlert :message="session('success')" />
+
+          @if(session('error'))
+              <x-error-alert :errors="session('error')" type="global" />
+          @endif
 
           <div class="page-header">
             <h3 class="page-title">

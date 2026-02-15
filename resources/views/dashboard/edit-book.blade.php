@@ -26,8 +26,9 @@
         </div>
 
         <div class="card-body">
-            <form action="{{'#'}}" method="POST">
+            <form action="{{route('update-book')}}" method="POST">
                 @csrf
+                @method('PATCH')
 
                 <!-- Judul -->
                 <div class="mb-3">
@@ -85,6 +86,9 @@
                         </div>
                     @enderror
                 </div>
+
+                {{-- Hidden --}}
+                <input type="hidden" name="idbuku" value="{{ $book->idbuku }}">
 
                 <!-- Tombol Submit -->
                 <div class="d-flex justify-content-end">
