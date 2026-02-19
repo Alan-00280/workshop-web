@@ -1,29 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
+  <head>
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Purple Admin</title>
+
   <!-- plugins:css -->
   <link rel="stylesheet" href={{ asset("/assets/vendors/mdi/css/materialdesignicons.min.css") }}>
   <link rel="stylesheet" href={{ asset("/assets/vendors/ti-icons/css/themify-icons.css") }}>
   <link rel="stylesheet" href={{ asset("/assets/vendors/css/vendor.bundle.base.css") }}>
-  <link rel="stylesheet" href={{ asset("/assets/vendors/font-awesome/css/font-awesome.min.css") }}>
   <!-- endinject -->
+  
+  {{-- Page Style --}}
+  @stack('page_style')
 
-  <!-- Plugin css for this page -->
-  <link rel="stylesheet" href={{ asset("/assets/vendors/font-awesome/css/font-awesome.min.css") }} />
-  <link rel="stylesheet" href={{ asset("/assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css") }}>
-  <!-- End plugin css for this page -->
-
-  <!-- inject:css -->
-  <!-- endinject -->
-
-  <!-- Layout styles -->
+  <!-- Global styles -->
   <link rel="stylesheet" href={{ asset("/assets/css/style.css") }}>
-  <!-- End layout styles -->
+  <!-- End global styles -->
 
   <link rel="shortcut icon" href={{ asset("/assets/images/favicon.png") }} />
 
@@ -34,8 +29,7 @@
 
 <body>
   <div class="container-scroller">
-
-    @yield('modal')
+    @stack('modal')
 
     <!-- partial:partials/_navbar.html -->
     <x-nav />
@@ -99,14 +93,14 @@
         </footer>
         <!-- partial -->
 
-        <div class="modal fade" id="specialFace" tabindex="-1"
+        {{-- <div class="modal fade" id="specialFace" tabindex="-1"
           aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
             <img src="{{ asset('/Blue_Lobster_Meme_Banner_image.jpg') }}" alt="Special Face" width="700px">
             </div>
           </div>
-        </div>
+        </div> --}}
 
       </div>
       <!-- main-panel ends -->
@@ -123,10 +117,7 @@
   <!-- endinject -->
 
   <!-- Plugin js for this page -->
-  @yield('script')
-  {{--
-  <script src="/assets/vendors/chart.js/chart.umd.js"></script>
-  <script src="/assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script> --}}
+  @stack('script')
   <!-- End plugin js for this page -->
 
   <!-- inject:js -->
@@ -140,7 +131,7 @@
 
   <!-- Custom js for this page -->
   <script src="/assets/js/dashboard.js"></script>
-  <script>
+  {{-- <script>
     const powerBtn = document.querySelector('a#power-btn')
     const lob_aud = new Audio('/blue-lobster-jumpscare-made-with-Voicemod.mp3')
     powerBtn.addEventListener('click', () => {
@@ -158,7 +149,7 @@
       modalLob_bs.hide()
     })
 
-  </script>
+  </script> --}}
   <!-- End custom js for this page -->
 </body>
 

@@ -7,15 +7,13 @@ use Illuminate\Http\Request;
 
 class BukuController extends Controller
 {
-    protected function validateBookData(Request $Request)  {
-        return $Request->validate([
+    public function createBuku(Request $Request) {
+        $validated = $Request->validate([
             'judul' => 'required|min:3|max:500|string',
             'pengarang' => 'required|min:3|max:200|string',
             'idkategori' => 'required|exists:kategori,idkategori'
         ]);
-    }
-    public function createBuku(Request $Request) {
-        $validated = $this->validateBookData($Request);
+
         try {
             Buku::create([
                 'judul' => $validated['judul'],
@@ -29,7 +27,12 @@ class BukuController extends Controller
     }
 
     public function updateBuku(Request $Request) {
-        $validated = $this->validateBookData($Request);
+        $validated = $Request->validate([
+            'judul' => 'required|min:3|max:500|string',
+            'pengarang' => 'required|min:3|max:200|string',
+            'idkategori' => 'required|exists:kategori,idkategori'
+        ]);
+
         try {
             $buku = Buku::findOrFail($Request['idbuku']);
             $buku->update([

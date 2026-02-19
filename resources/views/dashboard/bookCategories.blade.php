@@ -87,7 +87,7 @@
 
 @endsection
 
-@section('modal')
+@push('modal')
     <!-- Modal Add Kategori -->
     <div class="modal fade" id="modalKategori" tabindex="-1" aria-labelledby="modalKategoriLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -163,7 +163,28 @@
             </div>
         </div>
     </div>
+@endpush
 
+@push('script')
+<script>
+    const addCategoryModal = document.getElementById('modalKategori')
+
+    const inputKode = addCategoryModal.querySelector('input#kode_kategori_baru');
+    inputKode.addEventListener('input', (e) => {
+        e.target.value = e.target.value.toUpperCase();
+    })
+
+    //reset value when closed
+    addCategoryModal.addEventListener('hidden.bs.modal', () => {
+        const inputs = addCategoryModal.querySelectorAll('input[name]:not([name^="_"])')
+        inputs.forEach((input) => {
+            input.value = '' 
+        })
+    });
+</script>
+@endpush
+
+@push('modal')
     <!-- Modal Edit Kategori -->
     <div class="modal fade" id="modalEditKategori" tabindex="-1" aria-labelledby="modalEditKategoriLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -238,26 +259,11 @@
             </div>
         </div>
     </div>
+@endpush
 
-@endsection
-
-@section('script')
+@push('script')
 <script>
-    const addCategoryModal = document.getElementById('modalKategori')
     const editCategoryModal = document.getElementById('modalEditKategori')
-
-    const inputKode = addCategoryModal.querySelector('input#kode_kategori_baru');
-    inputKode.addEventListener('input', (e) => {
-        e.target.value = e.target.value.toUpperCase();
-    })
-
-    //reset value when closed
-    addCategoryModal.addEventListener('hidden.bs.modal', () => {
-        const inputs = addCategoryModal.querySelectorAll('input[name]:not([name^="_"])')
-        inputs.forEach((input) => {
-            input.value = '' 
-        })
-    });
 
     // To Remove The Stars :)
     editCategoryModal.addEventListener('hidden.bs.modal', () => {
@@ -333,6 +339,5 @@
             }
         })
     })
-    
 </script>
-@endsection
+@endpush

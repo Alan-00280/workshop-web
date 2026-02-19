@@ -9,22 +9,7 @@ use Str;
 
 class CategoryController extends Controller
 {
-    protected function validateCategoryData(Request $Request, $kode_kategori=null) {
-        $uniqueKategori = $kode_kategori ? '|unique:kategori,kode_kategori' : '';
-        return $Request->validate([
-            'nama_kategori' => 'required|min:3|max:100|string',
-            'kode_kategori_baru' => 'required|min:2|max:5'.$uniqueKategori
-        ]);
-    }
-
-    protected function validateCategoryDataUpd(Request $Request) {
-        return $Request->validate([
-            'nama_kategori_update' => 'required|min:3|max:100|string',
-            'kode_kategori' => 'required|min:2|max:5'
-        ]);
-    }
-
-    public function getCategoryByID(Request $request, $id) {
+    public function getCategoryByID($id) {
         try {
             return response()->json(
                 DB::select('SELECT * FROM kategori WHERE idkategori = ?', [$id])
@@ -35,8 +20,12 @@ class CategoryController extends Controller
     }
 
     public function createCateory(Request $Request) {
-        $validated = $this->validateCategoryData($Request);
+        $validated = $Request->validate([
+            'nama_kategori' => 'required|min:3|max:100|string',
+            'kode_kategori_baru' => 'required|min:2|max:5|unique:kategori,kode_kategori'
+        ]);
         $formatted_kode_kategori = Str::upper($validated['kode_kategori_baru']);
+
         try {
             Kategori::create([
                 'nama_kategori' => $validated['nama_kategori'],

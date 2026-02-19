@@ -16,7 +16,7 @@
     @yield('form-content')
 @endsection
 
-@section('script')
+@push('script')
 <script>
     const resetInputStar = () => {
         const labels = document.querySelectorAll('label');
@@ -55,4 +55,4 @@
     });
 
 </script>
-@endsection
+@endpush
