@@ -33,7 +33,7 @@
             </x-ui.sideNavItemCollapse>
         </x-ui.collapseSideNavItem>
 
-        
+        <x-ui.nav-item-side href="{{ route('create-document') }}" icon="fa-regular fa-file-lines">Dokumen</x-ui.nav-item-side>
 
         {{-- End Navigations --}}
 

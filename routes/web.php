@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\GoogleController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OtpController;
 use Illuminate\Support\Facades\Route;
 
@@ -23,6 +25,13 @@ Route::middleware('isAdministrator')->group(function () {
     Route::patch('/book-categories/edit', [App\Http\Controllers\CategoryController::class, 'editCategory'])->name('edit-book-categories');
     Route::delete('/book-categories/delete/{id}', [App\Http\Controllers\CategoryController::class, 'deleteCategory'])->name('delete-book-categories');
     Route::get('/book-categories/get/{id}', [App\Http\Controllers\CategoryController::class, 'getCategoryByID'])->name('get-book-categories');
+
+    Route::get('/document', [HomeController::class, 'createDocument'])->name('create-document');
+    Route::get('/document/generate/certificate', [HomeController::class, 'createCertificate'])->name('create-certificate');
+    Route::post('/document/generate/certificate', [DocumentController::class, 'generateCertificate'])->name('generate-certificate');
+    Route::get('/document/generate/invitation', [HomeController::class, 'createInvitation'])->name('create-invitation');
+    Route::post('/document/generate/invitation', [DocumentController::class, 'generateInvitation'])->name('generate-invitation');
+
     });
 
 // Auth Routes

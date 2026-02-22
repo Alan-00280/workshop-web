@@ -64,5 +64,14 @@ class HomeController extends Controller
         ]);
     }
 
+    public function createDocument() {
+        return view('dashboard.create-document');
+    }
+    public function createCertificate() {
+        return view('dashboard.create-certificate');
+    }
+    public function createInvitation() {
+        return view('dashboard.create-invitation');
+    }
     
 }

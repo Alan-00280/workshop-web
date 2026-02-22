@@ -27,7 +27,7 @@
     ul_collapsabel.forEach(ul => {
 
         const li = ul.querySelectorAll('li')
-        li.for Each(i => {
+        li.forEach(i => {
             const i_a = i.querySelector('a')
 
             if(i_a.classList.contains('active')) {
