@@ -3,9 +3,13 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Mail\OtpMail;
 use App\Models\Role;
+// use App\Models\User;
+use App\Models\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class LoginController extends Controller
 {
@@ -38,10 +42,16 @@ class LoginController extends Controller
     public function authenticated(Request $request, $user) {
         $userRole = Role::where('id_role', $user->id_role)->first();
         // dd($userRole);
-        $request->session()->put([
-            'user_role' => $userRole->role,
-            'user_id_role' => $userRole->id_role
+
+        $otp = strval(rand(111111, 999999));
+        $user_now = User::where('email', $user->email)->first();
+        $user_now->update([
+            'otp' => $otp
         ]);
+
+        Mail::to($user->email)->send(new OtpMail($otp));
+        // echo($otp);
+        return redirect('/verify-otp');
     }
 
     public function __construct()

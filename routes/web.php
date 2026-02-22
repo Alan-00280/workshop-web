@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\GoogleController;
+use App\Http\Controllers\OtpController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -29,4 +31,13 @@ Auth::routes(['reset' => false]);
 Route::get('/logout', function () {
     Auth::logout();
     return redirect('/login');
-})->name('logout'); 
+})->name('logout');
+
+Route::get('/auth/google', [GoogleController::class, 'redirect'])->name('google-login-redirect');
+Route::get('/auth/google/cb', [GoogleController::class, 'callback']);
+
+
+Route::middleware('auth')->group(function () {
+    Route::get('/verify-otp', [OtpController::class, 'show']);
+    Route::post('/verify-otp', [OtpController::class, 'verify']);
+});

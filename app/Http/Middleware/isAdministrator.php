@@ -18,13 +18,13 @@ class isAdministrator
     public function handle(Request $request, Closure $next): Response
     {   
         if (Session::get('user_id_role') == null) {
-            Session::flush();
+            Session::forget(['user_role', 'user_id_role']);
             Auth::logout();
             return redirect('/login');
         }    
 
         if (!Auth::check()) {
-            Session::flush();
+            Session::forget(['user_role', 'user_id_role']);
             Auth::logout();
             return redirect('/login');
         }
