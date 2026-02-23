@@ -7,14 +7,14 @@
 
 @section('breadcrumb')
     <x-ui.breadcrumb-item href="{{ route('create-document') }}">Buat Dokumen</x-ui.breadcrumb-item>
-    <x-ui.breadcrumb-item>Buat Certificate</x-ui.breadcrumb-item>
+    <x-ui.breadcrumb-item>Buat Sertifikat</x-ui.breadcrumb-item>
 @endsection
 
 @section('content')
     <div class="container py-4">
         <div class="row mb-4">
             <div class="col">
-                <h3 class="fw-bold">Generate Certificate</h3>
+                <h3 class="fw-bold">Buat Sertifikat</h3>
                 <p class="text-muted mb-0">Isi data untuk membuat sertifikat PDF.</p>
             </div>
         </div>

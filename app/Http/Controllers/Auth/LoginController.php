@@ -40,17 +40,18 @@ class LoginController extends Controller
      */
 
     public function authenticated(Request $request, $user) {
-        $userRole = Role::where('id_role', $user->id_role)->first();
-        // dd($userRole);
-
         $otp = strval(rand(111111, 999999));
         $user_now = User::where('email', $user->email)->first();
         $user_now->update([
             'otp' => $otp
         ]);
 
-        Mail::to($user->email)->send(new OtpMail($otp));
-        // echo($otp);
+        try {
+            Mail::to($user->email)->send(new OtpMail($otp));
+        } catch (\Exception $e) {
+            return redirect('/verify-otp')->with('error', 'Something wrong: '.$e->getMessage());
+        }
+
         return redirect('/verify-otp');
     }
 

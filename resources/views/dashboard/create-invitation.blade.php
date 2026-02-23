@@ -14,7 +14,7 @@
     <div class="container py-4">
         <div class="row mb-4">
             <div class="col">
-                <h3 class="fw-bold">Generate Invitation</h3>
+                <h3 class="fw-bold">Buat Undangan</h3>
                 <p class="text-muted mb-0">Isi data untuk membuat undangan PDF.</p>
             </div>
         </div>
