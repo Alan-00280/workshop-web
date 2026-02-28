@@ -39,7 +39,9 @@ Route::middleware('isAdministrator')->group(function () {
     Route::get('/barang/add', [HomeController::class, 'addBarang'])->name('add-barang');
     Route::post('/barang/add', [BarangController::class, 'createBarang'])->name('api-add-barang');
     Route::delete('/barang/delete', [BarangController::class, 'deleteBarang'])->name('api-delete-barang');
-
+    Route::post('/barang/cetak-label', [BarangController::class, 'cetakLabelShow'])->name('cetak-labelBarang-preview');
+    Route::post('/barang/cetak-label-final', [DocumentController::class, 'generateLabels'])->name('cetak-labelBarang-final');
+        
     });
 
 // Auth Routes

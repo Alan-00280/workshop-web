@@ -23,7 +23,7 @@
   <link rel="shortcut icon" href={{ asset("/assets/images/favicon.png") }} />
 
   @vite([])
-  <script src="https://kit.fontawesome.com/f714303560.js" crossorigin="anonymous"></script>
+  <script src="https://kit.fontawesome.com/f714303560.js" crossorigin="anonymous"></script>\
 
 </head>
 
@@ -86,8 +86,7 @@
           <div class="d-sm-flex justify-content-center justify-content-sm-between">
             <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2026 <a
                 href="https://github.com/Alan-00280" target="_blank">xyzeerg</a>. All rights reserved.</span>
-            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">"Partially" <i
-                class="fa-solid fa-face-grin-squint-tears" style="color: rgba(255, 212, 59, 1);"></i> Hand-crafted &
+            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">"Partially" :D Hand-crafted &
               made with <i class="mdi mdi-heart text-danger"></i> by Alan</span>
           </div>
         </footer>

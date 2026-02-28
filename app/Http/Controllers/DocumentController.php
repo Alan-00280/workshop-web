@@ -35,4 +35,18 @@ class DocumentController extends Controller
 
         return $pdf->stream($filename);
     }
+
+    public function generateLabels(Request $request) {
+        $validated = $request->validate([
+            'x_start' => 'required|numeric|gt:0|lte:5',
+            'y_start' => 'required|numeric|gt:0|lte:8',
+            'items' => 'required|string'
+        ]);
+        $validated['items'] = json_decode($request['items'], true);
+
+        $pdf = Pdf::loadView('doc.label', $validated)->setPaper('a4', 'landscape')->setWarnings(false);
+        $filename = 'label.pdf';
+
+        return $pdf->stream($filename);
+    }
 }

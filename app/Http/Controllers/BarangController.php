@@ -61,4 +61,15 @@ class BarangController extends Controller
             return back()->with('error', 'Error: ' . $e->getMessage());
         }
     }
+
+    public function cetakLabelShow(Request $request) {
+        $item_ids = $request['to_be_print'];
+        $items = Barang::whereIn('id_barang', $item_ids)->get()->toArray();
+        return view(
+            'dashboard.barang.cetak-label-preview', 
+            [
+                'items' => $items
+            ]
+        );
+    }
 }

@@ -11395,7 +11395,7 @@ textarea.is-invalid.tt-hint, .select2-container--default .select2-selection--sin
 }
 .btn-check + .btn:hover, .ajax-upload-dragdrop .btn-check + .ajax-file-upload:hover {
   color: var(--bs-btn-color);
-  background-color: var(--bs-btn-bg);
+  background-color: rgb(102, 0, 143);
   border-color: var(--bs-btn-border-color);
 }
 .btn:focus-visible, .ajax-upload-dragdrop .ajax-file-upload:focus-visible {
@@ -11434,8 +11434,8 @@ textarea.is-invalid.tt-hint, .select2-container--default .select2-selection--sin
   --bs-btn-hover-bg: #c183ff;
   --bs-btn-hover-border-color: #bd7cff;
   --bs-btn-focus-shadow-rgb: 155, 93, 217;
-  --bs-btn-active-color: #000;
-  --bs-btn-active-bg: #c58aff;
+  --bs-btn-active-color: #ffffff;
+  --bs-btn-active-bg: #380070;
   --bs-btn-active-border-color: #bd7cff;
   --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
   --bs-btn-disabled-color: #000;
@@ -22286,7 +22286,9 @@ code {
 }
 .btn-primary:not(.btn-light):hover, .btn-primary:not(.btn-light):focus, .btn-primary:not(.btn-light):active {
   color: #ffffff;
-}
+  background: #c21aff;
+  border-color: #b66dff;
+} 
 .btn-primary:not(.btn-light):focus, .btn-primary:not(.btn-light):active {
   background: #b66dff;
   border-color: #b66dff;
