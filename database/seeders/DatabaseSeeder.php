@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Barang;
 use App\Models\Buku;
 use App\Models\Kategori;
 use App\Models\Role;
@@ -51,6 +52,24 @@ class DatabaseSeeder extends Seeder
         ];
         foreach ($bukus as $buku) {
             Buku::create($buku);
+        }
+
+        $barangs = [
+            ['nama' => "Buku Tulis Sidu 38 Lembar", 'harga' => 4000],
+            ['nama' => "Pulpen Pilot G2", 'harga' => 8500],
+            ['nama' => "Pensil 2B Faber-Castell", 'harga' => 3000],
+            ['nama' => "Penghapus Staedtler", 'harga' => 4500],
+            ['nama' => "Penggaris 30 cm", 'harga' => 5000],
+            ['nama' => "Spidol Snowman Permanent", 'harga' => 7000],
+            ['nama' => "Stabilo Boss Original", 'harga' => 12000],
+            ['nama' => "Map Plastik Folio", 'harga' => 3500],
+            ['nama' => "Kertas HVS A4 80gsm (1 Rim)", 'harga' => 65000],
+            ['nama' => "Binder A5", 'harga' => 25000],
+            ['nama' => "Lem Kertas Fox", 'harga' => 6000],
+            ['nama' => "Tipe-X Kenko", 'harga' => 7500],
+        ];
+        foreach ($barangs as $barang) {
+            Barang::create($barang);
         }
     }
 }
