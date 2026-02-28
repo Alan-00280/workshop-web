@@ -10,4 +10,7 @@ class Barang extends Model
     protected $primaryKey = 'id_barang';
     protected $guarded = ['id_barang'];
     public $timestamps = false;
+
+    protected $keyType = 'string';
+    public $incrementing = false;
 }

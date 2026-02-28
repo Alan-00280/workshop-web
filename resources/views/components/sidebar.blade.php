@@ -35,6 +35,8 @@
 
         <x-ui.nav-item-side href="{{ route('create-document') }}" icon="fa-regular fa-file-lines">Dokumen</x-ui.nav-item-side>
 
+        <x-ui.nav-item-side href="{{ route('show-barang') }}" icon="fa-solid fa-boxes-stacked">Barang</x-ui.nav-item-side>
+
         {{-- End Navigations --}}
 
         {{-- <x-ui.collapseSideNavItem icon="" nav_name="Coba" >

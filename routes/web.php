@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BarangController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\HomeController;
@@ -31,6 +32,13 @@ Route::middleware('isAdministrator')->group(function () {
     Route::post('/document/generate/certificate', [DocumentController::class, 'generateCertificate'])->name('generate-certificate');
     Route::get('/document/generate/invitation', [HomeController::class, 'createInvitation'])->name('create-invitation');
     Route::post('/document/generate/invitation', [DocumentController::class, 'generateInvitation'])->name('generate-invitation');
+
+    Route::get('/barang', [HomeController::class, 'showBarang'])->name('show-barang');
+    Route::get('/barang/edit/{id}', [HomeController::class, 'editBarang'])->name('edit-barang');
+    Route::patch('/barang/edit', [BarangController::class, 'updateBarang'])->name('api-edit-barang');
+    Route::get('/barang/add', [HomeController::class, 'addBarang'])->name('add-barang');
+    Route::post('/barang/add', [BarangController::class, 'createBarang'])->name('api-add-barang');
+    Route::delete('/barang/delete', [BarangController::class, 'deleteBarang'])->name('api-delete-barang');
 
     });
 

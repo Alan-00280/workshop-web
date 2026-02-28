@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Barang;
 use App\Models\Buku;
 use App\Models\Kategori;
 use Illuminate\Http\Request;
@@ -72,6 +73,29 @@ class HomeController extends Controller
     }
     public function createInvitation() {
         return view('dashboard.create-invitation');
+    }
+
+    public function showBarang() {
+        return view(
+            'dashboard.barang.show',
+            [
+                'barangs' => Barang::all()
+            ]
+        );
+    }
+    public function editBarang($id) {
+        $barang = Barang::where('id_barang', $id)->first();
+        return view(
+            'dashboard.barang.edit',
+            [
+                'barang' => $barang
+            ]
+        );
+    }
+    public function addBarang() {
+        return view(
+            'dashboard.barang.create'
+        );
     }
     
 }
