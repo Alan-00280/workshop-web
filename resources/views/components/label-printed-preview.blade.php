@@ -1,9 +1,3 @@
-@props([
-    'x_start' => 3,
-    'y_start' => 8,
-    'items' => []
-])
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,7 +18,7 @@
          */
 
         @page {
-            size: 222mm 185mm;
+            size: 210mm 173mm;
             /* margin: 3mm; */
         }
 
@@ -34,11 +28,16 @@
             padding: 0;
         }
 
+        body {
+            background: #ffffff;
+            font-family: Arial, sans-serif;
+        }
+
         /* One page wrapper — fits exactly inside @page usable area */
         .page {
-            width: 220mm;   /* 222mm − 2×3mm @page margin */
-            height: 175mm;  /* 175mm − 2×3mm @page margin */
-            background: #d0c89a;
+            width: 210mm;   /* 222mm − 2×3mm @page margin */
+            height: 165mm;  /* 175mm − 2×3mm @page margin */
+            background: #ffffff;
             page-break-after: always;
             padding: 3mm;
         }
@@ -63,7 +62,7 @@
         }
 
         .col-gap {
-            width: 2mm;
+            width: 3mm;
         }
 
         .row-gap {
@@ -72,7 +71,7 @@
 
         /* White sticker label */
         .label-box {
-            width: 38mm;
+            width: 35mm;
             height: 16mm;
             background: #ffffff;
             border: 0.4mm dashed #aaaaaa;
@@ -203,6 +202,7 @@
                         </td>
 
                     @endforeach
+                    <td class="col-gap"></td>
                 </tr>
 
             @endforeach

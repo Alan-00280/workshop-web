@@ -18,7 +18,7 @@
          */
 
         @page {
-            size: 222mm 185mm;
+            size: 213mm 173mm;
             /* margin: 3mm; */
         }
 
@@ -35,9 +35,9 @@
 
         /* One page wrapper — fits exactly inside @page usable area */
         .page {
-            width: 220mm;   /* 222mm − 2×3mm @page margin */
-            height: 175mm;  /* 175mm − 2×3mm @page margin */
-            background: #f3e280;
+            width: 213mm;   /* 222mm − 2×3mm @page margin */
+            height: 165mm;  /* 175mm − 2×3mm @page margin */
+            background: #ffffff;
             page-break-after: always;
             padding: 3mm;
         }
@@ -62,11 +62,11 @@
         }
 
         .col-gap {
-            width: 2mm;
+            width: 3mm;
         }
 
         .row-gap {
-            height: 2mm;
+            height: 1.9mm;
         }
 
         /* White sticker label */
@@ -74,7 +74,7 @@
             width: 35mm;
             height: 16mm;
             background: #ffffff;
-            border: 0.4mm dashed #aaaaaa;
+            border: 0.4mm dashed #aaaaaa00;
             padding: 1.2mm 1.5mm;
             position: relative;
             overflow: hidden;
@@ -85,20 +85,20 @@
             width: 38mm;
             height: 18mm;
             background: transparent;
-            border: dotted #111111 2px;
+            /* border: dotted #111111 2px; */
         }
 
         .label-nama {
-            font-size: 5.5pt;
+            font-size: 9.5pt;
             font-weight: bold;
             color: #111111;
             line-height: 1.2;
-            overflow: hidden;
-            white-space: nowrap;
+            overflow: auto;
+            white-space: pre-wrap;
         }
 
         .label-harga {
-            font-size: 7.5pt;
+            font-size: 8.5pt;
             font-weight: bold;
             color: #111111;
             margin-top: 0.8mm;
@@ -118,6 +118,11 @@
             right: 1.5mm;
             font-size: 4pt;
             color: #aaaaaa;
+        }
+
+        .last-gap {
+            width: 3mm;
+            /* border: solid red 1px; */
         }
     </style>
 </head>
@@ -184,9 +189,9 @@
                     @foreach ($rowSlots as $colIndex => $slot)
 
                         {{-- 2mm gap column between label columns (not before the first col) --}}
-                        @if ($colIndex > 0)
-                            <td class="col-gap"></td>
-                        @endif
+                        {{-- @if ($colIndex > 0)
+                            
+                        @endif --}}
 
                         <td class="label-cell">
                             @if ($slot !== null)
@@ -199,6 +204,9 @@
                             @else
                                 <div class="label-empty"></div>
                             @endif
+                        </td>
+                        <td class="col-gap">
+                            <div class="last-gap"></div>
                         </td>
 
                     @endforeach
