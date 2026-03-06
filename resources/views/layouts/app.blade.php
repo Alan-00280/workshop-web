@@ -92,14 +92,14 @@
         </footer>
         <!-- partial -->
 
-        {{-- <div class="modal fade" id="specialFace" tabindex="-1"
+        <div class="modal fade" id="specialFace" tabindex="-1"
           aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
             <img src="{{ asset('/Blue_Lobster_Meme_Banner_image.jpg') }}" alt="Special Face" width="700px">
             </div>
           </div>
-        </div> --}}
+        </div>
 
       </div>
       <!-- main-panel ends -->
@@ -130,7 +130,7 @@
 
   <!-- Custom js for this page -->
   <script src="/assets/js/dashboard.js"></script>
-  {{-- <script>
+  <script>
     const powerBtn = document.querySelector('a#power-btn')
     const lob_aud = new Audio('/blue-lobster-jumpscare-made-with-Voicemod.mp3')
     powerBtn.addEventListener('click', () => {
@@ -148,7 +148,7 @@
       modalLob_bs.hide()
     })
 
-  </script> --}}
+  </script>
   <!-- End custom js for this page -->
 </body>
 

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.form')
 
 @section('db-page-title', '+ Tambahkan Buku')
 @section('icon-page')
@@ -37,7 +37,8 @@
                            id="judul"
                            value="{{ old('judul') }}"
                            class="form-control @error('judul') is-invalid @enderror"
-                           placeholder="Masukkan judul buku">
+                           placeholder="Masukkan judul buku"
+                           required>
 
                     @error('judul')
                         <div class="invalid-feedback">
@@ -54,7 +55,8 @@
                            id="pengarang"
                            value="{{ old('pengarang') }}"
                            class="form-control @error('pengarang') is-invalid @enderror"
-                           placeholder="Masukkan nama pengarang">
+                           placeholder="Masukkan nama pengarang"
+                           required>
 
                     @error('pengarang')
                         <div class="invalid-feedback">
@@ -68,7 +70,8 @@
                     <label for="idkategori" class="form-label">Kategori</label>
                     <select name="idkategori" 
                             id="idkategori"
-                            class="form-select @error('idkategori') is-invalid @enderror">
+                            class="form-select @error('idkategori') is-invalid @enderror"
+                            required>
                         <option value="">-- Pilih Kategori --</option>
 
                         @foreach($catagories as $item)
@@ -88,6 +91,7 @@
 
                 <!-- Tombol Submit -->
                 <div class="d-flex justify-content-end">
+                    <button type="reset" class="btn btn-info me-2">Reset</button>
                     <button type="submit" class="btn btn-success">
                         <i class="fa-solid fa-save"></i>
                         Simpan Buku
