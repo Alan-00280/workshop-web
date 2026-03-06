@@ -18,7 +18,7 @@
          */
 
         @page {
-            size: 213mm 173mm;
+            size: 210mm 173mm;
             /* margin: 3mm; */
         }
 
@@ -35,7 +35,7 @@
 
         /* One page wrapper — fits exactly inside @page usable area */
         .page {
-            width: 213mm;   /* 222mm − 2×3mm @page margin */
+            width: 210mm;   /* 222mm − 2×3mm @page margin */
             height: 165mm;  /* 175mm − 2×3mm @page margin */
             background: #ffffff;
             page-break-after: always;
@@ -58,7 +58,7 @@
             width: 38mm;
             height: 18mm;
             padding: 0;
-            vertical-align: top;
+            vertical-align: middle;
         }
 
         .col-gap {
@@ -71,13 +71,15 @@
 
         /* White sticker label */
         .label-box {
-            width: 35mm;
-            height: 16mm;
+            width: 38mm;
+            height: 18mm;
             background: #ffffff;
             border: 0.4mm dashed #aaaaaa00;
-            padding: 1.2mm 1.5mm;
+            /* padding: 1.2mm 1.5mm; */
             position: relative;
             overflow: hidden;
+            text-align: center;
+            /* display: table; */
         }
 
         /* Empty slot — shows yellow backing paper */
@@ -85,11 +87,11 @@
             width: 38mm;
             height: 18mm;
             background: transparent;
-            /* border: dotted #111111 2px; */
+            border: dotted #11111100 2px;
         }
 
         .label-nama {
-            font-size: 9.5pt;
+            font-size: 7.5pt;
             font-weight: bold;
             color: #111111;
             line-height: 1.2;
@@ -123,6 +125,13 @@
         .last-gap {
             width: 3mm;
             /* border: solid red 1px; */
+        }
+
+        .label-container {
+            text-align: center;
+            margin-top: 3mm;
+            /* vertical-align: middle; */
+            /* border: red 1px solid; */
         }
     </style>
 </head>
@@ -196,9 +205,11 @@
                         <td class="label-cell">
                             @if ($slot !== null)
                                 <div class="label-box">
-                                    <div class="label-nama">{{ $slot['nama'] }}</div>
-                                    <div class="label-harga">Rp {{ number_format($slot['harga'], 0, ',', '.') }}</div>
-                                    <div class="label-timestamp">{{ $slot['timestamp'] }}</div>
+                                    <div class="label-container">
+                                        <div class="label-nama">{{ $slot['nama'] }}</div>
+                                        <div class="label-harga">Rp {{ number_format($slot['harga'], 0, ',', '.') }}</div>
+                                        <div class="label-timestamp">{{ $slot['timestamp'] }}</div>
+                                    </div>
                                     <div class="label-id">{{ $slot['id_barang'] }}</div>
                                 </div>
                             @else

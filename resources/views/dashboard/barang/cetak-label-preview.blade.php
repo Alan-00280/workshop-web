@@ -46,13 +46,13 @@
         </ul>
     </div>
 
-    {{-- <div class="card mb-3">
+    <div class="card mb-3">
         <div class="card-header bg-primary text-white">
             <h5 class="mb-0">Preview</h5>
         </div>
 
         <x-label-printed-preview :items="$items"  />
-    </div> --}}
+    </div>
 
     <div class="card mb-3">
         <div class="card-header bg-primary text-white">

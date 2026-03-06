@@ -44,7 +44,7 @@ class DocumentController extends Controller
         ]);
         $validated['items'] = json_decode($request['items'], true);
 
-        $pdf = Pdf::loadView('doc.label', $validated)->setPaper('a4', 'landscape')->setWarnings(false);
+        $pdf = Pdf::loadView('doc.label', $validated)->setPaper('a4', 'potrait')->setWarnings(false);
         $filename = 'label.pdf';
 
         return $pdf->stream($filename);
