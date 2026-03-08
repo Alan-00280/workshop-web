@@ -343,6 +343,7 @@
 @endpush
 
 @push('page_style')
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.3.7/css/dataTables.dataTables.css" />
     <style>
         .barang-record:hover {
             cursor: pointer;

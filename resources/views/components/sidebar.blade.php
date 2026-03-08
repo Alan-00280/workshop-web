@@ -47,6 +47,9 @@
             <x-ui.sideNavItemCollapse href="{{ route('show-barang-v2-datatable') }}" >
                 Barang Datatable
             </x-ui.sideNavItemCollapse>
+            <x-ui.sideNavItemCollapse href="{{ route('show-kota') }}" >
+                Daftar Kota
+            </x-ui.sideNavItemCollapse>
         </x-ui.collapseSideNavItem>
 
         {{-- End Navigations --}}

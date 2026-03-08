@@ -44,6 +44,8 @@ Route::middleware('isAdministrator')->group(function () {
 
     Route::get('/v2-brg', [HomeController::class, 'showBarangV2'])->name('show-barang-v2');
     Route::get('/v2datatable-brg', [HomeController::class, 'showBarangV2Datatable'])->name('show-barang-v2-datatable');
+
+    Route::get('/kota', [HomeController::class, 'daftarKotaShow'])->name('show-kota');
         
     });
 

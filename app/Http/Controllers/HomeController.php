@@ -111,5 +111,11 @@ class HomeController extends Controller
             'dashboard.barangv2.view-datatable'
         );
     }
+
+    public function daftarKotaShow() {
+        return view(
+            'dashboard.kota.view'
+        );
+    }
     
 }
