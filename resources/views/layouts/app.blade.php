@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
-  <head>
+<head>
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -12,7 +12,7 @@
   <link rel="stylesheet" href={{ asset("/assets/vendors/ti-icons/css/themify-icons.css") }}>
   <link rel="stylesheet" href={{ asset("/assets/vendors/css/vendor.bundle.base.css") }}>
   <!-- endinject -->
-  
+
   {{-- Page Style --}}
   @stack('page_style')
 
@@ -41,7 +41,7 @@
 
       <!-- partial -->
       <div class="main-panel">
-        
+
         {{-- Content Wrapper Start --}}
         <div class="content-wrapper">
 
@@ -49,7 +49,7 @@
           <x-successAlert :message="session('success')" />
 
           @if(session('error'))
-              <x-error-alert :errors="session('error')" type="global" />
+            <x-error-alert :errors="session('error')" type="global" />
           @endif
 
           <x-error-alert :errors="$errors" />
@@ -92,11 +92,10 @@
         </footer>
         <!-- partial -->
 
-        <div class="modal fade" id="specialFace" tabindex="-1"
-          aria-hidden="true">
+        <div class="modal fade" id="specialFace" tabindex="-1" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
-            <img src="{{ asset('/Blue_Lobster_Meme_Banner_image.jpg') }}" alt="Special Face" width="700px">
+              <img src="{{ asset('/Blue_Lobster_Meme_Banner_image.jpg') }}" alt="Special Face" width="700px">
             </div>
           </div>
         </div>
@@ -131,12 +130,47 @@
   <!-- Custom js for this page -->
   <script src="/assets/js/dashboard.js"></script>
   <script>
+
+    const ul_collapsabel = document.querySelectorAll('.slot-ul-collapsable')
+    ul_collapsabel.forEach(ul => {
+
+      const li = ul.querySelectorAll('li')
+      li.forEach(i => {
+        const i_a = i.querySelector('a')
+
+        if (i_a.classList.contains('active')) {
+
+          const navItem = ul.closest('.nav-item');
+          if (navItem) {
+            navItem.classList.add('active')
+
+            const a_collapsable = navItem.querySelector('.a-collapsable');
+            if (a_collapsable) {
+              a_collapsable.setAttribute("aria-expanded", "true");
+              a_collapsable.classList.add('active')
+            }
+
+            const div_collapsable = navItem.querySelector('.div-collapsable')
+            if (div_collapsable) {
+              div_collapsable.classList.add('show')
+            }
+          }
+
+
+        }
+
+      })
+
+    })
+
+  </script>
+  <script>
     const powerBtn = document.querySelector('a#power-btn')
     const lob_aud = new Audio('/blue-lobster-jumpscare-made-with-Voicemod.mp3')
     powerBtn.addEventListener('click', () => {
       lob_aud.play()
     })
-    
+
     const lobModal = document.querySelector('div#specialFace')
     lobModal.addEventListener('hidden.bs.modal', () => {
       lob_aud.pause()

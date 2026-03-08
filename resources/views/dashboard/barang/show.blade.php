@@ -31,7 +31,7 @@
             </div>
 
             <div class="card-body">
-                <table class="table table-bordered table-striped align-middle">
+                <table id="table-barang" class="table table-bordered table-striped align-middle">
                     <thead class="table-light">
                         <tr>
                             <th># Kode Barang</th>
@@ -174,6 +174,20 @@
             });
         })
 
+    </script>
+@endpush
+
+@push('script')
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.3.7/css/dataTables.dataTables.css" />
+    <script src="https://cdn.datatables.net/2.3.7/js/dataTables.js"></script>
+@endpush
+
+@push('script')
+    <script>
+        $(document).ready(function () {
+            $('#table-barang').DataTable()
+        })
     </script>
 @endpush
 

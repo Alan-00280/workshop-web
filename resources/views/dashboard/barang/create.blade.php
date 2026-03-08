@@ -86,7 +86,7 @@
                         </button>
                         <button type="submit" class="btn btn-success">
                             <i class="fa-solid fa-save"></i>
-                            Simpan Buku
+                            Simpan Barang
                         </button>
                     </div>
                 </div>

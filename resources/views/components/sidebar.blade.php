@@ -37,6 +37,18 @@
 
         <x-ui.nav-item-side href="{{ route('show-barang') }}" icon="fa-solid fa-boxes-stacked">Barang</x-ui.nav-item-side>
 
+        <x-ui.collapseSideNavItem
+            icon="fa-brands fa-square-js"
+            nav_name="Demo JQuery"
+        >
+            <x-ui.sideNavItemCollapse href="{{ route('show-barang-v2') }}" >
+                Barang Table
+            </x-ui.sideNavItemCollapse>
+            <x-ui.sideNavItemCollapse href="{{ route('show-barang-v2-datatable') }}" >
+                Barang Datatable
+            </x-ui.sideNavItemCollapse>
+        </x-ui.collapseSideNavItem>
+
         {{-- End Navigations --}}
 
         {{-- <x-ui.collapseSideNavItem icon="" nav_name="Coba" >

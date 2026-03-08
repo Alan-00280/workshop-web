@@ -146,13 +146,6 @@
 
 @push('page_style')
     <style>
-        .error {
-            color: red;
-        }
-
-        .outline-red {
-            outline: red 1px solid
-        }
 
         .form-select-invalid {
             padding: 0.4375rem 0.75rem;

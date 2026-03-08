@@ -83,6 +83,7 @@ class HomeController extends Controller
             ]
         );
     }
+
     public function editBarang($id) {
         $barang = Barang::where('id_barang', $id)->first();
         return view(
@@ -92,9 +93,22 @@ class HomeController extends Controller
             ]
         );
     }
+
     public function addBarang() {
         return view(
             'dashboard.barang.create'
+        );
+    }
+
+    public function showBarangV2() {
+        return view(
+            'dashboard.barangv2.view'
+        );
+    }
+
+    public function showBarangV2Datatable() {
+        return view(
+            'dashboard.barangv2.view-datatable'
         );
     }
     
