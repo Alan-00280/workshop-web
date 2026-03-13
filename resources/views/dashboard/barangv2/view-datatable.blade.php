@@ -59,7 +59,7 @@
             </div>
 
             <div class="card-body">
-                <table id="table-barang" class="table table-bordered table-striped align-middle">
+                <table id="table-barang" class="table table-striped align-middle">
                     <thead class="table-light">
                         <tr>
                             <th>ID Barang</th>

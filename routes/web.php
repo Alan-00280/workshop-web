@@ -5,6 +5,7 @@ use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OtpController;
+use App\Http\Controllers\WilayahController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -46,6 +47,14 @@ Route::middleware('isAdministrator')->group(function () {
     Route::get('/v2datatable-brg', [HomeController::class, 'showBarangV2Datatable'])->name('show-barang-v2-datatable');
 
     Route::get('/kota', [HomeController::class, 'daftarKotaShow'])->name('show-kota');
+
+    Route::get('/wilayah', [HomeController::class, 'wilayahShow'])->name('show-wilayah');
+    Route::post('/wilayah/provinsi', [WilayahController::class, 'getProvinsi'])->name('get-provinsi');
+    Route::post('/wilayah/kota', [WilayahController::class, 'getKota'])->name('get-kota');
+    Route::post('/wilayah/kecamatan', [WilayahController::class, 'getKecamatan'])->name('get-kecamatan');
+    Route::post('/wilayah/kelurahan', [WilayahController::class, 'getKelurahan'])->name('get-kelurahan');
+
+    Route::get('/POS', [HomeController::class, 'POSShow'])->name('show-POS');
         
     });
 

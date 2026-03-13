@@ -52,6 +52,18 @@
             </x-ui.sideNavItemCollapse>
         </x-ui.collapseSideNavItem>
 
+        <x-ui.collapseSideNavItem
+            icon="fa-solid fa-globe"
+            nav_name="Demo AJAX Axios"
+        >
+            <x-ui.sideNavItemCollapse href="{{ route('show-wilayah') }}" >
+                Wilayah
+            </x-ui.sideNavItemCollapse>
+            <x-ui.sideNavItemCollapse href="{{ route('show-POS') }}" >
+                POS
+            </x-ui.sideNavItemCollapse>
+        </x-ui.collapseSideNavItem>
+
         {{-- End Navigations --}}
 
         {{-- <x-ui.collapseSideNavItem icon="" nav_name="Coba" >

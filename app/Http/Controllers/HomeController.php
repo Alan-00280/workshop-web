@@ -117,5 +117,17 @@ class HomeController extends Controller
             'dashboard.kota.view'
         );
     }
+
+    public function wilayahShow() {
+        return view(
+            'dashboard.wilayah.view'
+        );
+    }
+
+    public function POSShow() {
+        return view(
+            'dashboard.pos.view'
+        );
+    }
     
 }
