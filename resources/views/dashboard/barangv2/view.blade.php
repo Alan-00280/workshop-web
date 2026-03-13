@@ -150,19 +150,18 @@
                     $('#nama_barang').val('')
                     $('#harga_barang').val('')
 
-                    // Generate tanggal YYMMDD
+                    // Generate tanggal ID dari Tanggal
                     let today = new Date()
                     let year = today.getFullYear().toString().slice(-2)
                     let month = String(today.getMonth() + 1).padStart(2, '0')
                     let day = String(today.getDate()).padStart(2, '0')
 
                     let datePart = year + month + day
-
-                    // Sequence number
                     let seq = String(counter).padStart(2, '0')
-
+                    
                     // Final ID
                     let idBarang = `BRG-${seq}-${datePart}`
+                    counter++
 
                     let newRow = `
                             <tr
@@ -175,8 +174,7 @@
                                 <td id="harga-barang">Rp ${hargaBarangFormated}</td>
                             </tr>
                         `
-                    $('table tbody').append(newRow)
-                    counter++
+                    $('#table-barang tbody').append(newRow)
                 }
             })
         })
@@ -201,7 +199,7 @@
                     <div class="modal-body">
                         <div class="mb-3">
                             <label for="id_barang" class="form-label">ID Barang</label>
-                            <input type="text" name="id_barang" id="id_barang" class="form-control">
+                            <input type="text" name="id_barang" id="id_barang" class="form-control" readonly>
                         </div>
 
                         <div class="mb-3">
@@ -260,7 +258,6 @@
                 const hargaBarangField = $(modalEditDOM).find('#harga_barang_edit')
 
                 $(idBarangField).val(idBarang)
-                $(idBarangField).prop('readonly', true)
                 $(idBarangField).removeClass('form-control')
                 $(idBarangField).addClass('readonly')
 
