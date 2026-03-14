@@ -62,15 +62,36 @@ class BarangController extends Controller
         }
     }
 
-    public function cetakLabelShow(Request $request) {
+    public function cetakLabelShow(Request $request)
+    {
         $item_ids = $request['to_be_print'];
         $items = Barang::whereIn('id_barang', $item_ids)->get()->toArray();
         return view(
-            'dashboard.barang.cetak-label-preview', 
+            'dashboard.barang.cetak-label-preview',
             [
                 'items' => $items
             ]
         );
+    }
+
+    public function getBarang(Request $request)
+    {
+        $barang = Barang::find($request->post('id_barang'));
+        $response = [
+            'status' => 'not-found',
+            'code' => '404'
+        ];
+        if ($barang) {
+            $response = [
+                'status' => 'success',
+                'code' => '200',
+                'data' => [
+                    'barang' => $barang
+                ]
+            ];
+        }
+
+        return response()->json($response);
     }
 
 }

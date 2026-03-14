@@ -42,6 +42,7 @@ Route::middleware('isAdministrator')->group(function () {
     Route::delete('/barang/delete', [BarangController::class, 'deleteBarang'])->name('api-delete-barang');
     Route::post('/barang/cetak-label', [BarangController::class, 'cetakLabelShow'])->name('cetak-labelBarang-preview');
     Route::post('/barang/cetak-label-final', [DocumentController::class, 'generateLabels'])->name('cetak-labelBarang-final');
+    Route::post('/barang/get', [BarangController::class, 'getBarang'])->name('get-barang');
 
     Route::get('/v2-brg', [HomeController::class, 'showBarangV2'])->name('show-barang-v2');
     Route::get('/v2datatable-brg', [HomeController::class, 'showBarangV2Datatable'])->name('show-barang-v2-datatable');
