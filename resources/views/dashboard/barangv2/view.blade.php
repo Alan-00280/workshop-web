@@ -138,8 +138,8 @@
                     inputs.each(function (i, e) {
                         $(this).removeClass('is-invalid')
                     })
-                    $('.error').remove()
-                    $('.input-group').each(function (i, e) {
+                    $(form).find('.error').remove()
+                    $(form).find('.input-group').each(function (i, e) {
                         $(this).removeClass('outline-red')
                     })
 
@@ -158,22 +158,22 @@
 
                     let datePart = year + month + day
                     let seq = String(counter).padStart(2, '0')
-                    
+
                     // Final ID
                     let idBarang = `BRG-${seq}-${datePart}`
                     counter++
 
                     let newRow = `
-                            <tr
-                            data-bs-toggle="modal"
-                            data-bs-target="#modal-edit-brg"
-                            class="barang-record"
-                            >
-                                <td id="id-barang">${idBarang}</td>
-                                <td id="nama-barang">${namaBarang}</td>
-                                <td id="harga-barang">Rp ${hargaBarangFormated}</td>
-                            </tr>
-                        `
+                                <tr
+                                data-bs-toggle="modal"
+                                data-bs-target="#modal-edit-brg"
+                                class="barang-record"
+                                >
+                                    <td id="id-barang">${idBarang}</td>
+                                    <td id="nama-barang">${namaBarang}</td>
+                                    <td id="harga-barang">Rp ${hargaBarangFormated}</td>
+                                </tr>
+                            `
                     $('#table-barang tbody').append(newRow)
                 }
             })
@@ -303,6 +303,14 @@
                 })
 
                 if (isValid && selectedRow) {
+                    inputs.each(function (i, e) {
+                        $(this).removeClass('is-invalid')
+                    })
+                    $(modalEditDOM).find('.error').remove()
+                    $(modalEditDOM).find('.input-group').each(function (i, e) {
+                        $(this).removeClass('outline-red')
+                    })
+
                     selectedRow.find('#nama-barang').text(namaBarangField)
                     selectedRow.find('#harga-barang').text(`Rp ${hargaBarangField}`)
                     $(modalEditDOM).modal('hide')
@@ -319,13 +327,13 @@
                         const records = $('#table-barang tbody .barang-record')
                         if (records.length <= 0) {
                             $('#table-barang tbody').append(
-                            `
-                                <tr>
-                                    <td class="no-data">No Data . . .</td>
-                                    <td class="no-data"></td>
-                                    <td class="no-data"></td>
-                                </tr>
-                            `
+                                `
+                                    <tr>
+                                        <td class="no-data">No Data . . .</td>
+                                        <td class="no-data"></td>
+                                        <td class="no-data"></td>
+                                    </tr>
+                                `
                             )
                         }
                     }

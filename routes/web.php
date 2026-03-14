@@ -56,6 +56,7 @@ Route::middleware('isAdministrator')->group(function () {
     Route::post('/wilayah/kelurahan', [WilayahController::class, 'getKelurahan'])->name('get-kelurahan');
 
     Route::get('/POS', [HomeController::class, 'POSShow'])->name('show-POS');
+    Route::post('/penjualan', [HomeController::class, 'post-penjualan'])->name('post-penjualan');
         
     });
 

@@ -131,6 +131,11 @@
                     wilayah_answer.prov.id = this.value
                     wilayah_answer.prov.name = $(this).find(`option[value=${this.value}]`).text()
                 }
+                let load_opt = $("<option>", {
+                    text: '-- Loading... --',
+                    value: '0'
+                })
+                kota_select.html(load_opt)
 
                 $.ajax({
                     url: "{{ route('get-kota') }}",
