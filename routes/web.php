@@ -50,13 +50,15 @@ Route::middleware('isAdministrator')->group(function () {
 
     Route::get('/kota', [HomeController::class, 'daftarKotaShow'])->name('show-kota');
 
-    Route::get('/wilayah', [HomeController::class, 'wilayahShow'])->name('show-wilayah');
+    Route::get('/wilayah-ajax', [HomeController::class, 'wilayahShow'])->name('show-wilayah');
+    Route::get('/wilayah-axios', [HomeController::class, 'wilayahShowAxios'])->name('show-wilayah-axios');
     Route::post('/wilayah/provinsi', [WilayahController::class, 'getProvinsi'])->name('get-provinsi');
     Route::post('/wilayah/kota', [WilayahController::class, 'getKota'])->name('get-kota');
     Route::post('/wilayah/kecamatan', [WilayahController::class, 'getKecamatan'])->name('get-kecamatan');
     Route::post('/wilayah/kelurahan', [WilayahController::class, 'getKelurahan'])->name('get-kelurahan');
 
-    Route::get('/POS', [HomeController::class, 'POSShow'])->name('show-POS');
+    Route::get('/POS-ajax', [HomeController::class, 'POSShow'])->name('show-POS');
+    Route::get('/POS-axios', [HomeController::class, 'POSShowAxios'])->name('show-POS-axios');
     Route::post('/penjualan', [PenjualanController::class, 'storePenjualan'])->name('post-penjualan');
         
     });

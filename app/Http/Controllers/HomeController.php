@@ -124,9 +124,21 @@ class HomeController extends Controller
         );
     }
 
+    public function wilayahShowAxios() {
+        return view(
+            'dashboard.wilayah.view-axios'
+        );
+    }
+
     public function POSShow() {
         return view(
             'dashboard.pos.view'
+        );
+    }
+
+    public function POSShowAxios() {
+        return view(
+            'dashboard.pos.view-axios'
         );
     }
     

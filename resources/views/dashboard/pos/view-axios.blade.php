@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('db-page-title', 'Point of Sales (AJAX)')
+@section('db-page-title', 'Point of Sales (Axios)')
 @section('icon-page')
     <i class="fa-solid fa-cart-shopping"></i>
 @endsection
@@ -11,8 +11,8 @@
 
 @section('content')
     <div class="container mt-1" style="padding-left:0">
-        <a href="{{ route('show-POS-axios') }}" class="btn btn-primary mb-3">
-            Pindah Metode Axios
+        <a href="{{ route('show-POS') }}" class="btn btn-primary mb-3">
+            Pindah Metode AJAX
         </a>
 
         <div class="card shadow mb-4">
@@ -112,6 +112,7 @@
 
 @push('script')
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.full.min.js"
         integrity="sha512-RtZU3AyMVArmHLiW0suEZ9McadTdegwbgtiQl5Qqo9kunkVg1ofwueXD8/8wv3Af8jkME3DDe3yLfR8HSJfT2g=="
@@ -190,18 +191,14 @@
                         $(this).removeClass('outline-red')
                     })
 
-                    $.ajax({
-                        url: "{{ route('get-barang') }}",
-                        method: "POST",
-                        data: {
-                            _token: "{{ csrf_token() }}",
-                            id_barang: id_barang
-                        },
-                        success: function (response) {
-                            // console.log(response)
-                            if (response.code == "200") {
-                                nama_field_add.val(response.data.barang.nama)
-                                harga_field_add.val(response.data.barang.harga)
+                    axios.post("{{ route('get-barang') }}", {
+                        _token: "{{ csrf_token() }}",
+                        id_barang: id_barang
+                    })
+                        .then((response) => {
+                            if (response.data.code == "200") {
+                                nama_field_add.val(response.data.data.barang.nama)
+                                harga_field_add.val(response.data.data.barang.harga)
                                 jumlah_field_add.val(1)
                                 add_barang_btn.attr({
                                     'disabled': false
@@ -221,11 +218,10 @@
                                 })
                             }
                             add_barang_btn.html(`<i class="fa-solid fa-cart-shopping"></i> Tambahkan Barang`)
-                        },
-                        error: function (err) {
+                        })
+                        .catch((err) => {
                             console.log(err)
-                        }
-                    })
+                        })
                 } else {
                     add_barang_btn.html(`<i class="fa-solid fa-cart-shopping"></i> Tambahkan Barang`)
                 }
@@ -294,19 +290,19 @@
                 } else {
                     final_checkout.push(barang_record_json)
                     let newRow = `
-                        <tr
-                                data-bs-toggle="modal"
-                                data-bs-target="#modal-edit-brg"
-                                class="barang-record"
-                                id=${barang_record_json.id_barang}
-                                >
-                                    <td class="id-barang">${barang_record_json.id_barang}</td>
-                                    <td class="nama-barang">${barang_record_json.nama}</td>
-                                    <td class="harga-barang">Rp ${hargaBarangFormated}</td>
-                                    <td class="jumlah-barang">${barang_record_json.jumlah}</td>
-                                    <td class="subtotal-barang">Rp ${Number(barang_record_json.subtotal).toLocaleString('id-ID')}</td>
-                                </tr>
-                            `
+                                <tr
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#modal-edit-brg"
+                                        class="barang-record"
+                                        id=${barang_record_json.id_barang}
+                                        >
+                                            <td class="id-barang">${barang_record_json.id_barang}</td>
+                                            <td class="nama-barang">${barang_record_json.nama}</td>
+                                            <td class="harga-barang">Rp ${hargaBarangFormated}</td>
+                                            <td class="jumlah-barang">${barang_record_json.jumlah}</td>
+                                            <td class="subtotal-barang">Rp ${Number(barang_record_json.subtotal).toLocaleString('id-ID')}</td>
+                                        </tr>
+                                    `
                     $('#table-barang tbody').append(newRow)
                 }
                 countTotal()
@@ -498,14 +494,14 @@
                             if (records.length <= 0) {
                                 $('#table-barang tbody').append(
                                     `
-                                                                                            <tr>
-                                                                                                <td class="no-data">No Data . . .</td>
-                                                                                                <td class="no-data"></td>
-                                                                                                <td class="no-data"></td>
-                                                                                                <td class="no-data"></td>
-                                                                                                <td class="no-data"></td>
-                                                                                            </tr>
-                                                                                        `
+                                                                                                    <tr>
+                                                                                                        <td class="no-data">No Data . . .</td>
+                                                                                                        <td class="no-data"></td>
+                                                                                                        <td class="no-data"></td>
+                                                                                                        <td class="no-data"></td>
+                                                                                                        <td class="no-data"></td>
+                                                                                                    </tr>
+                                                                                                `
                                 )
                             }
                         }
@@ -534,16 +530,13 @@
             })
             $(this).html(`<span class="spinner-border spinner-border-sm me-2"></span> Loading...`)
 
-            $.ajax({
-                url: "{{ route('post-penjualan') }}",
-                method: "POST",
-                data: {
-                    _token: "{{ csrf_token() }}",
-                    total: total_checkout,
-                    barang_checkout: final_checkout
-                },
-                success: function (response) {
-                    if (response.success) {
+            axios.post("{{ route('post-penjualan') }}", {
+                _token: "{{ csrf_token() }}",
+                total: total_checkout,
+                barang_checkout: final_checkout
+            })
+                .then((response) => {
+                    if (response.data.success) {
                         $(form).trigger('reset')
 
                         jumlah_field_add.val('')
@@ -558,14 +551,14 @@
                         $("#table-barang tbody").remove()
                         $("#table-barang").append(
                             `<tbody>
-                                    <tr>
-                                        <td class="no-data">No Data . . .</td>
-                                        <td class="no-data"></td>
-                                        <td class="no-data"></td>
-                                        <td class="no-data"></td>
-                                        <td class="no-data"></td>
-                                    </tr>
-                                </tbody>`
+                                            <tr>
+                                                <td class="no-data">No Data . . .</td>
+                                                <td class="no-data"></td>
+                                                <td class="no-data"></td>
+                                                <td class="no-data"></td>
+                                                <td class="no-data"></td>
+                                            </tr>
+                                        </tbody>`
                         )
 
                         $('#pay-btn').attr({
@@ -584,27 +577,21 @@
                         Swal.fire({
                             icon: "error",
                             title: "Gagal menyimpan penjualan",
-                            text: `${response.message}`
+                            text: `${response.data.message}`
                         })
                     }
-
-                },
-                error: function (err) {
+                })
+                .catch((err) => {
                     $('#pay-btn').attr({
                         'disabled': false
                     })
                     $('#pay-btn').html(`<i class="fa-solid fa-cash-register"></i> Pay`)
                     console.log(`Error: ${JSON.stringify(err)}`)
 
-                    if (err.responseJSON && err.responseJSON.message) {
-                        message = err.responseJSON.message;
-                    } else if (err.responseText) {
-                        try {
-                            const parsed = JSON.parse(err.responseText);
-                            message = parsed.message || err.responseText;
-                        } catch (e) {
-                            message = err.responseText;
-                        }
+                    if (err.response && err.response.data && err.response.data.message) {
+                        message = err.response.data.message;
+                    } else if (err.message) {
+                        message = err.message;
                     }
 
                     Swal.fire({
@@ -612,8 +599,7 @@
                         title: "Gagal menyimpan penjualan",
                         text: `Error: ${message}`
                     })
-                }
-            })
+                })
         })
     </script>
 @endpush

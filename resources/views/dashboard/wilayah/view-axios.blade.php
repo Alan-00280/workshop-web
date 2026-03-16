@@ -12,13 +12,13 @@
 @section('content')
     <div class="container mt-1" style="padding-left:0">
 
-        <a href="{{ route('show-wilayah-axios') }}" class="btn btn-primary mb-3">
-            Pindah Metode Axios
+        <a href="{{ route('show-wilayah') }}" class="btn btn-primary mb-3">
+            Pindah Metode AJAX
         </a>
 
         <div class="card shadow mb-4">
             <div class="card-header bg-primary text-white">
-                <h5 class="mb-0">Pilih Wilayah (AJAX)</h5>
+                <h5 class="mb-0">Pilih Wilayah (Axios)</h5>
             </div>
 
             <div class="card-body">
@@ -73,6 +73,7 @@
 
 @push('script')
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://unpkg.com/slim-select@latest/dist/slimselect.js"></script>
 @endpush
@@ -108,15 +109,12 @@
             let kecamatan_select = $('#select_kecamatan')
             let kelurahan_select = $('#select_kelurahan')
 
-            $.ajax({
-                url: "{{ route('get-provinsi') }}",
-                method: "POST",
-                data: {
-                    _token: "{{ csrf_token() }}"
-                },
-                success: function (response) {
+            axios.post("{{ route('get-provinsi') }}", {
+                _token: "{{ csrf_token() }}"
+            })
+                .then(function (response) {
                     // console.log(response)
-                    let provinsi_list = response.data.provinsi
+                    let provinsi_list = response.data.data.provinsi
                     provinsi_list.forEach((p) => {
                         let opt = $("<option>", {
                             text: p.name,
@@ -124,11 +122,10 @@
                         })
                         opt.appendTo(prov_select)
                     })
-                },
-                error: function (err) {
+                })
+                .catch(function (err) {
                     console.err(err)
-                }
-            })
+                })
 
             prov_select.change(function (e) {
                 if (this.value != '0') {
@@ -141,16 +138,13 @@
                 })
                 if (this.value != '0') kota_select.html(load_opt)
 
-                $.ajax({
-                    url: "{{ route('get-kota') }}",
-                    method: "POST",
-                    data: {
-                        _token: "{{ csrf_token() }}",
-                        id_provinsi: this.value
-                    },
-                    success: function (response) {
+                axios.post("{{ route('get-kota') }}", {
+                    _token: "{{ csrf_token() }}",
+                    id_provinsi: this.value
+                })
+                    .then(function (response) {
                         // console.log(response)
-                        let kota_list = response.data.kota
+                        let kota_list = response.data.data.kota
                         if (kota_list.length > 0) {
                             let def_opt = $("<option>", {
                                 text: '-- Pilih Kota --',
@@ -166,11 +160,10 @@
                             })
                             opt.appendTo(kota_select)
                         })
-                    },
-                    error: function (err) {
+                    })
+                    .catch(function (err) {
                         console.err(err)
-                    }
-                })
+                    })
             })
 
             kota_select.change(function (e) {
@@ -178,6 +171,7 @@
                     wilayah_answer.kota.id = this.value
                     wilayah_answer.kota.name = $(this).find(`option[value=${this.value}]`).text()
                 }
+
                 let load_opt = $("<option>", {
                     text: '-- Loading... --',
                     value: '0'
@@ -192,16 +186,13 @@
                     kecamatan_select.html(def_opt)
                 }
 
-                $.ajax({
-                    url: "{{ route('get-kecamatan') }}",
-                    method: "POST",
-                    data: {
-                        _token: "{{ csrf_token() }}",
-                        id_kota: this.value
-                    },
-                    success: function (response) {
+                axios.post("{{ route('get-kecamatan') }}", {
+                    _token: "{{ csrf_token() }}",
+                    id_kota: this.value
+                })
+                    .then(function (response) {
                         // console.log(response)
-                        let kecamatan_list = response.data.kecamatan
+                        let kecamatan_list = response.data.data.kecamatan
                         if (kecamatan_list.length > 0) {
                             let def_opt = $("<option>", {
                                 text: '-- Pilih Kecamatan --',
@@ -217,11 +208,10 @@
                             })
                             opt.appendTo(kecamatan_select)
                         })
-                    },
-                    error: function (err) {
+                    })
+                    .catch(function (err) {
                         console.err(err)
-                    }
-                })
+                    })
             })
 
             kecamatan_select.change(function (e) {
@@ -243,16 +233,13 @@
                     kelurahan_select.html(def_opt)
                 }
 
-                $.ajax({
-                    url: "{{ route('get-kelurahan') }}",
-                    method: "POST",
-                    data: {
-                        _token: "{{ csrf_token() }}",
-                        id_kecamatan: this.value
-                    },
-                    success: function (response) {
+                axios.post("{{ route('get-kelurahan') }}", {
+                    _token: "{{ csrf_token() }}",
+                    id_kecamatan: this.value
+                })
+                    .then(function (response) {
                         // console.log(response)
-                        let kelurahan_list = response.data.kelurahan
+                        let kelurahan_list = response.data.data.kelurahan
                         if (kelurahan_list.length > 0) {
                             let def_opt = $("<option>", {
                                 text: '-- Pilih Kelurahan --',
@@ -268,14 +255,13 @@
                             })
                             opt.appendTo(kelurahan_select)
                         })
-                    },
-                    error: function (err) {
+                    })
+                    .catch(function (err) {
                         console.err(err)
-                    }
-                })
+                    })
             })
 
-            kelurahan_select.change(function (e) { 
+            kelurahan_select.change(function (e) {
                 if (this.value != '0') {
                     wilayah_answer.kelurahan.id = this.value
                     wilayah_answer.kelurahan.name = $(this).find(`option[value=${this.value}]`).text()
@@ -290,16 +276,16 @@
                     title: "<strong>Your Answer</strong>",
                     icon: "success",
                     html: `
-                                prov: ${wilayah_answer.prov.name || '(not choiced)'} <br>
-                                kota: ${wilayah_answer.kota.name || '(not choiced)'} <br>
-                                kecamatan: ${wilayah_answer.kecamatan.name || '(not choiced)'} <br>
-                                kelurahan: ${wilayah_answer.kelurahan.name || '(not choiced)'} <br>
-                            `,
+                            prov: ${wilayah_answer.prov.name || '(not choiced)'} <br>
+                            kota: ${wilayah_answer.kota.name || '(not choiced)'} <br>
+                            kecamatan: ${wilayah_answer.kecamatan.name || '(not choiced)'} <br>
+                            kelurahan: ${wilayah_answer.kelurahan.name || '(not choiced)'} <br>
+                        `,
                     showCloseButton: true,
                     focusConfirm: false,
                     confirmButtonText: `
-                            <i class="fa fa-thumbs-up"></i> Great!
-                        `,
+                                            <i class="fa fa-thumbs-up"></i> Great!
+                                        `,
                     confirmButtonAriaLabel: "Thumbs up, great!",
                 });
             })
