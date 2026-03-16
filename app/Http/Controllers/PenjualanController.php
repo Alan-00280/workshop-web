@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 
 class PenjualanController extends Controller
 {
-    public function store(Request $request)
+    public function storePenjualan(Request $request)
     {
         $request->validate([
             'total'                        => 'required|numeric',
@@ -17,7 +17,7 @@ class PenjualanController extends Controller
             'barang_checkout.*.id_barang'  => 'required|string|exists:barang,id_barang',
             'barang_checkout.*.jumlah'     => 'required|integer|min:1',
             'barang_checkout.*.subtotal'   => 'required|numeric',
-        ]);
+        ]); 
 
         DB::beginTransaction();
 

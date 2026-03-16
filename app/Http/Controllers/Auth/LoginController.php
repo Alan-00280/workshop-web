@@ -7,9 +7,11 @@ use App\Mail\OtpMail;
 use App\Models\Role;
 // use App\Models\User;
 use App\Models\User;
+use Auth;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Session;
 
 class LoginController extends Controller
 {
@@ -40,20 +42,26 @@ class LoginController extends Controller
      */
 
     public function authenticated(Request $request, $user) {
-        $otp = strval(rand(111111, 999999));
+        // $otp = strval(rand(111111, 999999));
         $user_now = User::where('email', $user->email)->first();
-        $user_now->update([
-            'otp' => $otp
+        // $user_now->update([
+        //     'otp' => $otp
+        // ]);
+
+        // try {
+        //     Mail::to($user->email)->send(new OtpMail($otp));
+        // } catch (\Exception $e) {
+        //     return redirect('/verify-otp')->with('error', 'Something wrong: '.$e->getMessage());
+        // }
+
+        // return redirect('/verify-otp');
+        $userRole = Role::where('id_role', Auth::user()->id_role)->first();
+        Session::put([
+            'user_role' => $userRole->role,
+            'user_id_role' => $userRole->id_role
         ]);
-
-        try {
-            Mail::to($user->email)->send(new OtpMail($otp));
-        } catch (\Exception $e) {
-            return redirect('/verify-otp')->with('error', 'Something wrong: '.$e->getMessage());
+        return redirect(route('dashboard'));
         }
-
-        return redirect('/verify-otp');
-    }
 
     public function __construct()
     {

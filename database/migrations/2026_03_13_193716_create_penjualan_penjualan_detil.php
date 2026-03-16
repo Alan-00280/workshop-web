@@ -18,7 +18,7 @@ return new class extends Migration
             $table->integer('total');
             $table->timestamps();
         });
-        Schema::create('penjualan_detil', function (Blueprint $table) {
+        Schema::create('penjualan_detail', function (Blueprint $table) {
             $table->id('idpenjualan_detail');
             $table->foreignIdFor(Penjualan::class, 'id_penjualan')->constrained();
             $table->string('id_barang', 12);
@@ -34,7 +34,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('penjualan_detil');
+        Schema::dropIfExists('penjualan_detail');
         Schema::dropIfExists('penjualan');
     }
 };

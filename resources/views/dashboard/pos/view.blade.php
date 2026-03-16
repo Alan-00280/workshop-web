@@ -96,7 +96,7 @@
                     <span>Rp <span id="total_checkout">0,00</span></span>
                 </div>
                 <div class="d-flex justify-content-end">
-                    <button class="btn btn-success">
+                    <button id="pay-btn" class="btn btn-success">
                         <i class="fa-solid fa-cash-register"></i>
                         Pay
                     </button>
@@ -220,7 +220,7 @@
                             add_barang_btn.html(`<i class="fa-solid fa-cart-shopping"></i> Tambahkan Barang`)
                         },
                         error: function (err) {
-                            console.err(err)
+                            console.log(err)
                         }
                     })
                 } else {
@@ -282,7 +282,7 @@
                         }
                         return brg
                     })
-                    // console.log(final_checkout)
+                    // 
 
                     const record = $(`#table-barang tbody tr#${barang_record_json.id_barang}`)
                     record.find('.jumlah-barang').text(barang_record_json.jumlah)
@@ -291,23 +291,23 @@
                 } else {
                     final_checkout.push(barang_record_json)
                     let newRow = `
-                                        <tr
-                                                data-bs-toggle="modal"
-                                                data-bs-target="#modal-edit-brg"
-                                                class="barang-record"
-                                                id=${barang_record_json.id_barang}
-                                                >
-                                                    <td class="id-barang">${barang_record_json.id_barang}</td>
-                                                    <td class="nama-barang">${barang_record_json.nama}</td>
-                                                    <td class="harga-barang">Rp ${hargaBarangFormated}</td>
-                                                    <td class="jumlah-barang">${barang_record_json.jumlah}</td>
-                                                    <td class="subtotal-barang">Rp ${Number(barang_record_json.subtotal).toLocaleString('id-ID')}</td>
-                                                </tr>
-                                            `
+                    <tr
+                            data-bs-toggle="modal"
+                            data-bs-target="#modal-edit-brg"
+                            class="barang-record"
+                            id=${barang_record_json.id_barang}
+                            >
+                                <td class="id-barang">${barang_record_json.id_barang}</td>
+                                <td class="nama-barang">${barang_record_json.nama}</td>
+                                <td class="harga-barang">Rp ${hargaBarangFormated}</td>
+                                <td class="jumlah-barang">${barang_record_json.jumlah}</td>
+                                <td class="subtotal-barang">Rp ${Number(barang_record_json.subtotal).toLocaleString('id-ID')}</td>
+                            </tr>
+                        `
                     $('#table-barang tbody').append(newRow)
                 }
                 countTotal()
-                console.log(final_checkout)
+
             })
         });
 
@@ -408,7 +408,7 @@
                 $(namaBarangField).val(namaBarang)
                 $(hargaBarangField).val(hargaBarang)
                 $(jumlahBarangField).val(jumlahBarang)
-                console.log(final_checkout)
+
             })
 
             $('#submit-btn-edit').click(function (e) {
@@ -465,7 +465,7 @@
                     selectedRow.find('.subtotal-barang').text(`Rp ${Number(new_subtotal).toLocaleString('id-ID')}`)
                     $(modalEditDOM).modal('hide')
                 }
-                console.log(final_checkout)
+
             })
             $('#delete-btn').click(function (e) {
                 e.preventDefault()
@@ -485,7 +485,7 @@
                         if (selectedRow) {
                             final_checkout = final_checkout.filter((barang) => barang.id_barang !== idBarangField)
                             countTotal()
-                            console.log(final_checkout)
+
 
                             $(selectedRow).remove()
                             $(modalEditDOM).modal('hide')
@@ -495,14 +495,14 @@
                             if (records.length <= 0) {
                                 $('#table-barang tbody').append(
                                     `
-                                                    <tr>
-                                                        <td class="no-data">No Data . . .</td>
-                                                        <td class="no-data"></td>
-                                                        <td class="no-data"></td>
-                                                        <td class="no-data"></td>
-                                                        <td class="no-data"></td>
-                                                    </tr>
-                                                `
+                                                                                        <tr>
+                                                                                            <td class="no-data">No Data . . .</td>
+                                                                                            <td class="no-data"></td>
+                                                                                            <td class="no-data"></td>
+                                                                                            <td class="no-data"></td>
+                                                                                            <td class="no-data"></td>
+                                                                                        </tr>
+                                                                                    `
                                 )
                             }
                         }
@@ -513,10 +513,106 @@
     </script>
 @endpush
 
+{{-- Handle Submit Payment --}}
 @push('script')
-<script>
-        
-</script>
+    <script>
+        $('#pay-btn').click(function (e) {
+
+            if (final_checkout.length == 0) {
+                return Swal.fire({
+                    icon: 'error',
+                    title: 'Error!',
+                    text: 'data penjualan kosong'
+                })
+            }
+
+            $(this).attr({
+                'disabled': true
+            })
+            $(this).html(`<span class="spinner-border spinner-border-sm me-2"></span> Loading...`)
+
+            $.ajax({
+                url: "{{ route('post-penjualan') }}",
+                method: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    total: total_checkout,
+                    barang_checkout: final_checkout
+                },
+                success: function (response) {
+                    if (response.success) {
+                        $(form).trigger('reset')
+
+                        jumlah_field_add.val('')
+                        id_barang_field.val('')
+                        nama_field_add.val('')
+                        harga_field_add.val('')
+
+                        total_checkout = 0
+                        final_checkout = []
+                        countTotal()
+
+                        $("#table-barang tbody").remove()
+                        $("#table-barang").append(
+                            `<tbody>
+                                <tr>
+                                    <td class="no-data">No Data . . .</td>
+                                    <td class="no-data"></td>
+                                    <td class="no-data"></td>
+                                    <td class="no-data"></td>
+                                    <td class="no-data"></td>
+                                </tr>
+                            </tbody>`
+                        )
+
+                        $('#pay-btn').attr({
+                            'disabled': false
+                        })
+                        $('#pay-btn').html(`<i class="fa-solid fa-cash-register"></i> Pay`)
+                        Swal.fire({
+                            icon: "success",
+                            text: "Sukses menyimpan penjualan!"
+                        })
+                    } else {
+                        $('#pay-btn').attr({
+                            'disabled': false
+                        })
+                        $('#pay-btn').html(`<i class="fa-solid fa-cash-register"></i> Pay`)
+                        Swal.fire({
+                            icon: "error",
+                            title: "Gagal menyimpan penjualan",
+                            text: `${response.message}`
+                        })
+                    }
+
+                },
+                error: function (err) {
+                    $('#pay-btn').attr({
+                        'disabled': false
+                    })
+                    $('#pay-btn').html(`<i class="fa-solid fa-cash-register"></i> Pay`)
+                    console.log(`Error: ${JSON.stringify(err)}`)
+
+                    if (err.responseJSON && err.responseJSON.message) {
+                        message = err.responseJSON.message;
+                    } else if (err.responseText) {
+                        try {
+                            const parsed = JSON.parse(err.responseText);
+                            message = parsed.message || err.responseText;
+                        } catch (e) {
+                            message = err.responseText;
+                        }
+                    }
+
+                    Swal.fire({
+                        icon: "error",
+                        title: "Gagal menyimpan penjualan",
+                        text: `Error: ${message}`
+                    })
+                }
+            })
+        })
+    </script>
 @endpush
 
 @push('page_style')
@@ -536,6 +632,7 @@
             appearance: none;
             border: 1px solid #ebedf2;
         }
+
         .barang-record:hover {
             cursor: pointer;
 
@@ -543,6 +640,5 @@
                 background-color: #ededed;
             }
         }
-
     </style>
 @endpush

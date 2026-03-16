@@ -5,6 +5,7 @@ use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OtpController;
+use App\Http\Controllers\PenjualanController;
 use App\Http\Controllers\WilayahController;
 use Illuminate\Support\Facades\Route;
 
@@ -56,7 +57,7 @@ Route::middleware('isAdministrator')->group(function () {
     Route::post('/wilayah/kelurahan', [WilayahController::class, 'getKelurahan'])->name('get-kelurahan');
 
     Route::get('/POS', [HomeController::class, 'POSShow'])->name('show-POS');
-    Route::post('/penjualan', [HomeController::class, 'post-penjualan'])->name('post-penjualan');
+    Route::post('/penjualan', [PenjualanController::class, 'storePenjualan'])->name('post-penjualan');
         
     });
 

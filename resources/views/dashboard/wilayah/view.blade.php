@@ -135,7 +135,7 @@
                     text: '-- Loading... --',
                     value: '0'
                 })
-                kota_select.html(load_opt)
+                if (this.value != '0') kota_select.html(load_opt)
 
                 $.ajax({
                     url: "{{ route('get-kota') }}",
@@ -174,6 +174,11 @@
                     wilayah_answer.kota.id = this.value
                     wilayah_answer.kota.name = $(this).find(`option[value=${this.value}]`).text()
                 }
+                let load_opt = $("<option>", {
+                    text: '-- Loading... --',
+                    value: '0'
+                })
+                if (this.value != '0') kecamatan_select.html(load_opt)
 
                 if (this.value == '0') {
                     let def_opt = $("<option>", {
@@ -220,6 +225,11 @@
                     wilayah_answer.kecamatan.id = this.value
                     wilayah_answer.kecamatan.name = $(this).find(`option[value=${this.value}]`).text()
                 }
+                let load_opt = $("<option>", {
+                    text: '-- Loading... --',
+                    value: '0'
+                })
+                if (this.value != '0') kelurahan_select.html(load_opt)
 
                 if (this.value == '0') {
                     let def_opt = $("<option>", {
@@ -282,7 +292,6 @@
                                 kelurahan: ${wilayah_answer.kelurahan.name || '(not choiced)'} <br>
                             `,
                     showCloseButton: true,
-                    showCancelButton: true,
                     focusConfirm: false,
                     confirmButtonText: `
                             <i class="fa fa-thumbs-up"></i> Great!
