@@ -60,8 +60,13 @@ class LoginController extends Controller
             'user_role' => $userRole->role,
             'user_id_role' => $userRole->id_role
         ]);
-        return redirect(route('dashboard'));
+
+        if ($userRole->id_role == 1) {
+            return redirect(route('dashboard'));
+        } elseif ($userRole->id_role == 3) {
+            return redirect(route('dashboard'));
         }
+    }
 
     public function __construct()
     {

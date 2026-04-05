@@ -24,7 +24,7 @@
   <link rel="shortcut icon" href={{ asset("/assets/images/favicon.png") }} />
 
   @vite([])
-  <script src="https://kit.fontawesome.com/f714303560.js" crossorigin="anonymous"></script>\
+  <script src="https://kit.fontawesome.com/f714303560.js" crossorigin="anonymous"></script>
 
 </head>
 
@@ -38,7 +38,12 @@
     <!-- partial -->
     <div class="container-fluid page-body-wrapper">
       <!-- partial:partials/_sidebar.html -->
-      <x-sidebar />
+      
+      @if(session('user_id_role') == 1)
+        <x-sidebar />
+      @elseif(session('user_id_role') == 3)
+        <x-sidebar-vendor />
+      @endif
 
       <!-- partial -->
       <div class="main-panel">

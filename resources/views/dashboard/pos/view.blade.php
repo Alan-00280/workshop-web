@@ -20,7 +20,7 @@
                 <h5 class="mb-0">Tambah Barang</h5>
             </div>
 
-            <div class="card-body">
+            <div class="card-body" id="input-barang">
                 <form id="add-barang-form" action="" method="">
                     {{-- Id --}}
                     <div class="mb-3 d-flex align-items-center gap-3">
@@ -60,7 +60,7 @@
                         class="form-control" placeholder="Masukkan Jumlah Barang" required>
                 </div>
                 <div class="d-flex justify-content-end">
-                    <button id="submit-btn-add" type="submit" class="btn btn-success" disabled="true">
+                    <button id="btn-add-barang" type="submit" class="btn btn-success" disabled="true">
                         <i class="fa-solid fa-cart-shopping"></i>
                         Tambahkan Barang
                     </button>
@@ -125,9 +125,20 @@
         const nama_field_add = $('#nama_barang')
         const harga_field_add = $('#harga_barang')
         const jumlah_field_add = $('#jumlah_barang')
-        const add_barang_btn = $('#submit-btn-add')
+        const add_barang_btn = $('#btn-add-barang')
         const total_checkout_dom = $('#total_checkout')
 
+        /*  [
+                {
+                    id_barang:
+                    nama:
+                    harga:
+                    jumlah:
+                    subtotal:
+                },
+                ...
+            ]
+        */
         let final_checkout = []
         let total_checkout = 0
 
@@ -136,100 +147,89 @@
             total_checkout_dom.text(Number(total_checkout).toLocaleString('id-ID'))
         }
 
-        $(document).ready(function () {
-            /*  [
-                    {
-                        id_barang:
-                        nama:
-                        harga:
-                        jumlah:
-                        subtotal:
-                    },
-                    ...
-                ]
-            */
+        function searchBarang(e, form) {
+            e.preventDefault()
+            const id_barang = $(form).find('#id_barang').val()
+            add_barang_btn.attr({
+                'disabled': 'true'
+            })
+            add_barang_btn.text('Loading . . .')
 
-            function searchBarang(e, form) {
-                e.preventDefault()
-                const id_barang = $(form).find('#id_barang').val()
-                add_barang_btn.attr({
-                    'disabled': 'true'
-                })
-                add_barang_btn.text('Loading . . .')
+            let isValid = true
+            const inputs = $(form).find("input")
+            inputs.each(function () {
+                if (this.validity.valueMissing) {
+                    isValid = false
+                    this.classList.add('is-invalid')
+                    const requiredErrSPAN = $('<span>', {
+                        class: "error",
+                        text: "Required"
+                    })
 
-                let isValid = true
-                const inputs = $(form).find("input")
-                inputs.each(function () {
-                    if (this.validity.valueMissing) {
-                        isValid = false
-                        this.classList.add('is-invalid')
-                        const requiredErrSPAN = $('<span>', {
-                            class: "error",
-                            text: "Required"
-                        })
-
-                        if ($(this).parent().hasClass("input-group")) {
-                            $(this).parent().addClass("outline-red")
-                            if ($(this).parent().next(".error").length === 0) {
-                                $(this).parent().after(requiredErrSPAN)
-                            }
-                        } else {
-                            if (!$(this).next().hasClass("error")) {
-                                $(this).after(requiredErrSPAN)
-                            }
+                    if ($(this).parent().hasClass("input-group")) {
+                        $(this).parent().addClass("outline-red")
+                        if ($(this).parent().next(".error").length === 0) {
+                            $(this).parent().after(requiredErrSPAN)
+                        }
+                    } else {
+                        if (!$(this).next().hasClass("error")) {
+                            $(this).after(requiredErrSPAN)
                         }
                     }
+                }
+            })
+
+            if (isValid) {
+                inputs.each(function (i, e) {
+                    $(this).removeClass('is-invalid')
+                })
+                $(form).find('.error').remove()
+                $(form).find('.input-group').each(function (i, e) {
+                    $(this).removeClass('outline-red')
                 })
 
-                if (isValid) {
-                    inputs.each(function (i, e) {
-                        $(this).removeClass('is-invalid')
-                    })
-                    $(form).find('.error').remove()
-                    $(form).find('.input-group').each(function (i, e) {
-                        $(this).removeClass('outline-red')
-                    })
-
-                    $.ajax({
-                        url: "{{ route('get-barang') }}",
-                        method: "POST",
-                        data: {
-                            _token: "{{ csrf_token() }}",
-                            id_barang: id_barang
-                        },
-                        success: function (response) {
-                            // console.log(response)
-                            if (response.code == "200") {
-                                nama_field_add.val(response.data.barang.nama)
-                                harga_field_add.val(response.data.barang.harga)
-                                jumlah_field_add.val(1)
-                                add_barang_btn.attr({
-                                    'disabled': false
-                                })
-                                countTotal()
-                            } else {
-                                Swal.fire({
-                                    icon: "error",
-                                    title: "Barang Not Found",
-                                    text: `Barang with id ${id_barang} not exist`,
-                                });
-                                nama_field_add.val('')
-                                harga_field_add.val('')
-                                jumlah_field_add.val('')
-                                add_barang_btn.attr({
-                                    'disabled': 'true'
-                                })
-                            }
-                            add_barang_btn.html(`<i class="fa-solid fa-cart-shopping"></i> Tambahkan Barang`)
-                        },
-                        error: function (err) {
-                            console.log(err)
+                $.ajax({
+                    url: "{{ route('get-barang') }}",
+                    method: "POST",
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        id_barang: id_barang
+                    },
+                    success: function (response) {
+                        // console.log(response)
+                        if (response.code == "200") {
+                            nama_field_add.val(response.data.barang.nama)
+                            harga_field_add.val(response.data.barang.harga)
+                            jumlah_field_add.val(1)
+                            add_barang_btn.attr({
+                                'disabled': false
+                            })
+                            countTotal()
+                        } else {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Barang Not Found",
+                                text: `Barang with id ${id_barang} not exist`,
+                            });
+                            nama_field_add.val('')
+                            harga_field_add.val('')
+                            jumlah_field_add.val('')
+                            add_barang_btn.attr({
+                                'disabled': 'true'
+                            })
                         }
-                    })
-                } else {
-                    add_barang_btn.html(`<i class="fa-solid fa-cart-shopping"></i> Tambahkan Barang`)
-                }
+                        add_barang_btn.html(`<i class="fa-solid fa-cart-shopping"></i> Tambahkan Barang`)
+                    },
+                    error: function (err) {
+                        console.log(err)
+                    }
+                })
+            } else {
+                add_barang_btn.html(`<i class="fa-solid fa-cart-shopping"></i> Tambahkan Barang`)
             }
+        }
+
+        $(document).ready(function () {
 
             form.submit(function (e) {
                 e.preventDefault()
@@ -251,14 +251,27 @@
                     add_barang_btn.attr({
                         'disabled': false
                     })
+                    $(this).removeClass('is-invalid')
+                    $('#input-barang').find('.error').remove()
+
                 } else {
+                    this.classList.add('is-invalid')
+                    const requiredErrSPAN = $('<span>', {
+                        class: "error",
+                        text: "Jumlah tidak valid!"
+                    })
+
+                    if (!$(this).next().hasClass("error")) {
+                        $(this).after(requiredErrSPAN)
+                    }
+
                     add_barang_btn.attr({
                         'disabled': true
                     })
                 }
             })
 
-            $('#submit-btn-add').click(function (e) {
+            $('#btn-add-barang').click(function (e) {
                 if ($('#table-barang .no-data')) {
                     $('#table-barang .no-data').each(function (i, e) {
                         this.remove()
@@ -294,19 +307,19 @@
                 } else {
                     final_checkout.push(barang_record_json)
                     let newRow = `
-                        <tr
-                                data-bs-toggle="modal"
-                                data-bs-target="#modal-edit-brg"
-                                class="barang-record"
-                                id=${barang_record_json.id_barang}
-                                >
-                                    <td class="id-barang">${barang_record_json.id_barang}</td>
-                                    <td class="nama-barang">${barang_record_json.nama}</td>
-                                    <td class="harga-barang">Rp ${hargaBarangFormated}</td>
-                                    <td class="jumlah-barang">${barang_record_json.jumlah}</td>
-                                    <td class="subtotal-barang">Rp ${Number(barang_record_json.subtotal).toLocaleString('id-ID')}</td>
-                                </tr>
-                            `
+                                <tr
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#modal-edit-brg"
+                                    class="barang-record"
+                                    id=${barang_record_json.id_barang}
+                                    >
+                                        <td class="id-barang">${barang_record_json.id_barang}</td>
+                                        <td class="nama-barang">${barang_record_json.nama}</td>
+                                        <td class="harga-barang">Rp ${hargaBarangFormated}</td>
+                                        <td class="jumlah-barang">${barang_record_json.jumlah}</td>
+                                        <td class="subtotal-barang">Rp ${Number(barang_record_json.subtotal).toLocaleString('id-ID')}</td>
+                                    </tr>
+                                `
                     $('#table-barang tbody').append(newRow)
                 }
                 countTotal()
@@ -448,6 +461,24 @@
                                 $(this).after(requiredErrSPAN)
                             }
                         }
+                    } else if (this.value < 0) {
+                        isValid = false
+                        this.classList.add('is-invalid')
+                        const requiredErrSPAN = $('<span>', {
+                            class: "error",
+                            text: "Jumlah tidak valid!"
+                        })
+
+                        if ($(this).parent().hasClass("input-group")) {
+                            $(this).parent().addClass("outline-red")
+                            if ($(this).parent().next(".error").length === 0) {
+                                $(this).parent().after(requiredErrSPAN)
+                            }
+                        } else {
+                            if (!$(this).next().hasClass("error")) {
+                                $(this).after(requiredErrSPAN)
+                            }
+                        }
                     }
                 })
 
@@ -466,10 +497,12 @@
                     countTotal()
                     selectedRow.find('.jumlah-barang').text(jumlahBarangField)
                     selectedRow.find('.subtotal-barang').text(`Rp ${Number(new_subtotal).toLocaleString('id-ID')}`)
+
                     $(modalEditDOM).modal('hide')
                 }
 
             })
+
             $('#delete-btn').click(function (e) {
                 e.preventDefault()
                 idBarangField = $(modalEditDOM).find('#id_barang_edit').val()
@@ -488,8 +521,7 @@
                         if (selectedRow) {
                             final_checkout = final_checkout.filter((barang) => barang.id_barang !== idBarangField)
                             countTotal()
-
-
+                            
                             $(selectedRow).remove()
                             $(modalEditDOM).modal('hide')
                             Swal.fire("Barang Deleted", "", "info");
@@ -498,19 +530,27 @@
                             if (records.length <= 0) {
                                 $('#table-barang tbody').append(
                                     `
-                                                                                            <tr>
-                                                                                                <td class="no-data">No Data . . .</td>
-                                                                                                <td class="no-data"></td>
-                                                                                                <td class="no-data"></td>
-                                                                                                <td class="no-data"></td>
-                                                                                                <td class="no-data"></td>
-                                                                                            </tr>
-                                                                                        `
+                                                                                                    <tr>
+                                                                                                        <td class="no-data">No Data . . .</td>
+                                                                                                        <td class="no-data"></td>
+                                                                                                        <td class="no-data"></td>
+                                                                                                        <td class="no-data"></td>
+                                                                                                        <td class="no-data"></td>
+                                                                                                    </tr>
+                                                                                                `
                                 )
                             }
                         }
                     }
                 });
+            })
+
+            $('#modal-edit-brg').on('hide.bs.modal', function (e) {
+                const inputs = modalEditDOM.find("input")
+                inputs.each(function () {
+                    $(this).removeClass('is-invalid')
+                })
+                $(modalEditDOM).find('.error').remove()
             })
         })
     </script>
@@ -558,14 +598,14 @@
                         $("#table-barang tbody").remove()
                         $("#table-barang").append(
                             `<tbody>
-                                    <tr>
-                                        <td class="no-data">No Data . . .</td>
-                                        <td class="no-data"></td>
-                                        <td class="no-data"></td>
-                                        <td class="no-data"></td>
-                                        <td class="no-data"></td>
-                                    </tr>
-                                </tbody>`
+                                            <tr>
+                                                <td class="no-data">No Data . . .</td>
+                                                <td class="no-data"></td>
+                                                <td class="no-data"></td>
+                                                <td class="no-data"></td>
+                                                <td class="no-data"></td>
+                                            </tr>
+                                        </tbody>`
                         )
 
                         $('#pay-btn').attr({

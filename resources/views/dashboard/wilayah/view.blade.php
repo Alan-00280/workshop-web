@@ -130,16 +130,26 @@
                 }
             })
 
+            // Level 1
             prov_select.change(function (e) {
                 if (this.value != '0') {
                     wilayah_answer.prov.id = this.value
                     wilayah_answer.prov.name = $(this).find(`option[value=${this.value}]`).text()
                 }
+
                 let load_opt = $("<option>", {
                     text: '-- Loading... --',
                     value: '0'
                 })
                 if (this.value != '0') kota_select.html(load_opt)
+
+                if (this.value == '0') {
+                    let def_opt = $("<option>", {
+                        text: '-- Pilih Provinsi Dahulu --',
+                        value: '0'
+                    })
+                    kota_select.html(def_opt)
+                }
 
                 $.ajax({
                     url: "{{ route('get-kota') }}",
@@ -157,15 +167,15 @@
                                 value: '0'
                             })
                             kota_select.html(def_opt)
-                        }
 
-                        kota_list.forEach((k) => {
-                            let opt = $("<option>", {
-                                text: k.name,
-                                value: k.id
+                            kota_list.forEach((k) => {
+                                let opt = $("<option>", {
+                                    text: k.name,
+                                    value: k.id
+                                })
+                                opt.appendTo(kota_select)
                             })
-                            opt.appendTo(kota_select)
-                        })
+                        }
                     },
                     error: function (err) {
                         console.err(err)
@@ -290,11 +300,11 @@
                     title: "<strong>Your Answer</strong>",
                     icon: "success",
                     html: `
-                                prov: ${wilayah_answer.prov.name || '(not choiced)'} <br>
-                                kota: ${wilayah_answer.kota.name || '(not choiced)'} <br>
-                                kecamatan: ${wilayah_answer.kecamatan.name || '(not choiced)'} <br>
-                                kelurahan: ${wilayah_answer.kelurahan.name || '(not choiced)'} <br>
-                            `,
+                            prov: ${wilayah_answer.prov.name || '(not choiced)'} <br>
+                            kota: ${wilayah_answer.kota.name || '(not choiced)'} <br>
+                            kecamatan: ${wilayah_answer.kecamatan.name || '(not choiced)'} <br>
+                            kelurahan: ${wilayah_answer.kelurahan.name || '(not choiced)'} <br>
+                        `,
                     showCloseButton: true,
                     focusConfirm: false,
                     confirmButtonText: `

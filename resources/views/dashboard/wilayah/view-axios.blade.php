@@ -132,11 +132,20 @@
                     wilayah_answer.prov.id = this.value
                     wilayah_answer.prov.name = $(this).find(`option[value=${this.value}]`).text()
                 }
+                
                 let load_opt = $("<option>", {
                     text: '-- Loading... --',
                     value: '0'
                 })
                 if (this.value != '0') kota_select.html(load_opt)
+
+                if (this.value == '0') {
+                    let def_opt = $("<option>", {
+                        text: '-- Pilih Kota Dahulu --',
+                        value: '0'
+                    })
+                    kecamatan_select.html(def_opt)
+                }
 
                 axios.post("{{ route('get-kota') }}", {
                     _token: "{{ csrf_token() }}",

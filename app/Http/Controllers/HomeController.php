@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Barang;
 use App\Models\Buku;
 use App\Models\Kategori;
+use App\Models\MenuModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class HomeController extends Controller
 {
@@ -18,7 +20,39 @@ class HomeController extends Controller
     public function __construct()
     {
         // $this->middleware('auth');
-    }   
+    }
+
+    public function landingPage() {
+        return view(
+            'landing', [
+                'products' => MenuModel::inRandomOrder()->take(4)->get()
+            ]
+        );
+    }
+
+    public function productsPage() {
+        return view(
+            'marketplace.products', [
+                
+            ]
+        );
+    }
+
+    public function storeShow() {
+        return view(
+            'marketplace.store', [
+
+            ]
+        );
+    }
+
+    public function cartShow() {
+        return view(
+            'guest.cart', [
+
+            ]
+        );
+    }
 
     /**
      * Show the application dashboard.
@@ -27,7 +61,18 @@ class HomeController extends Controller
      */
 
     public function dashboard() {
-        return view('dashboard.index');
+        $user_role_id = Session::get('user_id_role');
+        if ($user_role_id == 1) {
+            return view('dashboard.index', [
+
+            ]);
+        } elseif ($user_role_id == 3) {
+            return view(
+            'vendor.index-dashboard', [
+                
+            ]
+        );
+        }
     }
 
     public function book() {
@@ -140,6 +185,39 @@ class HomeController extends Controller
         return view(
             'dashboard.pos.view-axios'
         );
+    }
+
+    // VENDOR PAGES CONTROLLER
+    public function storeVendorShow() {
+        return view(
+            'vendor.store.view', [
+
+            ]
+        );
+    }
+
+    public function productsVendorShow() {
+        return view('vendor.products.view', [
+            
+        ]);
+    }
+
+    public function productsVendorEdit() {
+        return view('vendor.products.edit', [
+
+        ]);
+    }
+
+    public function productsVendorAdd() {
+        return view('vendor.products.create', [
+
+        ]);
+    }
+
+    public function ordersVendorShow() {
+        return view('vendor.orders.view', [
+            
+        ]);
     }
     
 }

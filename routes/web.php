@@ -9,13 +9,28 @@ use App\Http\Controllers\PenjualanController;
 use App\Http\Controllers\WilayahController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return redirect('/login');
+Route::get('/', [App\Http\Controllers\HomeController::class, 'landingPage'])->name('landing-page');
+Route::get('/products', [App\Http\Controllers\HomeController::class, 'productsPage'])->name('products-page');
+Route::get('/cart', [App\Http\Controllers\HomeController::class, 'cartShow'])->name('cart-show');
+// Route::get('/store/{id}', [App\Http\Controllers\HomeController::class, 'storeShow'])->name('store-show');
+
+Route::middleware('isAnyAdmin')->group(function () {
+    Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'dashboard'])->name('dashboard');
+});
+
+Route::middleware('isVendorAdmin')->group(function () {
+    Route::get('/store', [App\Http\Controllers\HomeController::class, 'storeVendorShow'])->name('store-vendor-show');
+
+    Route::get('/orders', [App\Http\Controllers\HomeController::class, 'ordersVendorShow'])->name('orders-vendor-show');
+
+    Route::get('/products-vendor', [App\Http\Controllers\HomeController::class, 'productsVendorShow'])->name('products-vendor-show');
+    Route::get('/products/edit/{id}', [App\Http\Controllers\HomeController::class, 'productsVendorEdit'])->name('products-vendor-edit');
+    Route::get('/products/add', [App\Http\Controllers\HomeController::class, 'productsVendorAdd'])->name('products-vendor-add');
+
+
 });
 
 Route::middleware('isAdministrator')->group(function () {
-    Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'dashboard'])->name('dashboard');
-
     Route::get('/books', [App\Http\Controllers\HomeController::class, 'book'])->name('book');
     Route::get('/books/add', [App\Http\Controllers\HomeController::class, 'addBook'])->name('add-book');
     Route::get('/books/edit/{id}', [App\Http\Controllers\HomeController::class, 'editBook'])->name('edit-book');
@@ -61,14 +76,15 @@ Route::middleware('isAdministrator')->group(function () {
     Route::get('/POS-axios', [HomeController::class, 'POSShowAxios'])->name('show-POS-axios');
     Route::post('/penjualan', [PenjualanController::class, 'storePenjualan'])->name('post-penjualan');
         
-    });
+});
 
 // Auth Routes
 Auth::routes(['reset' => false]);
 
 Route::get('/logout', function () {
     Auth::logout();
-    return redirect('/login');
+    Session::flush();
+    return redirect('/');
 })->name('logout');
 
 Route::get('/auth/google', [GoogleController::class, 'redirect'])->name('google-login-redirect');
