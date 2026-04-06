@@ -15,6 +15,8 @@ return new class extends Migration
             $table->increments('idkeranjang');
             $table->unsignedInteger('idmenu');
             $table->integer('quantity');
+
+            $table->foreign('idmenu')->references('idmenu')->on('menu')->onDelete('cascade');
         });
     }
 

@@ -42,7 +42,19 @@ class DatabaseSeeder extends Seeder
             ],
             [
                 'name' => 'Dimas Cake and Dessert Admin',
-                'email' => 'vendor@mail.com',
+                'email' => 'dimasCakeAdmin@mail.com',
+                'password' => password_hash('11223344', PASSWORD_DEFAULT),
+                'id_role' => 3
+            ],
+            [
+                'name' => 'Yunny Bakery',
+                'email' => 'yunnyBakeryAdmin@mail.com',
+                'password' => password_hash('11223344', PASSWORD_DEFAULT),
+                'id_role' => 3
+            ],
+            [
+                'name' => 'Donut Ranny',
+                'email' => 'donutRannyAdmin@mail.com',
                 'password' => password_hash('11223344', PASSWORD_DEFAULT),
                 'id_role' => 3
             ],
@@ -99,9 +111,9 @@ class DatabaseSeeder extends Seeder
         }
 
         $vendors = [
-            ['nama_vendor' => 'Yunny Bakery'],
-            ['nama_vendor' => 'Dimas Cake and Dessert'],
-            ['nama_vendor' => 'Donut Ranny'],
+            ['nama_vendor' => 'Yunny Bakery', 'iduser' => '3'],
+            ['nama_vendor' => 'Dimas Cake and Dessert', 'iduser' => '2'],
+            ['nama_vendor' => 'Donut Ranny', 'iduser' => '4'],
         ];
 
         foreach ($vendors as $vendor) {
@@ -114,12 +126,12 @@ class DatabaseSeeder extends Seeder
             ['nama_menu' => 'Roti Gandum', 'harga' => 13000, 'idvendor' => 1, 'path_gambar' => 'assets\images\menu_images\dimas_bakery\shayna-douglas-CQvFD9HrDyY-unsplash.jpg'],
             ['nama_menu' => 'Sourdough Bread', 'harga' => 25000, 'idvendor' => 1, 'path_gambar' => 'assets\images\menu_images\dimas_bakery\will-echols-P_l1bJQpQF0-unsplash.jpg'],
 
-            ['nama_menu' => 'Tart Buah', 'harga' => 20000, 'idvendor' => 1, 'path_gambar' => 'assets\images\menu_images\ranny_donut\american-heritage-chocolate-vdx5hPQhXFk-unsplash.jpg'],
-            ['nama_menu' => 'Lava Cake', 'harga' => 18000, 'idvendor' => 1, 'path_gambar' => 'assets\images\menu_images\ranny_donut\deva-williamson-tW0Ix_Ajg6Y-unsplash.jpg'],
-            ['nama_menu' => 'Pudding Coklat', 'harga' => 12000, 'idvendor' => 1, 'path_gambar' => 'assets\images\menu_images\ranny_donut\kaouther-djouada-hcEDfkiVmMI-unsplash.jpg'],
-            ['nama_menu' => 'Slice Black Forest', 'harga' => 22000, 'idvendor' => 1, 'path_gambar' => 'assets\images\menu_images\ranny_donut\renders-br-aDHbOYF5flE-unsplash.jpg'],
+            ['nama_menu' => 'Tart Buah', 'harga' => 20000, 'idvendor' => 2, 'path_gambar' => 'assets\images\menu_images\ranny_donut\american-heritage-chocolate-vdx5hPQhXFk-unsplash.jpg'],
+            ['nama_menu' => 'Lava Cake', 'harga' => 18000, 'idvendor' => 2, 'path_gambar' => 'assets\images\menu_images\ranny_donut\deva-williamson-tW0Ix_Ajg6Y-unsplash.jpg'],
+            ['nama_menu' => 'Pudding Coklat', 'harga' => 12000, 'idvendor' => 2, 'path_gambar' => 'assets\images\menu_images\ranny_donut\kaouther-djouada-hcEDfkiVmMI-unsplash.jpg'],
+            ['nama_menu' => 'Slice Black Forest', 'harga' => 22000, 'idvendor' => 2, 'path_gambar' => 'assets\images\menu_images\ranny_donut\renders-br-aDHbOYF5flE-unsplash.jpg'],
 
-            ['nama_menu' => 'Donut Glazed', 'harga' => 8000, 'idvendor' => 1, 'path_gambar' => 'assets\images\menu_images\yunny_bakery\katie-rosario-QNyRp21hb5I-unsplash.jpg'],
+            ['nama_menu' => 'Donut Glazed', 'harga' => 8000, 'idvendor' => 3, 'path_gambar' => 'assets\images\menu_images\yunny_bakery\katie-rosario-QNyRp21hb5I-unsplash.jpg'],
         ];
 
         foreach ($menus as $menu) {

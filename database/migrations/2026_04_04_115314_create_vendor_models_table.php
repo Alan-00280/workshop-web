@@ -13,7 +13,10 @@ return new class extends Migration
     {
         Schema::create('vendor', function (Blueprint $table) {
             $table->increments('idvendor');
+            $table->integer('iduser')->unique();
             $table->string('nama_vendor', 255);
+
+            $table->foreign('iduser')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

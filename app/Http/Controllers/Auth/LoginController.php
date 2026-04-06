@@ -7,6 +7,7 @@ use App\Mail\OtpMail;
 use App\Models\Role;
 // use App\Models\User;
 use App\Models\User;
+use App\Models\VendorModel;
 use Auth;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
@@ -60,6 +61,13 @@ class LoginController extends Controller
             'user_role' => $userRole->role,
             'user_id_role' => $userRole->id_role
         ]);
+
+        if ($userRole->id_role == 3) {
+            $vendor = VendorModel::where('iduser', Auth::user()->id)->first();
+            Session::put([
+                'idvendor' => $vendor->idvendor
+            ]);
+        }
 
         if ($userRole->id_role == 1) {
             return redirect(route('dashboard'));

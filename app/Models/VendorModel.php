@@ -15,4 +15,9 @@ class VendorModel extends Model
     {
         return $this->hasMany(MenuModel::class, 'idvendor');
     }
+
+    public function User()
+    {
+        return $this->belongsTo(User::class, 'iduser');
+    }
 }

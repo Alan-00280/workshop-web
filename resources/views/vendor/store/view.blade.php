@@ -1,14 +1,3 @@
-@php
-    // Gunakan Data Dummy untuk satu toko
-    $store = (object) [
-        'idvendor' => 1,
-        'nama_vendor' => 'Aira Bakery',
-        'deskripsi' => 'Menyediakan berbagai macam dessert manis yang dibuat dengan penuh cinta menggunakan bahan premium.',
-        'lokasi' => 'Jl. Manis Buatan No. 99, Jakarta',
-        'status' => 'Buka'
-    ];
-@endphp
-
 @extends('layouts.app')
 
 @section('db-page-title', 'Profil Toko')
@@ -36,19 +25,19 @@
                                 <i class="fa-solid fa-shop"></i>
                             </div>
                             <h4 class="fw-bold mb-1 text-dark">{{ $store->nama_vendor }}</h4>
-                            <span class="badge bg-success px-3 py-2 rounded-pill mt-1">{{ $store->status }}</span>
+                            <span class="badge bg-success px-3 py-2 rounded-pill mt-1">Buka</span>
                         </div>
                         
                         <hr class="text-muted">
 
                         <div class="mb-3">
                             <p class="text-muted mb-1 small fw-bold text-uppercase">Deskripsi Toko</p>
-                            <p class="mb-0 text-dark">{{ $store->deskripsi }}</p>
+                            <p class="mb-0 text-dark">Menyediakan berbagai macam dessert manis yang dibuat dengan penuh cinta menggunakan bahan premium.</p>
                         </div>
                         
                         <div class="mb-3">
                             <p class="text-muted mb-1 small fw-bold text-uppercase">Titik Lokasi</p>
-                            <p class="mb-0 text-dark"><i class="fa-solid fa-location-dot me-2 text-primary"></i>{{ $store->lokasi }}</p>
+                            <p class="mb-0 text-dark"><i class="fa-solid fa-location-dot me-2 text-primary"></i>Jl. Manis Buatan No. 99, Jakarta</p>
                         </div>
                     </div>
                 </div>
@@ -73,12 +62,12 @@
 
                             <div class="mb-4">
                                 <label for="deskripsi" class="form-label fw-bold">Deskripsi Toko</label>
-                                <textarea class="form-control" id="deskripsi" name="deskripsi" rows="3" disabled>{{ $store->deskripsi }}</textarea>
+                                <textarea class="form-control" id="deskripsi" name="deskripsi" rows="3" disabled>Menyediakan berbagai macam dessert manis yang dibuat dengan penuh cinta menggunakan bahan premium.</textarea>
                             </div>
 
                             <div class="mb-4">
                                 <label for="lokasi" class="form-label fw-bold">Lokasi / Alamat</label>
-                                <input type="text" class="form-control" id="lokasi" name="lokasi" value="{{ $store->lokasi }}" disabled>
+                                <input type="text" class="form-control" id="lokasi" name="lokasi" value="Jl. Manis Buatan No. 99, Jakarta" disabled>
                             </div>
 
                             <div class="d-flex justify-content-end gap-2 mt-5 pt-3 border-top">

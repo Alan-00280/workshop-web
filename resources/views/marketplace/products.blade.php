@@ -1,64 +1,4 @@
-{{-- @php
-    // Dummy Data Vendors
-    $dummy_vendors = [
-        (object) ['idvendor' => 1, 'nama_vendor' => 'Aira Bakery'],
-    ];
 
-    // Dummy Data Products
-    $all_products = collect([
-        (object) [
-            'idmenu' => 1,
-            'nama_menu' => 'Strawberry Shortcake',
-            'harga' => 25000,
-            'path_gambar' => 'https://images.unsplash.com/photo-1565958011703-44f9829ba187?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-            'vendor' => $dummy_vendors[0]
-        ],
-        (object) [
-            'idmenu' => 2,
-            'nama_menu' => 'Chocolate Lava',
-            'harga' => 30000,
-            'path_gambar' => 'https://images.unsplash.com/photo-1624353365286-3f8d62daad51?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-            'vendor' => $dummy_vendors[0]
-        ],
-        (object) [
-            'idmenu' => 3,
-            'nama_menu' => 'Matcha Mille Crepes',
-            'harga' => 35000,
-            'path_gambar' => 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-            'vendor' => $dummy_vendors[0]
-        ],
-        (object) [
-            'idmenu' => 4,
-            'nama_menu' => 'Cheese Tart',
-            'harga' => 15000,
-            'path_gambar' => 'https://images.unsplash.com/photo-1601004890684-d8cbf643f5f2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-            'vendor' => $dummy_vendors[0]
-        ],
-        (object) [
-            'idmenu' => 5,
-            'nama_menu' => 'Red Velvet Muffin',
-            'harga' => 20000,
-            'path_gambar' => 'https://images.unsplash.com/photo-1587668178277-295251f900ce?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-            'vendor' => $dummy_vendors[0]
-        ],
-        (object) [
-            'idmenu' => 6,
-            'nama_menu' => 'Blueberry Cheesecake',
-            'harga' => 40000,
-            'path_gambar' => 'https://images.unsplash.com/photo-1533134242443-d4fd215305ad?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-            'vendor' => $dummy_vendors[0]
-        ],
-    ]);
-
-    // Apply random order and take 4 dummy elements 
-    // This is the simulation of: MenuModel::with('vendor')->inRandomOrder()->take(4)->get()
-    // $products = $all_products->shuffle()->take(4);
-    $products = $all_products;
-
-    // Vendor List
-    // This is the simulation of: VendorModel::all()
-    $vendors = collect($dummy_vendors);
-@endphp --}}
 
 @extends('layouts.guest')
 @section('title', 'Our Products - Purpily Dessert')
@@ -76,7 +16,7 @@
     </div>
 
     <!-- Filters & Sorting Options -->
-    {{-- <div class="filter-section mb-5">
+    <div class="filter-section mb-5">
         <form action="" method="GET" class="row g-3 align-items-end">
             <!-- Search by Name -->
             <div class="col-md-3">
@@ -122,7 +62,7 @@
                     onclick="alert('Ini hanya data dummy. Filter belum aktif.')">Terapkan</button>
             </div>
         </form>
-    </div> --}}
+    </div>
 
     <!-- Product Cards Grid (4 columns) -->
     <div class="row g-4 justify-content-center mb-5">

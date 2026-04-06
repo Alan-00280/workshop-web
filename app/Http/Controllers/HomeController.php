@@ -9,6 +9,7 @@ use App\Models\Kategori;
 use App\Models\Keranjang;
 use App\Models\MenuModel;
 use App\Models\PesananModel;
+use App\Models\VendorModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
@@ -38,11 +39,9 @@ class HomeController extends Controller
     public function productsPage()
     {
         $products = MenuModel::with('vendor')->paginate(6);
+        $vendors = VendorModel::all();
         return view(
-            'marketplace.products',
-            [
-                'products' => $products
-            ]
+            'marketplace.products', compact('products', 'vendors')
         );
     }
 
@@ -239,17 +238,21 @@ class HomeController extends Controller
     // VENDOR PAGES CONTROLLER
     public function storeVendorShow()
     {
+        $store = VendorModel::find(Session::get('idvendor'));
         return view(
             'vendor.store.view',
-            [
-
-            ]
+            compact('store')
         );
     }
 
     public function productsVendorShow()
     {
-        $products = MenuModel::with('vendor')->paginate(8);
+        $idvendor = Session::get('idvendor');
+
+        $products = MenuModel::with('vendor')
+            ->where('idvendor', $idvendor)
+            ->paginate(8);
+
         return view('vendor.products.view', [
             'products' => $products
         ]);
@@ -257,7 +260,12 @@ class HomeController extends Controller
 
     public function productsVendorEdit($id)
     {
-        $product = MenuModel::findOrFail($id);
+        $idvendor = Session::get('idvendor');
+
+        $product = MenuModel::where('idmenu', $id)
+            ->where('idvendor', $idvendor)
+            ->firstOrFail();
+
         return view('vendor.products.edit', [
             'product' => $product
         ]);
@@ -272,23 +280,30 @@ class HomeController extends Controller
 
     public function ordersVendorShow()
     {
-        $pesanans = PesananModel::all()->toArray();
-        $menus = MenuModel::all()->keyBy('idmenu');
+        $idvendor = Session::get('idvendor');
+
+        $menus = MenuModel::where('idvendor', $idvendor)->get()->keyBy('idmenu');
+        $menuIds = $menus->keys()->toArray();
+
+        $detailPesanans = DetailPesananModel::whereIn('idmenu', $menuIds)->get();
+
+        $pesananIds = $detailPesanans->pluck('idpesanan')->unique();
+        $pesanans = PesananModel::whereIn('idpesanan', $pesananIds)->get()->toArray();
 
         foreach ($pesanans as &$pesanan) {
             $metodeId = $pesanan['metode_bayar'];
             $pesanan['metode_bayar'] = PesananModel::METODE_ID[$metodeId] ?? 'unknown';
         }
 
-        $detailPesanans = DetailPesananModel::all();
         $groupedDetails = [];
 
         foreach ($detailPesanans as $detail) {
-            $menu = $menus[$detail['idmenu']] ?? null;
+            $menu = $menus[$detail->idmenu] ?? null;
 
-            $detail['nama_menu'] = $menu ? $menu->nama_menu : 'menu tidak ditemukan';
+            $detailArray = $detail->toArray();
+            $detailArray['nama_menu'] = $menu ? $menu->nama_menu : 'menu tidak ditemukan';
 
-            $groupedDetails[$detail['idpesanan']][] = $detail;
+            $groupedDetails[$detail->idpesanan][] = $detailArray;
         }
         return view('vendor.orders.view', compact('pesanans', 'groupedDetails'));
     }
