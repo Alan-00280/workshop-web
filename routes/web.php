@@ -1,17 +1,28 @@
 <?php
 
 use App\Http\Controllers\BarangController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MarketVendorController;
 use App\Http\Controllers\OtpController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PenjualanController;
 use App\Http\Controllers\WilayahController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'landingPage'])->name('landing-page');
 Route::get('/products', [App\Http\Controllers\HomeController::class, 'productsPage'])->name('products-page');
+
 Route::get('/cart', [App\Http\Controllers\HomeController::class, 'cartShow'])->name('cart-show');
+Route::post('/cart', [CartController::class, 'cartPost'])->name('cart-post');
+Route::put('/cart', [CartController::class, 'cartUpdateByArray'])->name('cart-put');
+
+Route::get('/checkout', [PaymentController::class, 'goCheckOut'])->name('checkout-show');
+Route::post('/checkout/save', [PaymentController::class, 'saveOrder'])->name('checkout-save');
+Route::get('/checkout/sukses/{id}', [PaymentController::class, 'suksesShow'])->name('checkout-sukses');
+
 // Route::get('/store/{id}', [App\Http\Controllers\HomeController::class, 'storeShow'])->name('store-show');
 
 Route::middleware('isAnyAdmin')->group(function () {
@@ -27,7 +38,9 @@ Route::middleware('isVendorAdmin')->group(function () {
     Route::get('/products/edit/{id}', [App\Http\Controllers\HomeController::class, 'productsVendorEdit'])->name('products-vendor-edit');
     Route::get('/products/add', [App\Http\Controllers\HomeController::class, 'productsVendorAdd'])->name('products-vendor-add');
 
-
+    Route::patch('/products/edit/{id}', [MarketVendorController::class, 'productsVendorPatch'])->name('products-vendor-patch');
+    Route::put('/products/add', [MarketVendorController::class, 'productsVendorPut'])->name('products-vendor-put');
+    Route::delete('/products/delete/{id}', [MarketVendorController::class, 'productsVendorDelete'])->name('products-vendor-delete');
 });
 
 Route::middleware('isAdministrator')->group(function () {

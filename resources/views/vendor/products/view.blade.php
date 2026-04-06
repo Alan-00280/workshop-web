@@ -1,4 +1,4 @@
-@php
+{{-- @php
     // Dummy Data Vendor
     $dummy_vendor = (object) ['idvendor' => 1, 'nama_vendor' => 'Aira Bakery'];
 
@@ -61,7 +61,7 @@
             'vendor' => $dummy_vendor
         ],
     ]);
-@endphp
+@endphp --}}
 
 @extends('layouts.app')
 
@@ -120,9 +120,14 @@
                                 </a>
                                 
                                 <!-- Tombol Hapus -->
-                                <a href="" class="btn btn-outline-danger rounded-pill px-3 shadow-sm d-flex justify-content-center align-items-center" onclick="event.preventDefault(); alert('Dummy data tidak dapat dihapus');">
-                                    <i class="fa-solid fa-trash-can"></i>
-                                </a>
+                                <form action="{{ route('products-vendor-delete', ['id' => $product->idmenu]) }}" method="POST" class="m-0 p-0 d-inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <input type="hidden" name="idmenu" value="{{ $product->idmenu }}">
+                                    <button type="button" class="btn btn-outline-danger btn-delete rounded-pill px-3 shadow-sm d-flex justify-content-center align-items-center h-100">
+                                        <i class="fa-solid fa-trash-can"></i>
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -135,7 +140,9 @@
                 </div>
             @endforelse
         </div>
-
+        <div class="d-flex justify-content-end">
+            {{ $products->links() }}
+        </div>
     </div>
 @endsection
 
@@ -150,7 +157,25 @@
 @push('script')
     <script>
         $(document).ready(function () {
-             // Opsional scripts khusus panel
+            $('.btn-delete').on('click', function(e) {
+                e.preventDefault();
+                let form = $(this).closest('form');
+                
+                Swal.fire({
+                    title: 'Apakah Anda yakin?',
+                    text: 'Data produk yang dihapus tidak dapat dikembalikan!',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#dc3545',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Ya, hapus!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
         });
     </script>
 @endpush

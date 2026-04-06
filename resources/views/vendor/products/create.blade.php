@@ -21,8 +21,9 @@
                     </div>
                     
                     <div class="card-body p-4">
-                        <form action="" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('products-vendor-put') }}" method="POST" enctype="multipart/form-data">
                             @csrf
+                            @method('PUT')
                             
                             <!-- Area Preview Foto & Input Path -->
                             <div class="row mb-5 mt-2">
@@ -61,7 +62,7 @@
 
                             <div class="mb-4">
                                 <label for="deskripsi" class="form-label fw-bold">Deskripsi Tambahan</label>
-                                <textarea class="form-control" id="deskripsi" name="deskripsi" rows="4" placeholder="Jelaskan lebih detail mengenai bahan, rasa, dan ukuran produk ini..." disabled></textarea>
+                                <textarea class="form-control" id="deskripsi" name="deskripsi" rows="4" placeholder="Jelaskan lebih detail mengenai bahan, rasa, dan ukuran produk ini..."></textarea>
                             </div>
 
                             <div class="d-flex justify-content-between align-items-center mt-5 pt-3 border-top">
@@ -71,7 +72,7 @@
                                 
                                 <div class="d-flex gap-2">
                                     <button type="reset" class="btn btn-light px-4 border rounded-pill">Reset Formulir</button>
-                                    <button type="submit" class="btn btn-primary px-4 shadow-sm rounded-pill fw-bold" onclick="event.preventDefault(); alert('Ini form dummy. Simulasi: Produk baru berhasil ditambahkan.');">
+                                    <button type="submit" class="btn btn-primary px-4 shadow-sm rounded-pill fw-bold">
                                         <i class="fa-solid fa-paper-plane me-2"></i>Simpan Produk Baru
                                     </button>
                                 </div>

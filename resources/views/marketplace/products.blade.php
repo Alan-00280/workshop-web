@@ -1,4 +1,4 @@
-@php
+{{-- @php
     // Dummy Data Vendors
     $dummy_vendors = [
         (object) ['idvendor' => 1, 'nama_vendor' => 'Aira Bakery'],
@@ -58,7 +58,7 @@
     // Vendor List
     // This is the simulation of: VendorModel::all()
     $vendors = collect($dummy_vendors);
-@endphp
+@endphp --}}
 
 @extends('layouts.guest')
 @section('title', 'Our Products - Purpily Dessert')
@@ -154,14 +154,22 @@
                                 </a> --}}
 
                                 <!-- Tombol Tambah ke Keranjang -->
-                                <button type="button" class="btn btn-primary p-2 rounded-pill shadow-sm fw-bold w-100">Tambah ke
-                                    Keranjang</button>
+                                <form class="w-75 mx-auto" action="{{ route('cart-post') }}" method="post">
+                                    @csrf
+                                    <input type="hidden" name="idmenu" value="{{ $product->idmenu }}">
+                                    <input type="hidden" name="quantity" value="1">
+                                    
+                                    <button type="submit" class="btn btn-primary p-2 rounded-pill shadow-sm fw-bold w-100">Tambah ke Keranjang</button>
+                                </form>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         @endforeach
+        <div class="d-flex w-75 mx-auto justify-content-end">
+            {{ $products->links() }}
+        </div>
     </div>
 
     {{-- <div class="text-center mb-5">

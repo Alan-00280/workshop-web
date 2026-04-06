@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Barang;
 use App\Models\Buku;
 use App\Models\Kategori;
+use App\Models\Keranjang;
 use App\Models\MenuModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -31,9 +32,10 @@ class HomeController extends Controller
     }
 
     public function productsPage() {
+        $products = MenuModel::with('vendor')->paginate(6);
         return view(
             'marketplace.products', [
-                
+                'products' => $products
             ]
         );
     }
@@ -47,9 +49,21 @@ class HomeController extends Controller
     }
 
     public function cartShow() {
+        $cart_items = Keranjang::with('menu')->get();
+
         return view(
             'guest.cart', [
+                'cart_items' => $cart_items
+            ]
+        );
+    }
 
+    public function checkoutShow() {
+        $cart_items = Keranjang::with('menu.vendor')->get();
+
+        return view(
+            'guest.checkout', [
+                'cart_items' => $cart_items
             ]
         );
     }
@@ -197,14 +211,16 @@ class HomeController extends Controller
     }
 
     public function productsVendorShow() {
+        $products = MenuModel::with('vendor')->paginate(8);
         return view('vendor.products.view', [
-            
+            'products' => $products
         ]);
     }
 
-    public function productsVendorEdit() {
+    public function productsVendorEdit($id) {
+        $product = MenuModel::findOrFail($id);
         return view('vendor.products.edit', [
-
+            'product' => $product
         ]);
     }
 
@@ -216,7 +232,7 @@ class HomeController extends Controller
 
     public function ordersVendorShow() {
         return view('vendor.orders.view', [
-            
+
         ]);
     }
     

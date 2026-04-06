@@ -1,4 +1,4 @@
-@php
+{{-- @php
     $pesanans = [
         ['nama' => 'Budi Santoso', 'total' => 41000, 'metode_bayar' => 'cash', 'status_bayar' => 'lunas'],
         ['nama' => 'Siti Rahayu', 'total' => 35000, 'metode_bayar' => 'transfer', 'status_bayar' => 'lunas'],
@@ -54,7 +54,7 @@
     foreach ($detailPesanans as $detail) {
         $groupedDetails[$detail['idpesanan']][] = $detail;
     }
-@endphp
+@endphp --}}
 
 @extends('layouts.app')
 

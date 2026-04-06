@@ -14,7 +14,7 @@ class MenuModel extends Model
     public function Vendor()
     {
         return $this->belongsTo(VendorModel::class, 'idvendor');
-    }
+    } 
 
     public function DetailPesanan()
     {

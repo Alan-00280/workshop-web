@@ -1,4 +1,4 @@
-@php
+{{-- @php
     // Dummy Data Product
     $product = (object) [
         'idmenu' => 1,
@@ -7,7 +7,7 @@
         'path_gambar' => asset('assets/images/menu_images/dimas_bakery/lore-schodts-8BNGxSAQd6M-unsplash.jpg'),
         'deskripsi' => 'Kue bolu super lembut dengan lapisan krim vanilla dan potongan buah strawberry segar di setiap gigitan.',
     ];
-@endphp
+@endphp --}}
 
 @extends('layouts.app')
 
@@ -32,20 +32,22 @@
                     </div>
                     
                     <div class="card-body p-4">
-                        <form action="" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('products-vendor-patch', ['id' => $product->idmenu]) }}" method="POST" enctype="multipart/form-data">
                             @csrf
+                            @method('PATCH')
+                            <input type="hidden" name="idmenu" value="{{ $product->idmenu }}">
                             
                             <!-- Area Preview Foto & Input Path -->
                             <div class="row mb-5 mt-2">
                                 <div class="col-md-4 text-center mb-3 mb-md-0">
                                     <p class="fw-bold mb-2 text-start text-dark">Preview Gambar</p>
                                     <div class="img-preview-wrapper border rounded-4 d-flex align-items-center justify-content-center bg-light overflow-hidden shadow-sm" style="height: 200px; width: 100%;">
-                                        <img id="image_preview" src="{{ $product->path_gambar }}" alt="Preview" class="img-fluid w-100 h-100" style="object-fit: cover;">
+                                        <img id="image_preview" src="{{ asset($product->path_gambar) }}" alt="Preview" class="img-fluid w-100 h-100" style="object-fit: cover;">
                                     </div>
                                 </div>
                                 <div class="col-md-8">
                                     <div class="mb-3 h-100 d-flex flex-column justify-content-center">
-                                        <label for="path_gambar" class="form-label fw-bold">Upload Foto Produk *</label>
+                                        <label for="path_gambar" class="form-label fw-bold">Ubah Foto Produk *</label>
                                         <div class="input-group">
                                             <span class="input-group-text bg-light border-end-0"><i class="fa-solid fa-image text-muted"></i></span>
                                             <input type="file" class="form-control border-start-0" id="path_gambar" name="path_gambar" accept="image/*">
@@ -82,7 +84,7 @@
                                 
                                 <div class="d-flex gap-2">
                                     <button type="reset" class="btn btn-light px-4 border rounded-pill">Reset Formulir</button>
-                                    <button type="submit" class="btn btn-primary px-4 shadow-sm rounded-pill fw-bold" onclick="event.preventDefault(); alert('Ini form dummy. Perubahan data produk tidak akan disimpan ke sistem.');">
+                                    <button type="submit" class="btn btn-primary px-4 shadow-sm rounded-pill fw-bold">
                                         <i class="fa-solid fa-floppy-disk me-2"></i>Update Produk
                                     </button>
                                 </div>

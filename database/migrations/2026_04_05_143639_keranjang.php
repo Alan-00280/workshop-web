@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('keranjang', function (Blueprint $table) {
             $table->increments('idkeranjang');
             $table->unsignedInteger('idmenu');
+            $table->integer('quantity');
         });
     }
 
