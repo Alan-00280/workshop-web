@@ -85,7 +85,7 @@
                     <div class="card-body">
                         <h6 class="mb-1 text-muted">Pesanan Lunas</h6>
                         <h3 class="fw-bold mb-0 text-success">
-                            {{ count(array_filter($pesanans, fn($p) => $p['status_bayar'] === 'lunas')) }}
+                            {{ count(array_filter($pesanans, fn($p) => $p['status_bayar'] === 1)) }}
                         </h3>
                     </div>
                 </div>
@@ -114,21 +114,17 @@
                         @foreach($pesanans as $index => $order)
                             @php
                                 $orderId = $index + 1; // mapping ke idpesanan dummy
-                                $badgeClass = $order['status_bayar'] === 'lunas' ? 'bg-success' : 'bg-warning text-dark';
-                                $statusText = $order['status_bayar'] === 'lunas' ? 'Lunas' : 'Belum Lunas';
+                                $badgeClass = $order['status_bayar'] === 1 ? 'bg-success' : 'bg-warning text-dark';
+                                $statusText = $order['status_bayar'] === 1 ? 'Lunas' : 'Belum Lunas';
                                 $metodeText = strtoupper($order['metode_bayar']);
                             @endphp
                             <tr>
                                 <td class="text-center">{{ $orderId }}</td>
-                                <td class="fw-bold text-secondary">INV-{{ str_pad($orderId, 5, "0", STR_PAD_LEFT) }}</td>
+                                <td class="fw-bold text-secondary">{{ $order['order_id'] }}</td>
                                 <td class="fw-bold text-dark">{{ $order['nama'] }}</td>
                                 <td>Rp {{ number_format($order['total'], 0, ',', '.') }}</td>
                                 <td>
-                                    @if($order['metode_bayar'] == 'cash')
-                                        <i class="fa-solid fa-money-bill-wave text-success me-1"></i> 
-                                    @else
-                                        <i class="fa-solid fa-money-check-dollar text-primary me-1"></i> 
-                                    @endif
+                                    <i class="fa-solid fa-money-check-dollar text-primary me-1"></i>
                                     {{ $metodeText }}
                                 </td>
                                 <td>
@@ -160,7 +156,7 @@
                     
                     <div class="modal-header bg-light border-bottom">
                         <h5 class="modal-title fw-bold" id="modalDetailLabel{{ $orderId }}">
-                            <i class="fa-solid fa-receipt me-2 text-primary"></i>Detail Pesanan <span class="text-primary">INV-{{ str_pad($orderId, 5, "0", STR_PAD_LEFT) }}</span>
+                            <i class="fa-solid fa-receipt me-2 text-primary"></i>Detail Pesanan <span class="text-primary">{{ $order['order_id'] }}</span>
                         </h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
@@ -174,8 +170,8 @@
                             </div>
                             <div class="col-sm-6 text-sm-end mt-3 mt-sm-0">
                                 <p class="text-muted mb-1 small">Status Pembayaran:</p>
-                                <span class="badge {{ $order['status_bayar'] === 'lunas' ? 'bg-success' : 'bg-warning text-dark' }} px-3 rounded-pill">
-                                    {{ $order['status_bayar'] === 'lunas' ? 'LUNAS' : 'BELUM LUNAS' }}
+                                <span class="badge {{ $order['status_bayar'] === 1 ? 'bg-success' : 'bg-warning text-dark' }} px-3 rounded-pill">
+                                    {{ $order['status_bayar'] === 1 ? 'LUNAS' : 'BELUM LUNAS' }}
                                 </span>
                             </div>
                         </div>

@@ -19,6 +19,14 @@ class PesananModel extends Model
         'qris' => 5,
     ];
 
+    public const METODE_ID = [
+        1 => 'credit_card',
+        2 => 'gopay',
+        3 => 'shopeepay',
+        4 => 'bank_transfer',
+        5 => 'qris',
+    ];
+
     public function DetailPesanan()
     {
         return $this->hasMany(DetailPesananModel::class, 'idpesanan');
