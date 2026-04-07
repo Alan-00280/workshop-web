@@ -1,60 +1,4 @@
-{{-- @php
-    $pesanans = [
-        ['nama' => 'Budi Santoso', 'total' => 41000, 'metode_bayar' => 'cash', 'status_bayar' => 'lunas'],
-        ['nama' => 'Siti Rahayu', 'total' => 35000, 'metode_bayar' => 'transfer', 'status_bayar' => 'lunas'],
-        ['nama' => 'Andi Wijaya', 'total' => 58000, 'metode_bayar' => 'cash', 'status_bayar' => 'lunas'],
-        ['nama' => 'Dewi Lestari', 'total' => 26000, 'metode_bayar' => 'transfer', 'status_bayar' => 'belum_lunas'],
-        ['nama' => 'Rizky Pratama', 'total' => 47000, 'metode_bayar' => 'cash', 'status_bayar' => 'lunas'],
-        ['nama' => 'Maya Putri', 'total' => 33000, 'metode_bayar' => 'transfer', 'status_bayar' => 'lunas'],
-        ['nama' => 'Fajar Nugroho', 'total' => 62000, 'metode_bayar' => 'cash', 'status_bayar' => 'belum_lunas'],
-        ['nama' => 'Laila Fitriani', 'total' => 29000, 'metode_bayar' => 'transfer', 'status_bayar' => 'lunas'],
-    ];
 
-    $detailPesanans = [
-        // Pesanan 1 - Budi Santoso (total: 41000)
-        ['idmenu' => 1, 'nama_menu' => 'Strawberry Shortcake', 'idpesanan' => 1, 'jumlah' => 1, 'harga' => 15000, 'subtotal' => 15000, 'catatan' => ''],
-        ['idmenu' => 3, 'nama_menu' => 'Choco Berry Layer', 'idpesanan' => 1, 'jumlah' => 2, 'harga' => 13000, 'subtotal' => 26000, 'catatan' => 'tanpa mentega'],
-
-        // Pesanan 2 - Siti Rahayu (total: 35000)
-        ['idmenu' => 4, 'nama_menu' => 'Cheese Tart', 'idpesanan' => 2, 'jumlah' => 1, 'harga' => 25000, 'subtotal' => 25000, 'catatan' => ''],
-        ['idmenu' => 9, 'nama_menu' => 'Kue Kering', 'idpesanan' => 2, 'jumlah' => 1, 'harga' => 8000, 'subtotal' => 8000, 'catatan' => ''],
-        ['idmenu' => 2, 'nama_menu' => 'Coklat Batang', 'idpesanan' => 2, 'jumlah' => 1, 'harga' => 13000, 'subtotal' => 13000, 'catatan' => ''],
-
-        // Pesanan 3 - Andi Wijaya (total: 58000)
-        ['idmenu' => 5, 'nama_menu' => 'Muffin Coklat', 'idpesanan' => 3, 'jumlah' => 1, 'harga' => 20000, 'subtotal' => 20000, 'catatan' => 'buahnya pisang'],
-        ['idmenu' => 6, 'nama_menu' => 'Roti Isi', 'idpesanan' => 3, 'jumlah' => 1, 'harga' => 18000, 'subtotal' => 18000, 'catatan' => ''],
-        ['idmenu' => 8, 'nama_menu' => 'Classic Tiramisu', 'idpesanan' => 3, 'jumlah' => 1, 'harga' => 22000, 'subtotal' => 22000, 'catatan' => 'extra topping'],
-
-        // Pesanan 4 - Dewi Lestari (total: 26000)
-        ['idmenu' => 2, 'nama_menu' => 'Coklat Batang', 'idpesanan' => 4, 'jumlah' => 2, 'harga' => 13000, 'subtotal' => 26000, 'catatan' => ''],
-
-        // Pesanan 5 - Rizky Pratama (total: 47000)
-        ['idmenu' => 7, 'nama_menu' => 'Matcha Mille Crepes', 'idpesanan' => 5, 'jumlah' => 1, 'harga' => 12000, 'subtotal' => 12000, 'catatan' => ''],
-        ['idmenu' => 4, 'nama_menu' => 'Cheese Tart', 'idpesanan' => 5, 'jumlah' => 1, 'harga' => 25000, 'subtotal' => 25000, 'catatan' => 'well done'],
-        ['idmenu' => 9, 'nama_menu' => 'Kue Kering', 'idpesanan' => 5, 'jumlah' => 1, 'harga' => 8000, 'subtotal' => 8000, 'catatan' => ''],
-        ['idmenu' => 1, 'nama_menu' => 'Strawberry Shortcake', 'idpesanan' => 5, 'jumlah' => 1, 'harga' => 15000, 'subtotal' => 15000, 'catatan' => ''],
-
-        // Pesanan 6 - Maya Putri (total: 33000)
-        ['idmenu' => 6, 'nama_menu' => 'Roti Isi', 'idpesanan' => 6, 'jumlah' => 1, 'harga' => 18000, 'subtotal' => 18000, 'catatan' => 'coklat extra'],
-        ['idmenu' => 9, 'nama_menu' => 'Kue Kering', 'idpesanan' => 6, 'jumlah' => 1, 'harga' => 8000, 'subtotal' => 8000, 'catatan' => ''],
-        ['idmenu' => 3, 'nama_menu' => 'Choco Berry Layer', 'idpesanan' => 6, 'jumlah' => 1, 'harga' => 13000, 'subtotal' => 13000, 'catatan' => ''],
-
-        // Pesanan 7 - Fajar Nugroho (total: 62000)
-        ['idmenu' => 8, 'nama_menu' => 'Classic Tiramisu', 'idpesanan' => 7, 'jumlah' => 2, 'harga' => 22000, 'subtotal' => 44000, 'catatan' => ''],
-        ['idmenu' => 5, 'nama_menu' => 'Muffin Coklat', 'idpesanan' => 7, 'jumlah' => 1, 'harga' => 20000, 'subtotal' => 20000, 'catatan' => 'buah campuran'],
-
-        // Pesanan 8 - Laila Fitriani (total: 29000)
-        ['idmenu' => 7, 'nama_menu' => 'Matcha Mille Crepes', 'idpesanan' => 8, 'jumlah' => 1, 'harga' => 12000, 'subtotal' => 12000, 'catatan' => 'manis'],
-        ['idmenu' => 9, 'nama_menu' => 'Kue Kering', 'idpesanan' => 8, 'jumlah' => 1, 'harga' => 8000, 'subtotal' => 8000, 'catatan' => ''],
-        ['idmenu' => 1, 'nama_menu' => 'Strawberry Shortcake', 'idpesanan' => 8, 'jumlah' => 1, 'harga' => 15000, 'subtotal' => 15000, 'catatan' => ''],
-    ];
-
-    // Fungsi helper lokal untuk mengelompokkan detail
-    $groupedDetails = [];
-    foreach ($detailPesanans as $detail) {
-        $groupedDetails[$detail['idpesanan']][] = $detail;
-    }
-@endphp --}}
 
 @extends('layouts.app')
 
@@ -113,16 +57,18 @@
                     <tbody>
                         @foreach($pesanans as $index => $order)
                             @php
-                                $orderId = $index + 1; // mapping ke idpesanan dummy
+                                $orderId = $order['idpesanan'];
+                                $orderIdText = $order['order_id'];
                                 $badgeClass = $order['status_bayar'] === 1 ? 'bg-success' : 'bg-warning text-dark';
                                 $statusText = $order['status_bayar'] === 1 ? 'Lunas' : 'Belum Lunas';
                                 $metodeText = strtoupper($order['metode_bayar']);
+                                $vendorTotal = $vendorTotals[$orderId] ?? 0;
                             @endphp
                             <tr>
                                 <td class="text-center">{{ $orderId }}</td>
                                 <td class="fw-bold text-secondary">{{ $order['order_id'] }}</td>
                                 <td class="fw-bold text-dark">{{ $order['nama'] }}</td>
-                                <td>Rp {{ number_format($order['total'], 0, ',', '.') }}</td>
+                                <td>Rp {{ number_format($vendorTotal, 0, ',', '.') }}</td>
                                 <td>
                                     <i class="fa-solid fa-money-check-dollar text-primary me-1"></i>
                                     {{ $metodeText }}
@@ -147,8 +93,9 @@
     <!-- Area Modal Detail Pesanan -->
     @foreach($pesanans as $index => $order)
         @php
-            $orderId = $index + 1;
+            $orderId = $order['idpesanan'];
             $details = $groupedDetails[$orderId] ?? [];
+            $vendorTotal = $vendorTotals[$orderId] ?? 0;
         @endphp
         <div class="modal fade" id="modalDetail{{ $orderId }}" tabindex="-1" aria-labelledby="modalDetailLabel{{ $orderId }}" aria-hidden="true">
             <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
@@ -209,7 +156,7 @@
                                 <tfoot>
                                     <tr>
                                         <th colspan="3" class="text-end border-0">Total Keseluruhan :</th>
-                                        <th class="text-end border-0 fs-5 text-primary">Rp {{ number_format($order['total'], 0, ',', '.') }}</th>
+                                        <th class="text-end border-0 fs-5 text-primary">Rp {{ number_format($vendorTotal, 0, ',', '.') }}</th>
                                     </tr>
                                 </tfoot>
                             </table>

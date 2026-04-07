@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Keranjang;
 use Illuminate\Http\Request;
 
 use App\Models\MenuModel;
+use Illuminate\Support\Facades\Session;
 
 class MarketVendorController extends Controller
 {
@@ -48,7 +48,7 @@ class MarketVendorController extends Controller
 
         try {
             $menu = new MenuModel();
-            $menu->idvendor = 1; // Dummy id vendor, sesuaikan dengan sesi auth nantinya
+            $menu->idvendor = Session::get('idvendor');
             $menu->nama_menu = $validated['nama_menu'];
             $menu->harga = $validated['harga'];
             if(isset($validated['deskripsi'])) {

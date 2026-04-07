@@ -1,46 +1,3 @@
-{{-- @php
-// Dummy Data Vendors
-$dummy_vendors = [
-(object) ['idvendor' => 1, 'nama_vendor' => 'Aira Bakery'],
-(object) ['idvendor' => 2, 'nama_vendor' => 'Sweet Corner']
-];
-
-// Dummy Data Cart Items
-// Data ini ditampilkan secara statis (Read-Only) pada Ringkasan Pesanan
-$cart_items = collect([
-(object) [
-'idcart' => 101,
-'idmenu' => 1,
-'nama_menu' => 'Strawberry Shortcake',
-'harga' => 25000,
-'path_gambar' =>
-'https://images.unsplash.com/photo-1565958011703-44f9829ba187?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-'vendor' => $dummy_vendors[0],
-'quantity' => 2
-],
-(object) [
-'idcart' => 102,
-'idmenu' => 5,
-'nama_menu' => 'Red Velvet Muffin',
-'harga' => 20000,
-'path_gambar' =>
-'https://images.unsplash.com/photo-1587668178277-295251f900ce?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-'vendor' => $dummy_vendors[1],
-'quantity' => 1
-],
-(object) [
-'idcart' => 103,
-'idmenu' => 6,
-'nama_menu' => 'Blueberry Cheesecake',
-'harga' => 40000,
-'path_gambar' =>
-'https://images.unsplash.com/photo-1533134242443-d4fd215305ad?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-'vendor' => $dummy_vendors[1],
-'quantity' => 1
-]
-]);
-
-@endphp --}}
 
 @php
     // Kalkulasi Total Harga Dummy
@@ -293,10 +250,20 @@ $cart_items = collect([
                             nomor_meja: nomorMeja,
                             catatan: catatan,
                             payment_method: result.payment_type,
-                            cart_items: {!! json_encode($cart_items) !!}
+                            cart_items: {!! json_encode($cart_items->map(function($item) {
+                                return [
+                                    'idmenu'   => $item->idmenu,
+                                    'quantity' => $item->quantity,
+                                    'harga'    => $item->menu->harga,
+                                    'subtotal' => $item->menu->harga * $item->quantity,
+                                ];
+                            })) !!}
                         }),
                         success: function () {
                             window.location.href = '/checkout/sukses/{{ $orderId }}';
+                        },
+                        error: function () {
+                            window.location.href = '/checkout/gagal';
                         }
                     });
                 },

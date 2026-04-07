@@ -6,6 +6,7 @@ use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MarketVendorController;
+use App\Http\Controllers\MenuController;
 use App\Http\Controllers\OtpController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PenjualanController;
@@ -14,6 +15,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'landingPage'])->name('landing-page');
 Route::get('/products', [App\Http\Controllers\HomeController::class, 'productsPage'])->name('products-page');
+Route::get('/store/{id}', [App\Http\Controllers\HomeController::class, 'storeShow'])->name('store-show');
+
+//? API ?//
+Route::get('/products/filter', [MenuController::class, 'filterMenu'])->name('api-products-filter');
+//? API ?//
 
 Route::get('/cart', [App\Http\Controllers\HomeController::class, 'cartShow'])->name('cart-show');
 Route::post('/cart', [CartController::class, 'cartPost'])->name('cart-post');
@@ -22,8 +28,7 @@ Route::put('/cart', [CartController::class, 'cartUpdateByArray'])->name('cart-pu
 Route::get('/checkout', [PaymentController::class, 'goCheckOut'])->name('checkout-show');
 Route::post('/checkout/save', [PaymentController::class, 'saveOrder'])->name('checkout-save');
 Route::get('/checkout/sukses/{id}', [PaymentController::class, 'suksesShow'])->name('checkout-sukses');
-
-// Route::get('/store/{id}', [App\Http\Controllers\HomeController::class, 'storeShow'])->name('store-show');
+Route::get('/checkout/gagal', [PaymentController::class, 'errorCheckout'])->name('checkout-error');
 
 Route::middleware('isAnyAdmin')->group(function () {
     Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'dashboard'])->name('dashboard');

@@ -17,7 +17,7 @@ class PaymentController extends Controller
         $keranjangs = Keranjang::with('menu')->get();
 
         if ($keranjangs->isEmpty()) {
-            return redirect()->route('cart')->with('error', 'Keranjang kosong');
+            return redirect()->route('cart-show')->with('error', 'Keranjang kosong');
         }
 
         $total = $keranjangs->sum(fn($item) => $item->menu->harga * $item->quantity);
@@ -60,7 +60,9 @@ class PaymentController extends Controller
 
     public function saveOrder(Request $request)
     {
-        $cart_items = $request['cart_items'];
+        $cart_items = is_string($request['cart_items'])
+            ? json_decode($request['cart_items'], true)
+            : $request['cart_items'];
         $orderId = $request['order_id'];
 
         $pesanan = PesananModel::create([
@@ -77,9 +79,9 @@ class PaymentController extends Controller
             DetailPesananModel::create([
                 'idpesanan' => $pesanan->idpesanan,
                 'idmenu' => $item['idmenu'],
-                'harga' => $item['menu']['harga'],
+                'harga' => $item['harga'],
                 'jumlah' => $item['quantity'],
-                'subtotal' => $item['menu']['harga'] * $item['quantity'],
+                'subtotal' => $item['subtotal'],
             ]);
         }
 
@@ -88,9 +90,14 @@ class PaymentController extends Controller
         return response()->json(['message' => 'OK']);
     }
 
-    public function suksesShow($id) {
+    public function errorCheckout()
+    {
+        return view('guest.error-checkout');
+    }
+
+    public function suksesShow($id)
+    {
         $orderId = $id;
-        
         $pesanan = PesananModel::where('order_id', $orderId)->first();
 
         if (!$pesanan) {

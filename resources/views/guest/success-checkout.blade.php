@@ -57,13 +57,13 @@
 @push('script')
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script>
-        let seconds = 5;
+        let seconds = 8;
         const interval = setInterval(function () {
             seconds--;
             $('#countdown').text(seconds);
             if (seconds <= 0) {
                 clearInterval(interval);
-                window.location.href = '/';
+                window.location.href = '/products';
             }
         }, 1000);
     </script>

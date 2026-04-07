@@ -41,17 +41,19 @@ class HomeController extends Controller
         $products = MenuModel::with('vendor')->paginate(6);
         $vendors = VendorModel::all();
         return view(
-            'marketplace.products', compact('products', 'vendors')
+            'marketplace.products',
+            compact('products', 'vendors')
         );
     }
 
-    public function storeShow()
+    public function storeShow($id)
     {
+        $store = VendorModel::find($id);
+        $store_products = MenuModel::with('vendor')->where('idvendor', $store->idvendor)->get();
+
         return view(
             'marketplace.store',
-            [
-
-            ]
+            compact('store', 'store_products')
         );
     }
 
@@ -296,6 +298,7 @@ class HomeController extends Controller
         }
 
         $groupedDetails = [];
+        $vendorTotals = []; // ← tambah ini
 
         foreach ($detailPesanans as $detail) {
             $menu = $menus[$detail->idmenu] ?? null;
@@ -304,7 +307,11 @@ class HomeController extends Controller
             $detailArray['nama_menu'] = $menu ? $menu->nama_menu : 'menu tidak ditemukan';
 
             $groupedDetails[$detail->idpesanan][] = $detailArray;
+
+            // Akumulasi total per pesanan khusus vendor ini
+            $vendorTotals[$detail->idpesanan] = ($vendorTotals[$detail->idpesanan] ?? 0) + $detail->subtotal;
         }
-        return view('vendor.orders.view', compact('pesanans', 'groupedDetails'));
+
+        return view('vendor.orders.view', compact('pesanans', 'groupedDetails', 'vendorTotals'));
     }
 }
