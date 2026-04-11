@@ -8,6 +8,7 @@ use App\Models\PesananModel;
 use Illuminate\Http\Request;
 use Midtrans\Config;
 use Midtrans\Snap;
+use Milon\Barcode\Facades\DNS2DFacade;
 
 class PaymentController extends Controller
 {
@@ -26,7 +27,7 @@ class PaymentController extends Controller
         Config::$serverKey = config('midtrans.sandbox_server_key');
         Config::$isProduction = config('midtrans.is_production');
         Config::$isSanitized = config('midtrans.is_sanitized');
-        Config::$is3ds = config('midtrans.is_3ds'); 
+        Config::$is3ds = config('midtrans.is_3ds');
 
         // Build item_details dari keranjang
         $itemDetails = $keranjangs->map(fn($item) => [
@@ -104,6 +105,8 @@ class PaymentController extends Controller
             return redirect('/')->with('error', 'Data pesanan tidak ditemukan.');
         }
 
-        return view('guest.success-checkout', compact('pesanan'));
+        $qr = DNS2DFacade::getBarcodePNG('http://localhost:8000/checkout/sukses/'.$pesanan->order_id, 'QRCODE', 6, 6);
+
+        return view('guest.success-checkout', compact('pesanan', 'qr'));
     }
 }

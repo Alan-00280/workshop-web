@@ -13,10 +13,20 @@
                 <div class="card-body p-4">
                     <h5 class="fw-bold border-bottom pb-3 mb-3 text-dark">Rincian Pesanan</h5>
 
-                    <div class="d-flex justify-content-between mb-2">
+                    <div class="text-center mt-4">
+                        <div class="fw-semibold text-secondary mb-2">Tunjukkan ke Penjaga QR</div>
+
+                        <img src="data:image/png;base64,{{ $qr }}" alt="QR Code">
+
+                        <div class="small text-muted mt-2">
+                            {{ $pesanan->order_id }}
+                        </div>
+                    </div>
+
+                    {{-- <div class="d-flex justify-content-between mb-2">
                         <span class="text-secondary fw-semibold">Order ID</span>
                         <span class="fw-bold text-dark">{{ $pesanan->order_id }}</span>
-                    </div>
+                    </div> --}}
 
                     <div class="d-flex justify-content-between mb-2">
                         <span class="text-secondary fw-semibold">Nomor Meja</span>
@@ -49,14 +59,14 @@
                 class="btn btn-primary rounded-pill py-3 px-4 shadow-sm fw-bold w-100 fs-5 mt-2">
                 <i class="fa-solid fa-house me-2"></i>Kembali ke Halaman Utama
             </a>
-            <p class="text-muted small mt-3">Otomatis kembali dalam <span id="countdown">5</span> detik...</p>
+            {{-- <p class="text-muted small mt-3">Otomatis kembali dalam <span id="countdown">5</span> detik...</p> --}}
         </div>
     </div>
 @endsection
 
 @push('script')
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script>
+    {{-- <script>
         let seconds = 8;
         const interval = setInterval(function () {
             seconds--;
@@ -66,5 +76,5 @@
                 window.location.href = '/products';
             }
         }, 1000);
-    </script>
+    </script> --}}
 @endpush
