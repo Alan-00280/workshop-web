@@ -83,10 +83,6 @@
                                     </td>
                                 </tr>
                             @endforeach
-                            <form id="print-form" action="{{ route('cetak-labelBarang-preview') }}" method="POST">
-                            @csrf
-
-                            </form>
                         @else
                             <tr>
                                 <td>
@@ -100,6 +96,10 @@
                         @endif
                     </tbody>
                 </table>
+                <form id="print-form" action="{{ route('cetak-labelBarang-preview') }}" method="POST">
+                @csrf
+
+                </form>
                 <div class="d-flex justify-content-end align-items-center mt-3 mb-3">
                     <button 
                      type="submit"
@@ -169,6 +169,7 @@
                 }
 
                 const toBePrinted = this.cloneNode(true)
+                toBePrinted.classList.add('hide')
                 printForm.appendChild(toBePrinted)
                 console.log(printForm)
             });

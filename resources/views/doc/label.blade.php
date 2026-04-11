@@ -62,7 +62,7 @@
         }
 
         .col-gap {
-            width: 3mm;
+            width: 1mm;
         }
 
         .row-gap {
@@ -80,6 +80,7 @@
             overflow: hidden;
             text-align: center;
             /* display: table; */
+            border: dotted #111111 2px;
         }
 
         /* Empty slot — shows yellow backing paper */
@@ -87,40 +88,40 @@
             width: 38mm;
             height: 18mm;
             background: transparent;
-            border: dotted #11111100 2px;
+            border: dotted #111111 2px;
         }
 
         .label-nama {
             font-size: 7.5pt;
             font-weight: bold;
             color: #111111;
-            line-height: 1.2;
+            line-height: 1;
             overflow: auto;
             white-space: pre-wrap;
         }
 
         .label-harga {
-            font-size: 8.5pt;
+            font-size: 6pt;
             font-weight: bold;
             color: #111111;
-            margin-top: 0.8mm;
-            line-height: 1;
+            margin-top: 0mm;
+            line-height: 1.2;
         }
 
         .label-timestamp {
             font-size: 4pt;
             color: #666666;
-            margin-top: 0.6mm;
+            margin-top: 0mm;
             line-height: 1.2;
         }
 
-        .label-id {
+        /* .label-id {
             position: absolute;
             bottom: 1mm;
             right: 1.5mm;
             font-size: 4pt;
             color: #aaaaaa;
-        }
+        } */
 
         .last-gap {
             width: 3mm;
@@ -132,6 +133,22 @@
             margin-top: 3mm;
             /* vertical-align: middle; */
             /* border: red 1px solid; */
+        }
+
+        .label-barcode {
+            text-align: center;
+            margin: 0;
+        }
+
+        .label-barcode img {
+            height: 10pt;
+            margin-top: 4pt;
+        }
+
+        .barcode-text {
+            font-size: 4pt;
+            letter-spacing: 1px;
+            margin-bottom: 3pt;
         }
     </style>
 </head>
@@ -210,10 +227,11 @@
                                         <div class="label-harga">Rp {{ number_format($slot['harga'], 0, ',', '.') }}</div>
                                         <div class="label-timestamp">{{ $slot['timestamp'] }}</div>
                                     </div>
-                                    <div class="label-id">{{ $slot['id_barang'] }}</div>
+                                    <div class="label-barcode">
+                                        <img src="data:image/png;base64,{{ $slot['barcode'] }}" alt="barcode">
+                                        <div class="barcode-text">{{$slot['id_barang']}}</div>
+                                    </div>
                                 </div>
-                            @else
-                                <div class="label-empty"></div>
                             @endif
                         </td>
                         <td class="col-gap">

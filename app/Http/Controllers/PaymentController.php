@@ -26,7 +26,7 @@ class PaymentController extends Controller
         Config::$serverKey = config('midtrans.sandbox_server_key');
         Config::$isProduction = config('midtrans.is_production');
         Config::$isSanitized = config('midtrans.is_sanitized');
-        Config::$is3ds = config('midtrans.is_3ds');
+        Config::$is3ds = config('midtrans.is_3ds'); 
 
         // Build item_details dari keranjang
         $itemDetails = $keranjangs->map(fn($item) => [

@@ -72,7 +72,8 @@
 </head>
 <body class="bg-light">
 
-    <div class="pt-4 px-5 m-0 w-100 bg-white d-flex justify-content-between flex-wrap">
+    {{-- NAV BAR --}}
+    <nav class="px-5 pt-4 w-100 bg-white d-flex align-items-center justify-content-between flex-wrap" style="position: sticky; top: 0; z-index: 1050;">
         <h3 class="fw-bold text-primary mb-4">Purpily Dessert & Bakery 🍰</h3>
         <div>
             <a class="btn btn-outline-primary rounded-5 mx-1" href="{{ route('products-page') }}">
@@ -93,7 +94,7 @@
                 </a>
             @endif
         </div>
-    </div>
+    </nav>
 
     <!-- Hero Section -->
     <section class="hero-section bg-white shadow-sm py-5 mb-5" id="hero">
