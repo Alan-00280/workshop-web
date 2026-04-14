@@ -4,13 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\Barang;
 use App\Models\Buku;
+use App\Models\CustomerModel;
 use App\Models\DetailPesananModel;
 use App\Models\Kategori;
 use App\Models\Keranjang;
 use App\Models\MenuModel;
 use App\Models\PesananModel;
+use App\Models\ProvinsiModel;
 use App\Models\VendorModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
 class HomeController extends Controller
@@ -25,6 +28,10 @@ class HomeController extends Controller
     {
         // $this->middleware('auth');
     }
+
+    // ----------------------------------------
+    // GUEST PAGES
+    // ----------------------------------------
 
     public function landingPage()
     {
@@ -81,6 +88,10 @@ class HomeController extends Controller
         );
     }
 
+    // ----------------------------------------
+    // ADMINISTRATOR PAGES
+    // ----------------------------------------
+
     /**
      * Show the application dashboard.
      *
@@ -102,6 +113,7 @@ class HomeController extends Controller
                 ]
             );
         }
+        return view('home');
     }
 
     public function book()
@@ -237,10 +249,69 @@ class HomeController extends Controller
         );
     }
 
+    public function customerShow() {
+        // $customers = CustomerModel::with('kelurahan.kecamatan.kota.provinsi')->get();
+        $customers = DB::select("SELECT 
+    c.*,
+    json_build_object(
+        'nama', v.name,
+        'kecamatan', json_build_object(
+            'nama', d.name,
+            'kota', json_build_object(
+                'nama', r.name,
+                'provinsi', json_build_object(
+                    'nama', p.name
+                )
+            )
+        )
+    ) AS kelurahan
+FROM customers c
+LEFT JOIN reg_villages v ON v.id = c.kelurahan_id
+LEFT JOIN reg_districts d ON d.id = v.district_id
+LEFT JOIN reg_regencies r ON r.id = d.regency_id
+LEFT JOIN reg_provinces p ON p.id = r.province_id;");
+
+        return view(
+            'dashboard.customer.view',
+            compact('customers')
+        );
+    }
+
+    public function customerCreatev1() {
+        $provinces = ProvinsiModel::all();
+
+        return view(
+            'dashboard.customer.create-vone',
+            compact('provinces')
+        );
+    }
+
+    public function customerCreatev2() {
+        $provinces = ProvinsiModel::all();
+
+        return view(
+            'dashboard.customer.create-vtwo',
+            compact('provinces')
+        );
+    }
+
+    // ---------------------------------
     // VENDOR PAGES CONTROLLER
+    // ---------------------------------
     public function storeVendorShow()
     {
+        $isAdmin = Session::get('user_id_role') === 1;
+
         $store = VendorModel::find(Session::get('idvendor'));
+        $stores = VendorModel::all();
+
+        if ($isAdmin) {
+            return view(
+                'vendor.store.admin-view',
+                compact('stores')
+            );
+        }
+
         return view(
             'vendor.store.view',
             compact('store')
@@ -250,10 +321,20 @@ class HomeController extends Controller
     public function productsVendorShow()
     {
         $idvendor = Session::get('idvendor');
+        $isAdmin = Session::get('user_id_role') === 1;
 
         $products = MenuModel::with('vendor')
             ->where('idvendor', $idvendor)
             ->paginate(8);
+
+        $allProducts = MenuModel::with('vendor')->paginate(8);
+
+        if ($isAdmin) {
+            return view(
+                'vendor.products.admin-view',
+                compact('allProducts')
+            );
+        }
 
         return view('vendor.products.view', [
             'products' => $products
@@ -282,15 +363,23 @@ class HomeController extends Controller
 
     public function ordersVendorShow()
     {
-        $idvendor = Session::get('idvendor');
+        $isAdmin = Session::get('user_id_role') === 1;
 
-        $menus = MenuModel::where('idvendor', $idvendor)->get()->keyBy('idmenu');
-        $menuIds = $menus->keys()->toArray();
-
-        $detailPesanans = DetailPesananModel::whereIn('idmenu', $menuIds)->get();
-
-        $pesananIds = $detailPesanans->pluck('idpesanan')->unique();
-        $pesanans = PesananModel::whereIn('idpesanan', $pesananIds)->get()->toArray();
+        if ($isAdmin) {
+            $menus = MenuModel::with('vendor')->get()->keyBy('idmenu');
+            $detailPesanans = DetailPesananModel::all();
+            
+            $pesananIds = $detailPesanans->pluck('idpesanan')->unique();
+            $pesanans = PesananModel::whereIn('idpesanan', $pesananIds)->get()->toArray();
+        } else {
+            $idvendor = Session::get('idvendor');
+            $menus = MenuModel::where('idvendor', $idvendor)->get()->keyBy('idmenu');
+            $menuIds = $menus->keys()->toArray();
+            
+            $detailPesanans = DetailPesananModel::whereIn('idmenu', $menuIds)->get();
+            $pesananIds = $detailPesanans->pluck('idpesanan')->unique();
+            $pesanans = PesananModel::whereIn('idpesanan', $pesananIds)->get()->toArray();
+        }
 
         foreach ($pesanans as &$pesanan) {
             $metodeId = $pesanan['metode_bayar'];
@@ -305,11 +394,21 @@ class HomeController extends Controller
 
             $detailArray = $detail->toArray();
             $detailArray['nama_menu'] = $menu ? $menu->nama_menu : 'menu tidak ditemukan';
+            if ($isAdmin && $menu && $menu->vendor) {
+                $detailArray['nama_vendor'] = $menu->vendor->nama_vendor;
+            }
 
             $groupedDetails[$detail->idpesanan][] = $detailArray;
 
-            // Akumulasi total per pesanan khusus vendor ini
+            // Akumulasi total per pesanan khusus vendor ini (atau total keseluruhan untuk admin)
             $vendorTotals[$detail->idpesanan] = ($vendorTotals[$detail->idpesanan] ?? 0) + $detail->subtotal;
+        }
+
+        if ($isAdmin) {
+            return view(
+                'vendor.orders.admin-view',
+                compact('pesanans', 'groupedDetails', 'vendorTotals')
+            );
         }
 
         return view('vendor.orders.view', compact('pesanans', 'groupedDetails', 'vendorTotals'));

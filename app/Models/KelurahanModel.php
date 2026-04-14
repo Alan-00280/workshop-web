@@ -12,6 +12,10 @@ class KelurahanModel extends Model
     public $timestamps = false;
 
     public function Kecamatan() {
-        return $this->belongsTo(KotaModel::class, 'district_id');
+        return $this->belongsTo(KecamatanModel::class, 'district_id', 'id');
+    }
+
+    public function Customer() {
+        return $this->hasMany(CustomerModel::class, 'kelurahan_id');
     }
 }

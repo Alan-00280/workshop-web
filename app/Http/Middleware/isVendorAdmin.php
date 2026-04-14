@@ -30,7 +30,7 @@ class isVendorAdmin
         }
         
         // dd(Session::get('user_id_role'));
-        if (Session::get('user_id_role') !== 3) {
+        if (Session::get('user_id_role') !== 3 && Session::get('user_id_role') !== 1) {
             return back()->with('error', 'Akses Ditolak!');
         }
 

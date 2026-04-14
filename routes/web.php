@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BarangController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\GoogleController;
@@ -93,7 +94,15 @@ Route::middleware('isAdministrator')->group(function () {
     Route::get('/POS-ajax', [HomeController::class, 'POSShow'])->name('show-POS');
     Route::get('/POS-axios', [HomeController::class, 'POSShowAxios'])->name('show-POS-axios');
     Route::post('/penjualan', [PenjualanController::class, 'storePenjualan'])->name('post-penjualan');
-        
+
+    Route::get('/customer', [HomeController::class, 'customerShow'])->name('show-customer');
+    Route::get('/customer/add-v1', [HomeController::class, 'customerCreatev1'])->name('create-v1-customer');
+    Route::get('/customer/add-v2', [HomeController::class, 'customerCreatev2'])->name('create-v2-customer');
+    Route::post('/customer/add-v1', [CustomerController::class, 'store'])->name('store-v1-customer');
+    Route::post('/customer/add-v2', [CustomerController::class, 'storeBlob'])->name('store-v2-customer');
+    Route::get('/customer/{id}/foto-blob', [CustomerController::class, 'fotoBlob'])->name('customer-foto-blob');
+    Route::delete('/customer/{id}', [CustomerController::class, 'destroy'])->name('destroy-customer');
+
 });
 
 // Auth Routes

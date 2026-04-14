@@ -64,6 +64,14 @@
             </x-ui.sideNavItemCollapse>
         </x-ui.collapseSideNavItem>
 
+        
+        <x-ui.nav-item-side href="{{ route('show-customer') }}" icon="fa-solid fa-users">Data Customer</x-ui.nav-item-side>
+        
+        {{-- VENDOR NAVIGATIONS --}}
+        <x-ui.nav-item-side icon="fa-solid fa-clipboard-list" href="{{ route('orders-vendor-show') }}">Pesanan</x-ui.nav-item-side>
+        <x-ui.nav-item-side icon="fa-solid fa-egg" href="{{ route('products-vendor-show') }}">Produk</x-ui.nav-item-side>
+        <x-ui.nav-item-side icon="fa-solid fa-store" href="{{ route('store-vendor-show') }}">Stores</x-ui.nav-item-side>
+
         {{-- End Navigations --}}
 
         {{-- <x-ui.collapseSideNavItem icon="" nav_name="Coba" >
