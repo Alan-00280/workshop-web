@@ -24,6 +24,7 @@
   <link rel="shortcut icon" href={{ asset("/assets/images/favicon.png") }} />
 
   @vite([])
+  @yield('vite')
   <script src="https://kit.fontawesome.com/f714303560.js" crossorigin="anonymous"></script>
 
 </head>

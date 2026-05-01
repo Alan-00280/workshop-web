@@ -18,10 +18,17 @@
 
         <!-- Hidden checkbox -->
         <input type="checkbox" id="cetak-label-toggle" class="btn-check">
+        <div>
+        <a href="{{ route('show-scan') }}" class="btn btn-primary">
+            <i class="fa-solid fa-barcode"></i>
+            Scan Label 
+        </a>
+
         <label for="cetak-label-toggle" class="btn btn-primary">
             <i class="fa-solid fa-tag"></i>
             Cetak Label
         </label>
+        </div>
     </div>
     {{-- <x-logger :object="$barangs" /> --}}
     <div class="container mt-1" style="padding-left: 0">

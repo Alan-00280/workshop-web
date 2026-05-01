@@ -207,6 +207,12 @@ class HomeController extends Controller
         );
     }
 
+    public function showScanBarcode() {
+        return view(
+            'dashboard.barang.scan.view'
+        );
+    }
+
     public function showBarangV2Datatable()
     {
         return view(

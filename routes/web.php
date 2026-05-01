@@ -70,6 +70,7 @@ Route::middleware('isAdministrator')->group(function () {
     Route::post('/document/generate/invitation', [DocumentController::class, 'generateInvitation'])->name('generate-invitation');
 
     Route::get('/barang', [HomeController::class, 'showBarang'])->name('show-barang');
+    Route::get('/barang/scan', [HomeController::class, 'showScanBarcode'])->name('show-scan');
     Route::get('/barang/edit/{id}', [HomeController::class, 'editBarang'])->name('edit-barang');
     Route::patch('/barang/edit', [BarangController::class, 'updateBarang'])->name('api-edit-barang');
     Route::get('/barang/add', [HomeController::class, 'addBarang'])->name('add-barang');
