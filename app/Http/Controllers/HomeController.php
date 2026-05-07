@@ -88,6 +88,16 @@ class HomeController extends Controller
         );
     }
 
+    public function ordersShow() 
+    {
+        $orders = PesananModel::all();
+        
+        return view(
+            'guest.orders',
+            compact('orders')
+        );
+    }
+    
     // ----------------------------------------
     // ADMINISTRATOR PAGES
     // ----------------------------------------
@@ -418,5 +428,10 @@ LEFT JOIN reg_provinces p ON p.id = r.province_id;");
         }
 
         return view('vendor.orders.view', compact('pesanans', 'groupedDetails', 'vendorTotals'));
+    }
+
+    public function scanQRShow()
+    {
+        return view('vendor.orders.scan-qr');
     }
 }

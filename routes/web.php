@@ -11,6 +11,7 @@ use App\Http\Controllers\MenuController;
 use App\Http\Controllers\OtpController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PenjualanController;
+use App\Http\Controllers\PesananController;
 use App\Http\Controllers\WilayahController;
 use Illuminate\Support\Facades\Route;
 
@@ -31,6 +32,8 @@ Route::post('/checkout/save', [PaymentController::class, 'saveOrder'])->name('ch
 Route::get('/checkout/sukses/{id}', [PaymentController::class, 'suksesShow'])->name('checkout-sukses');
 Route::get('/checkout/gagal', [PaymentController::class, 'errorCheckout'])->name('checkout-error');
 
+Route::get('/orders/guest', [App\Http\Controllers\HomeController::class, 'ordersShow'])->name('order-show');
+
 Route::middleware('isAnyAdmin')->group(function () {
     Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'dashboard'])->name('dashboard');
 });
@@ -39,6 +42,7 @@ Route::middleware('isVendorAdmin')->group(function () {
     Route::get('/store', [App\Http\Controllers\HomeController::class, 'storeVendorShow'])->name('store-vendor-show');
 
     Route::get('/orders', [App\Http\Controllers\HomeController::class, 'ordersVendorShow'])->name('orders-vendor-show');
+    Route::get('/order/{id}', [PesananController::class, 'getPesananByID'])->name('get-order-by-id');
 
     Route::get('/products-vendor', [App\Http\Controllers\HomeController::class, 'productsVendorShow'])->name('products-vendor-show');
     Route::get('/products/edit/{id}', [App\Http\Controllers\HomeController::class, 'productsVendorEdit'])->name('products-vendor-edit');
@@ -47,6 +51,8 @@ Route::middleware('isVendorAdmin')->group(function () {
     Route::patch('/products/edit/{id}', [MarketVendorController::class, 'productsVendorPatch'])->name('products-vendor-patch');
     Route::put('/products/add', [MarketVendorController::class, 'productsVendorPut'])->name('products-vendor-put');
     Route::delete('/products/delete/{id}', [MarketVendorController::class, 'productsVendorDelete'])->name('products-vendor-delete');
+
+    Route::get('/scan', [App\Http\Controllers\HomeController::class, 'scanQRShow'])->name('scan-qr-show');
 });
 
 Route::middleware('isAdministrator')->group(function () {

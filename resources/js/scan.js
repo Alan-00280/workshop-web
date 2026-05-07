@@ -1,6 +1,5 @@
 import { Html5Qrcode, Html5QrcodeSupportedFormats } from "html5-qrcode";
 
-
 let isProcessing = false;
 const beepSound = new Audio('/assets/sound/beep.mp3');
 
@@ -103,13 +102,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const config = {
         fps: 15, // Ditingkatkan sedikit agar lebih responsif untuk barcode
         // Untuk Barcode (1D), buat kotak scan lebih lebar secara horizontal
-        qrbox: { width: 750, height: 150 },
+        qrbox: { width: 450, height: 80 },
         aspectRatio: 1.777778, // Rasio 16:9 agar tampilan kamera lebih luas
         // Opsional: Batasi hanya format tertentu agar performa lebih cepat
         formatsToSupport: [
-            Html5QrcodeSupportedFormats.EAN_13,
-            Html5QrcodeSupportedFormats.CODE_128,
-            Html5QrcodeSupportedFormats.QR_CODE
+            Html5QrcodeSupportedFormats.CODE_128
         ]
     };
 

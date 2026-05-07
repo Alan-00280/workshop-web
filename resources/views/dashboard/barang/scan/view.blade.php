@@ -16,7 +16,11 @@
 
 @section('content')
     <button class="btn btn-primary mb-5" id="btn-camera-toggle">Open Scanner</button>
-    <div id="reader" width="600px"></div>
+    <div style="width: 100%;">
+        <div style="margin: auto; width: 600px">
+            <div id="reader" width="100px"></div>
+        </div>
+    </div>
 @endsection
 
 {{-- Modal Show Detil Barang --}}

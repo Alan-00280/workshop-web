@@ -105,7 +105,8 @@ class PaymentController extends Controller
             return redirect('/')->with('error', 'Data pesanan tidak ditemukan.');
         }
 
-        $qr = DNS2DFacade::getBarcodePNG('http://localhost:8000/checkout/sukses/'.$pesanan->order_id, 'QRCODE', 6, 6);
+        $qrString = base64_encode($pesanan->order_id);
+        $qr = DNS2DFacade::getBarcodePNG($qrString, 'QRCODE', 6, 6);
 
         return view('guest.success-checkout', compact('pesanan', 'qr'));
     }

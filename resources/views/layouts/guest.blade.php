@@ -80,11 +80,20 @@
                 Stores
                 <i class="fa-solid fa-store"></i>
             </a>
+
             <a class="btn btn-outline-primary {{ request()->is('cart' . '*') ? 'active' : '' }} rounded-5 mx-1"
                 href="{{ route('cart-show') }}">
                 Keranjang
                 <i class="fa-solid fa-cart-shopping"></i>
             </a>
+
+            <a class="btn btn-outline-primary {{ request()->is('orders' . '*') ? 'active' : '' }} rounded-5 mx-1"
+                href="{{ route('order-show') }}">
+                Pesanan
+                <i class="fa-solid fa-clipboard-list"></i>
+            </a>
+
+
             @if(session('user_id_role'))
                 <a class="btn btn-primary rounded-5 mx-1" href="/login">
                     Dashboard

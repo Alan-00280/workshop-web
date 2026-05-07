@@ -40,6 +40,13 @@
             </div>
         </div>
 
+        <div class="d-flex justify-content-end mb-2">
+            <a class="btn btn-primary" href="{{ route('scan-qr-show') }}"> 
+                <i class="fa-solid fa-qrcode"></i> 
+                Scan QR Pesanan
+            </a>
+        </div>
+
         <div class="card shadow-sm border-0 rounded-4 mb-5">
             <div class="card-header bg-white border-bottom py-3 d-flex align-items-center justify-content-between">
                 <h5 class="mb-0 fw-bold text-dark"><i class="fa-solid fa-list-check me-2 text-primary"></i>Tabel Seluruh Riwayat Pesanan</h5>

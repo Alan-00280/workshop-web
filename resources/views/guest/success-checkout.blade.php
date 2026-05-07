@@ -2,6 +2,7 @@
 @section('title', 'Pesanan Berhasil - Purpily Dessert')
 
 @section('content')
+    {{-- <x-logger object="{{ $pesanan }}" /> --}}
     <div class="row pt-2 pb-5 justify-content-center">
         <div class="col-lg-6 col-md-8 text-center bg-white p-5 rounded-4 shadow-sm">
             <i class="fa-solid fa-circle-check text-success" style="font-size: 5rem;"></i>
