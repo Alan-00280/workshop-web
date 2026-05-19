@@ -2,17 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Antrian;
 use App\Models\Barang;
 use App\Models\Buku;
 use App\Models\CustomerModel;
 use App\Models\DetailPesananModel;
 use App\Models\Kategori;
+use App\Models\KategoriLayanan;
 use App\Models\Keranjang;
 use App\Models\MenuModel;
 use App\Models\PesananModel;
 use App\Models\ProvinsiModel;
 use App\Models\VendorModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
@@ -88,16 +91,16 @@ class HomeController extends Controller
         );
     }
 
-    public function ordersShow() 
+    public function ordersShow()
     {
         $orders = PesananModel::all();
-        
+
         return view(
             'guest.orders',
             compact('orders')
         );
     }
-    
+
     // ----------------------------------------
     // ADMINISTRATOR PAGES
     // ----------------------------------------
@@ -112,16 +115,44 @@ class HomeController extends Controller
     {
         $user_role_id = Session::get('user_id_role');
         if ($user_role_id == 1) {
-            return view('dashboard.index', [
-
-            ]);
+            return view('dashboard.index');
         } elseif ($user_role_id == 3) {
-            return view(
-                'vendor.index-dashboard',
-                [
+            return view('vendor.index-dashboard');
+        } elseif ($user_role_id == 6) {
+            // Cache Antrian
+            $antrians = Antrian::with('Layanan.KategoriLayanan')
+                ->orderBy('waktu_daftar')
+                ->get();
+            Cache::put('antrian', $antrians, now()->addHours(24));
 
-                ]
+            // Cache Statistik
+            $stats = Antrian::selectRaw("
+                count(case when status = 'waiting' then 1 end) as waiting,
+                count(case when status = 'called' then 1 end) as called,
+                count(case when status = 'late' then 1 end) as late,
+                count(case when status = 'done' then 1 end) as done
+            ")
+                ->first();
+            Cache::put('antrian-statistic', [
+                'waiting' => $stats->waiting ?? 0,
+                'called' => $stats->called ?? 0,
+                'late' => $stats->late ?? 0,
+                'done' => $stats->done ?? 0,
+            ], now()->addHours(24));
+
+            // Cache CalledAntrian
+            $nextAntrian = Antrian::with('layanan.kategoriLayanan')
+                ->where('status', 'called')
+                ->orderBy('waktu_daftar', 'desc')
+                ->first();
+
+            Cache::put(
+                'antrian-dipanggil',
+                $nextAntrian,
+                now()->addHours(24)
             );
+
+            return view('mpp.dashboard.index', compact('antrians'));
         }
         return view('home');
     }
@@ -217,7 +248,8 @@ class HomeController extends Controller
         );
     }
 
-    public function showScanBarcode() {
+    public function showScanBarcode()
+    {
         return view(
             'dashboard.barang.scan.view'
         );
@@ -265,7 +297,8 @@ class HomeController extends Controller
         );
     }
 
-    public function customerShow() {
+    public function customerShow()
+    {
         // $customers = CustomerModel::with('kelurahan.kecamatan.kota.provinsi')->get();
         $customers = DB::select("SELECT 
     c.*,
@@ -293,7 +326,8 @@ LEFT JOIN reg_provinces p ON p.id = r.province_id;");
         );
     }
 
-    public function customerCreatev1() {
+    public function customerCreatev1()
+    {
         $provinces = ProvinsiModel::all();
 
         return view(
@@ -302,7 +336,8 @@ LEFT JOIN reg_provinces p ON p.id = r.province_id;");
         );
     }
 
-    public function customerCreatev2() {
+    public function customerCreatev2()
+    {
         $provinces = ProvinsiModel::all();
 
         return view(
@@ -384,14 +419,14 @@ LEFT JOIN reg_provinces p ON p.id = r.province_id;");
         if ($isAdmin) {
             $menus = MenuModel::with('vendor')->get()->keyBy('idmenu');
             $detailPesanans = DetailPesananModel::all();
-            
+
             $pesananIds = $detailPesanans->pluck('idpesanan')->unique();
             $pesanans = PesananModel::whereIn('idpesanan', $pesananIds)->get()->toArray();
         } else {
             $idvendor = Session::get('idvendor');
             $menus = MenuModel::where('idvendor', $idvendor)->get()->keyBy('idmenu');
             $menuIds = $menus->keys()->toArray();
-            
+
             $detailPesanans = DetailPesananModel::whereIn('idmenu', $menuIds)->get();
             $pesananIds = $detailPesanans->pluck('idpesanan')->unique();
             $pesanans = PesananModel::whereIn('idpesanan', $pesananIds)->get()->toArray();
@@ -434,4 +469,42 @@ LEFT JOIN reg_provinces p ON p.id = r.province_id;");
     {
         return view('vendor.orders.scan-qr');
     }
+
+    // ---------------------------------
+    // MPP PAGES CONTROLLER
+    // ---------------------------------
+    public function landingMPP()
+    {
+        return view('mpp.landing');
+    }
+
+    public function monitorAntrian()
+    {
+        // Cache Antrian
+        $antrians = Antrian::with('Layanan.KategoriLayanan')
+            ->orderBy('waktu_daftar')
+            ->get();
+        Cache::put('antrian', $antrians, now()->addHours(24));
+
+        // Cache CalledAntrian
+        Cache::put(
+            'antrian-dipanggil',
+            false,
+            now()->addHours(24)
+        );
+
+        return view('mpp.monitor.antrian');
+    }
+
+    public function dashboardMPP()
+    {
+        return view('mpp.dashboard.index');
+    }
+
+    public function showCreateTicket()
+    {
+        $kategori_layanans = KategoriLayanan::all();
+        return view('mpp.guest.create-ticket', compact('kategori_layanans'));
+    }
+
 }

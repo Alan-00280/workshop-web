@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Session;
 use Symfony\Component\HttpFoundation\Response;
 
-class isAnyAdmin
+class isMPPAdmin
 {
     /**
      * Handle an incoming request.
@@ -16,7 +16,7 @@ class isAnyAdmin
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
     public function handle(Request $request, Closure $next): Response
-    {
+    {   
         if (Session::get('user_id_role') == null) {
             Session::forget(['user_role', 'user_id_role']);
             Auth::logout();
@@ -30,13 +30,10 @@ class isAnyAdmin
         }
         
         // dd(Session::get('user_id_role'));
-        if (
-            Session::get('user_id_role') !== 3 &&
-            Session::get('user_id_role') !== 1 && 
-            Session::get('user_id_role') !== 6
-        ) {
+        if (Session::get('user_id_role') !== 1 && Session::get('user_id_role') !== 6) {
             return back()->with('error', 'Akses Ditolak!');
         }
+
 
         return $next($request);
     }

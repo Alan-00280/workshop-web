@@ -4,7 +4,7 @@
     "type": "module",
     "scripts": {
         "build": "vite build",
-        "dev": "concurrently \"vite\" \"php artisan serve\""
+        "dev": "concurrently -c \"#93c5fd,#c4b5fd,#fcd34d\" \"vite\" \"php artisan serve\" \"php artisan queue:work\""
     },
     "devDependencies": {
         "@popperjs/core": "^2.11.6",

@@ -1,11 +1,14 @@
 <?php
 
+use App\Http\Controllers\AntrianController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\KategoriLayananController;
+use App\Http\Controllers\LayananController;
 use App\Http\Controllers\MarketVendorController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\OtpController;
@@ -13,11 +16,34 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PenjualanController;
 use App\Http\Controllers\PesananController;
 use App\Http\Controllers\WilayahController;
+use App\Models\KategoriLayanan;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'landingPage'])->name('landing-page');
 Route::get('/products', [App\Http\Controllers\HomeController::class, 'productsPage'])->name('products-page');
 Route::get('/store/{id}', [App\Http\Controllers\HomeController::class, 'storeShow'])->name('store-show');
+
+// ? MALL PELAYANAN PUBLIK ? //
+Route::get('/mpp', [App\Http\Controllers\HomeController::class, 'landingMPP'])->name('mpp-landing-page');
+Route::get('/monitor-antree', [App\Http\Controllers\HomeController::class, 'monitorAntrian'])->name('mpp-monitor-antree');
+
+Route::get('/ticket-create', [App\Http\Controllers\HomeController::class, 'showCreateTicket'])->name('mpp-show-create-ticket');
+Route::post('/ticket-create', [AntrianController::class, 'store'])->name('mpp-post-ticket-antree');
+Route::post('/ticket/panggil/{id}', [AntrianController::class, 'update'])->name('mpp-post-panggil-antrian'); // JSON
+Route::post('/ticket/done/{id}', [AntrianController::class, 'update'])->name('mpp-post-done-antrian'); // JSON
+Route::post('/ticket/telat/{id}', [AntrianController::class, 'update'])->name('mpp-post-telat-antrian'); // JSON
+Route::post('/ticket/reset-status', [AntrianController::class, 'resetStat'])->name('mpp-post-panggil-antrian'); // JSON
+
+Route::get('/all-kategori', [KategoriLayananController::class, 'all'])->name('all-kategori-layanan'); // JSON
+Route::get('/layanan/kategori/{kategori}', [LayananController::class, 'getByKategoriID'])->name('layanan-by-kategori'); // JSON
+
+Route::get('/mpp/sse/antrian', [AntrianController::class, 'stream_antrian'])->name('sse-antrian'); // EVENT
+
+Route::middleware('isMPPAdmin')
+    ->prefix('mpp-dashboard')
+    ->group(function () {
+        
+});
 
 //? API ?//
 Route::get('/products/filter', [MenuController::class, 'filterMenu'])->name('api-products-filter');

@@ -52,7 +52,7 @@ class DocumentController extends Controller
         foreach ($validated['items'] as &$item) {
             $item['barcode'] = DNS1DFacade::getBarcodePNG($item['id_barang'], 'C128', 2, 40);
         }
-
+    
         $pdf = Pdf::loadView('doc.label', $validated)
             ->setPaper('a4', 'landscape')
             ->setWarnings(false);

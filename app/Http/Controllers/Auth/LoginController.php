@@ -68,12 +68,6 @@ class LoginController extends Controller
                 'idvendor' => $vendor->idvendor
             ]);
         }
-
-        if ($userRole->id_role == 1) {
-            return redirect(route('dashboard'));
-        } elseif ($userRole->id_role == 3) {
-            return redirect(route('dashboard'));
-        }
     }
 
     public function __construct()
