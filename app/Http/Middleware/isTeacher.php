@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Session;
 use Symfony\Component\HttpFoundation\Response;
 
-class isAnyAdmin
+class isTeacher
 {
     /**
      * Handle an incoming request.
@@ -30,13 +30,8 @@ class isAnyAdmin
         }
         
         // dd(Session::get('user_id_role'));
-        if (
-            Session::get('user_id_role') !== 3 &&
-            Session::get('user_id_role') !== 1 && 
-            Session::get('user_id_role') !== 6 &&
-            Session::get('user_id_role') !== 7
-        ) {
-            return redirect('/')->with('error', 'Akses Ditolak!');
+        if (Session::get('user_id_role') !== 7 && Session::get('user_id_role') !== 1) {
+            return back()->with('error', 'Akses Ditolak!');
         }
 
         return $next($request);

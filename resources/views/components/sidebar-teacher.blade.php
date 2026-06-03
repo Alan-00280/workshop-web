@@ -10,7 +10,7 @@
                 </div>
                 <div class="nav-profile-text d-flex flex-column">
                     <span class="font-weight-bold mb-2 text-wrap">{{ auth()->user()->name??"Default Name" }}</span>
-                    <span class="text-secondary text-small">Mall Pelayanan</span>
+                    <span class="text-secondary text-small">Hidup Pendidikan!</span>
                 </div>
                 <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
             </a>
@@ -19,24 +19,19 @@
 
         {{-- Navigations --}}
         <x-ui.nav-item-side href="{{ route('dashboard') }}">Dashboard</x-ui.nav-item-side>
-
-        {{-- <x-ui.nav-item-side href="{{ route('dashboard') }}">Dashboard</x-ui.nav-item-side>
-
+        <x-ui.nav-item-side icon="fa-solid fa-graduation-cap" href="{{ route('show-students') }}">Students</x-ui.nav-item-side>
         <x-ui.collapseSideNavItem
             icon="fa-classic fa-solid fa-book"
-            nav_name="Buku"
+            nav_name="Kelas"
             
         >
-            <x-ui.sideNavItemCollapse href="{{ route('book') }}" >
-                Koleksi Buku
+            <x-ui.sideNavItemCollapse href="{{ route('show-classes') }}" >
+                Daftar Kelas
             </x-ui.sideNavItemCollapse>
-            <x-ui.sideNavItemCollapse href="{{ route('book-categories') }}" >
-                Kategori Buku
+            <x-ui.sideNavItemCollapse href="{{ route('show-class-sessions') }}" >
+                Sesi Kelas
             </x-ui.sideNavItemCollapse>
-        </x-ui.collapseSideNavItem> --}}
-
-
-
+        </x-ui.collapseSideNavItem>
         {{-- End Navigations --}}
 
         {{-- <x-ui.collapseSideNavItem icon="" nav_name="Coba" >

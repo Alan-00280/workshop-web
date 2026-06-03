@@ -14,6 +14,7 @@ use App\Models\MenuModel;
 use App\Models\PesananModel;
 use App\Models\ProvinsiModel;
 use App\Models\VendorModel;
+use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
@@ -153,6 +154,8 @@ class HomeController extends Controller
             );
 
             return view('mpp.dashboard.index', compact('antrians'));
+        } elseif ($user_role_id == 7) {
+            return view('presensi-mhs.index');
         }
         return view('home');
     }
@@ -506,5 +509,63 @@ LEFT JOIN reg_provinces p ON p.id = r.province_id;");
         $kategori_layanans = KategoriLayanan::all();
         return view('mpp.guest.create-ticket', compact('kategori_layanans'));
     }
+
+    // ---------------------------------
+    // NFC PRESENSI PAGES CONTROLLER
+    // ---------------------------------
+    public function ShowNFCSandbox() {
+        return view('presensi-mhs.sandbox');
+    }
+
+    public function ShowStudents() {
+        $students = Student::with('userCampus.userSystem')->get();
+        return view('presensi-mhs.students.index', compact('students'));
+    }
+
+    public function CreateStudent() {
+        return view('presensi-mhs.students.create');
+    }
+
+    public function CreateStudentEnrollments() {
+        $classes = \App\Models\Classes::with('course')->get();
+        $students = Student::with('userCampus.userSystem')->get();
+        return view('presensi-mhs.enrollments.create', compact('classes', 'students'));
+    }
+
+    public function ShowClassSessions() {
+        $sessions = \App\Models\ClassSession::with(['class.course', 'attendances'])->orderBy('timestamp', 'desc')->get();
+        return view('presensi-mhs.class-sessions.index', compact('sessions'));
+    }
+
+    public function CreateClassSessions() {
+        $classes = \App\Models\Classes::with('course')->get();
+        return view('presensi-mhs.class-sessions.create', compact('classes'));
+    }
+
+    public function ShowAttendance($id) {
+        $session = \App\Models\ClassSession::with([
+            'class.course',
+            'attendances.student.userCampus.userSystem'
+        ])->findOrFail($id);
+
+        return view('presensi-mhs.class-sessions.attendance', compact('session'));
+    }
+
+    public function ShowClasses() {
+        $classes = \App\Models\Classes::with('course')->get();
+        return view('presensi-mhs.classes.index', compact('classes'));
+    }
+
+    public function CreateClass() {
+        $courses = \App\Models\Course::all();
+        return view('presensi-mhs.classes.create', compact('courses'));
+    }
+
+    public function EditClass($id) {
+        $class = \App\Models\Classes::findOrFail($id);
+        $courses = \App\Models\Course::all();
+        return view('presensi-mhs.classes.edit', compact('class', 'courses'));
+    }
+
 
 }

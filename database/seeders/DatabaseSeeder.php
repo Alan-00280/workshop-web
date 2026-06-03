@@ -4,15 +4,21 @@ namespace Database\Seeders;
 
 use App\Models\Barang;
 use App\Models\Buku;
+use App\Models\Classes;
+use App\Models\Course;
 use App\Models\Kategori;
 use App\Models\KategoriLayanan;
 use App\Models\Layanan;
 use App\Models\MenuModel;
 use App\Models\Role;
+use App\Models\Teacher;
 use App\Models\User;
+use App\Models\UserCampus;
 use App\Models\VendorModel;
+use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
 {
@@ -26,55 +32,87 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
 
         // $roles = [
-            // ['id_role' => 1, 'role' => 'administrator'],
-            // ['id_role' => 2, 'role' => 'client'],
-            // ['id_role' => 3, 'role' => 'vendor'],
-            // ['id_role' => 4, 'role' => 'customer'],
-            // ['id_role' => 5, 'role' => 'sales']
-        //     ['id_role' => 6, 'role' => 'admin-mpp']
+        //     // ['id_role' => 1, 'role' => 'administrator'],
+        //     // ['id_role' => 2, 'role' => 'client'],
+        //     // ['id_role' => 3, 'role' => 'vendor'],
+        //     // ['id_role' => 4, 'role' => 'customer'],
+        //     // ['id_role' => 5, 'role' => 'sales'],
+        //     // ['id_role' => 6, 'role' => 'admin-mpp'],
+        //     // ['id_role' => 7, 'role' => 'teacher'],
+        //     // ['id_role' => 8, 'role' => 'student'],
         // ];
         // foreach ($roles as $role) {
         //     Role::create($role);
         // }
 
-        $users = [
-            // [
-            //     'name' => 'admin DB',
-            //     'email' => 'alanreceh28@gmail.com',
-            //     'password' => password_hash('11223344', PASSWORD_DEFAULT),
-            //     'id_role' => 1
-            // ],
-            // [
-            //     'name' => 'Dimas Cake and Dessert Admin',
-            //     'email' => 'dimasCakeAdmin@mail.com',
-            //     'password' => password_hash('11223344', PASSWORD_DEFAULT),
-            //     'id_role' => 3
-            // ],
-            // [
-            //     'name' => 'Yunny Bakery',
-            //     'email' => 'yunnyBakeryAdmin@mail.com',
-            //     'password' => password_hash('11223344', PASSWORD_DEFAULT),
-            //     'id_role' => 3
-            // ],
-            // [
-            //     'name' => 'Donut Ranny',
-            //     'email' => 'donutRannyAdmin@mail.com',
-            //     'password' => password_hash('11223344', PASSWORD_DEFAULT),
-            //     'id_role' => 3
-            // ],
-            // [
-            //     'name' => 'Guest',
-            //     'email' => 'guest@mail.com',
-            //     'password' => password_hash('11223344', PASSWORD_DEFAULT),
-            //     'id_role' => 4
-            // ],
-            // [
-            //     'name' => 'Hermawan',
-            //     'email' => 'mppadmin@mail.com',
-            //     'password' => password_hash('11223344', PASSWORD_DEFAULT),
-            //     'id_role' => 6
-            // ]
-        ];
+        // $users = [
+        //     // [
+        //     //     'name' => 'admin DB',
+        //     //     'email' => 'alanreceh28@gmail.com',
+        //     //     'password' => password_hash('11223344', PASSWORD_DEFAULT),
+        //     //     'id_role' => 1
+        //     // ],
+        //     // [
+        //     //     'name' => 'Dimas Cake and Dessert Admin',
+        //     //     'email' => 'dimasCakeAdmin@mail.com',
+        //     //     'password' => password_hash('11223344', PASSWORD_DEFAULT),
+        //     //     'id_role' => 3
+        //     // ],
+        //     // [
+        //     //     'name' => 'Yunny Bakery',
+        //     //     'email' => 'yunnyBakeryAdmin@mail.com',
+        //     //     'password' => password_hash('11223344', PASSWORD_DEFAULT),
+        //     //     'id_role' => 3
+        //     // ],
+        //     // [
+        //     //     'name' => 'Donut Ranny',
+        //     //     'email' => 'donutRannyAdmin@mail.com',
+        //     //     'password' => password_hash('11223344', PASSWORD_DEFAULT),
+        //     //     'id_role' => 3
+        //     // ],
+        //     // [
+        //     //     'name' => 'Guest',
+        //     //     'email' => 'guest@mail.com',
+        //     //     'password' => password_hash('11223344', PASSWORD_DEFAULT),
+        //     //     'id_role' => 4
+        //     // ],
+        //     // [
+        //     //     'name' => 'Hermawan',
+        //     //     'email' => 'mppadmin@mail.com',
+        //     //     'password' => password_hash('11223344', PASSWORD_DEFAULT),
+        //     //     'id_role' => 6
+        //     // ],
+        //     // [
+        //     //     'name' => 'Kurniawan Setya',
+        //     //     'email' => 'teacher@example.com',
+        //     //     'password' => password_hash('11223344', PASSWORD_DEFAULT),
+        //     //     'id_role' => 7
+        //     // ],
+        //     // [
+        //     //     'name' => 'Kanthi Ningsih',
+        //     //     'email' => 'teacherTwo@example.com',
+        //     //     'password' => password_hash('11223344', PASSWORD_DEFAULT),
+        //     //     'id_role' => 7
+        //     // ],
+        //     // [
+        //     //     'name' => 'Budi Harianto',
+        //     //     'email' => 'teacherThree@example.com',
+        //     //     'password' => password_hash('11223344', PASSWORD_DEFAULT),
+        //     //     'id_role' => 7
+        //     // ],
+        //     // [
+        //     //     'name' => 'Siti Lailia',
+        //     //     'email' => 'teacherFour@example.com',
+        //     //     'password' => password_hash('11223344', PASSWORD_DEFAULT),
+        //     //     'id_role' => 7
+        //     // ],
+        //     // [
+        //     //     'name' => 'Mutya Ningsihrat',
+        //     //     'email' => 'teacherFive@example.com',
+        //     //     'password' => password_hash('11223344', PASSWORD_DEFAULT),
+        //     //     'id_role' => 7
+        //     // ],
+        // ];
         // foreach ($users as $user) {
         //     User::factory()->create([
         //         'name' => $user['name'],
@@ -251,6 +289,62 @@ class DatabaseSeeder extends Seeder
         //         ],
         //         $item
         //     );
+        // }
+
+        // 1. Definisikan data guru spesifik (Ambil 3 ID terdepan dari request Anda)
+        // $teacherSystemIds = ['8', '9', '10'];
+        // $gelars = ['S.Kom., M.T.', 'Dr. Eng.', 'S.T., M.Cs.'];
+        // // Data dummy Mata Kuliah yang akan dibagi rata ke para guru
+        // $coursesData = [
+        //     [
+        //         ['code' => 'IF301', 'name' => 'Pemrograman Web Backend', 'desc' => 'Fokus pengembangan RESTful API dan arsitektur server.'],
+        //         ['code' => 'IF309', 'name' => 'Arsitektur Perangkat Lunak', 'desc' => 'Mempelajari design pattern dan clean architecture.']
+        //     ],
+        //     [
+        //         ['code' => 'IF302', 'name' => 'Basis Data Terdistribusi', 'desc' => 'Implementasi replikasi dan sharding database skala besar.'],
+        //         ['code' => 'IF308', 'name' => 'Administrasi Sistem Cloud', 'desc' => 'Manajemen infrastruktur server berbasis cloud dan Docker.']
+        //     ],
+        //     [
+        //         ['code' => 'IF401', 'name' => 'Kecerdasan Buatan', 'desc' => 'Pengenalan konsep machine learning dan neural networks.'],
+        //         ['code' => 'IF407', 'name' => 'Pengolahan Citra Digital', 'desc' => 'Manipulasi matriks gambar dan pengenalan pola visual.']
+        //     ]
+        // ];
+        // foreach ($teacherSystemIds as $index => $systemId) {
+        //     // A. Insert ke UserCampus terlebih dahulu
+        //     $userCampus = UserCampus::create([
+        //         'user_system_id' => $systemId,
+        //         'tanggal_lahir' => Carbon::now()->subYears(rand(32, 45))->format('Y-m-d'),
+        //         'no_hp' => '0812' . rand(10000000, 99999999),
+        //         'nfc_uid' => strtoupper(Str::random(8)), // NFC UID Acak untuk pengajar
+        //     ]);
+        //     // B. Insert ke Teacher (no_induk_teacher otomatis terisi via DB Trigger PostgreSQL)
+        //     $teacher = Teacher::create([
+        //         'user_campus_id' => $userCampus->id,
+        //         'gelar' => $gelars[$index],
+        //     ]);
+        //     // C. Loop untuk membuat beberapa Course (2 buah) bagi setiap Teacher
+        //     foreach ($coursesData[$index] as $cIndex => $cData) {
+        //         $course = Course::create([
+        //             'course_code' => $cData['code'],
+        //             'name' => $cData['name'],
+        //             'description' => $cData['desc'],
+        //             'dosen_id' => $teacher->id,
+        //         ]);
+        //         // D. Loop untuk membuat beberapa Kelas (2 buah: Kelas Paralel A & B) untuk setiap Course
+        //         Classes::create([
+        //             'course_id' => $course->id,
+        //             'name' => 'Kelas ' . $cData['code'] . ' - Paralel A',
+        //             'schedule_start' => Carbon::now()->addDays($cIndex + 1)->setTime(8, 0, 0),
+        //             'schedule_end' => Carbon::now()->addDays($cIndex + 1)->setTime(10, 30, 0),
+        //         ]);
+
+        //         Classes::create([
+        //             'course_id' => $course->id,
+        //             'name' => 'Kelas ' . $cData['code'] . ' - Paralel B',
+        //             'schedule_start' => Carbon::now()->addDays($cIndex + 1)->setTime(13, 0, 0),
+        //             'schedule_end' => Carbon::now()->addDays($cIndex + 1)->setTime(15, 30, 0),
+        //         ]);
+        //     }
         // }
     }
 }

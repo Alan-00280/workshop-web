@@ -39,11 +39,15 @@
     <!-- partial -->
     <div class="container-fluid page-body-wrapper">
       <!-- partial:partials/_sidebar.html -->
-      
+
       @if(session('user_id_role') == 1)
         <x-sidebar />
       @elseif(session('user_id_role') == 3)
         <x-sidebar-vendor />
+      @elseif(session('user_id_role') == 7)
+        <x-sidebar-teacher />
+      @else
+        <x-sidebar />
       @endif
 
       <!-- partial -->

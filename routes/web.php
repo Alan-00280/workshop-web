@@ -15,13 +15,44 @@ use App\Http\Controllers\OtpController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PenjualanController;
 use App\Http\Controllers\PesananController;
+use App\Http\Controllers\StudentController;
+use App\Http\Controllers\CourseClassController;
+use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\WilayahController;
-use App\Models\KategoriLayanan;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'landingPage'])->name('landing-page');
 Route::get('/products', [App\Http\Controllers\HomeController::class, 'productsPage'])->name('products-page');
 Route::get('/store/{id}', [App\Http\Controllers\HomeController::class, 'storeShow'])->name('store-show');
+
+// ? PRESENSI NFC ? //
+Route::get('/nfc-sandbox', [App\Http\Controllers\HomeController::class, 'ShowNFCSandbox'])->name('show-nfc-sandbox');
+
+Route::middleware('isTeacher')
+    ->prefix('teacher-dashboard')
+    ->group(function () {
+        Route::get('/students', [App\Http\Controllers\HomeController::class, 'ShowStudents'])->name('show-students');
+        Route::get('/students/create', [App\Http\Controllers\HomeController::class, 'CreateStudent'])->name('create-student');
+        Route::post('/students/store', [StudentController::class, 'StoreStudent'])->name('store-student');
+
+        Route::get('/students/enrollments', [App\Http\Controllers\HomeController::class, 'CreateStudentEnrollments'])->name('create-enrollments');
+        Route::post('/students/enrollments', [StudentController::class, 'StoreEnrollments'])->name('store-enrollments');
+
+        Route::get('/class-sessions', [App\Http\Controllers\HomeController::class, 'ShowClassSessions'])->name('show-class-sessions');
+        Route::get('/class-sessions/create', [App\Http\Controllers\HomeController::class, 'CreateClassSessions'])->name('create-class-sessions');
+        Route::post('/class-sessions', [CourseClassController::class, 'StoreClassSessions'])->name('store-class-sessions');
+
+        Route::get('/class-sessions/{id}/attendance', [App\Http\Controllers\HomeController::class, 'ShowAttendance'])->name('show-attendance');
+        Route::post('/attendances/{id}/toggle', [AttendanceController::class, 'ToggleManualAttendance'])->name('toggle-attendance');
+        Route::post('/class-sessions/{id}/attendance/nfc', [AttendanceController::class, 'ScanNFC'])->name('nfc-attendance');
+
+        Route::get('/classes', [App\Http\Controllers\HomeController::class, 'ShowClasses'])->name('show-classes');
+        Route::get('/classes/create', [App\Http\Controllers\HomeController::class, 'CreateClass'])->name('create-class');
+        Route::post('/classes', [CourseClassController::class, 'StoreClass'])->name('store-class');
+        Route::get('/classes/{id}/edit', [App\Http\Controllers\HomeController::class, 'EditClass'])->name('edit-class');
+        Route::patch('/classes/{id}', [CourseClassController::class, 'UpdateClass'])->name('update-class');
+        Route::delete('/classes/{id}', [CourseClassController::class, 'DeleteClass'])->name('delete-class');
+});
 
 // ? MALL PELAYANAN PUBLIK ? //
 Route::get('/mpp', [App\Http\Controllers\HomeController::class, 'landingMPP'])->name('mpp-landing-page');
@@ -38,12 +69,6 @@ Route::get('/all-kategori', [KategoriLayananController::class, 'all'])->name('al
 Route::get('/layanan/kategori/{kategori}', [LayananController::class, 'getByKategoriID'])->name('layanan-by-kategori'); // JSON
 
 Route::get('/mpp/sse/antrian', [AntrianController::class, 'stream_antrian'])->name('sse-antrian'); // EVENT
-
-Route::middleware('isMPPAdmin')
-    ->prefix('mpp-dashboard')
-    ->group(function () {
-        
-});
 
 //? API ?//
 Route::get('/products/filter', [MenuController::class, 'filterMenu'])->name('api-products-filter');

@@ -146,7 +146,6 @@
 
 @push('page_style')
     <style>
-
         .form-select-invalid {
             padding: 0.4375rem 0.75rem;
             border: 0;
